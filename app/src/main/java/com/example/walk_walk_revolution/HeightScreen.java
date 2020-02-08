@@ -39,9 +39,7 @@ public class HeightScreen extends AppCompatActivity {
         saveHeight(heightNum);
 
         Toast.makeText(HeightScreen.this, "Saved Height", Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        launchMain();
     }
 
     public void saveHeight(int heightNum){
@@ -52,5 +50,10 @@ public class HeightScreen extends AppCompatActivity {
         editor.putInt("userHeight", heightNum);
 
         editor.apply();
+    }
+
+    public void launchMain(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
