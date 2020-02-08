@@ -3,6 +3,7 @@ package com.example.walk_walk_revolution;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button launchRoutesScreen = (Button)findViewById(R.id.routes_but_home);
         Button launchTestScreen = (Button)findViewById(R.id.test_but_home);
+
+
 
         launchRoutesScreen.setOnClickListener(new View.OnClickListener() {
 
@@ -34,6 +37,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        int heightNum = getHeight();
+        if(heightNum <= 0){
+            launchHeight();
+        }
+    }
+
+    public void launchHeight(){
+        Intent intent = new Intent(this, HeightScreen.class);
+        startActivity(intent);
     }
 
     public void launchRoutes(){
@@ -44,5 +56,10 @@ public class MainActivity extends AppCompatActivity {
     public void launchTest(){
         Intent intent = new Intent(this, TestScreen.class);
         startActivity(intent);
+    }
+
+    public int getHeight(){
+        SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
+        return spfs.getInt("userHeight",0);
     }
 }
