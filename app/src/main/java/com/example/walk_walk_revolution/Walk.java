@@ -2,7 +2,7 @@ package com.example.walk_walk_revolution;
 
 public class Walk {
     private int steps;
-    private int distance;
+    private double distance;
     private StopWatch stopWatch;
     private String timeTaken;
     public boolean isActive;
@@ -10,7 +10,7 @@ public class Walk {
     public void startWalk(){
         this.steps = 0;
         this.distance = 0;
-        this.stopWatch = new StopWatch();
+        stopWatch = new StopWatch();
         this.timeTaken = stopWatch.timeTakenString();
         isActive = true;
     }
@@ -30,14 +30,19 @@ public class Walk {
     public int getSteps(){
         return steps;
     }
-    public int getDistance(){
+    public double getDistance(){
         return distance;
     }
     public void setSteps(int numSteps){
         this.steps = numSteps;
     }
-    public void setDistance(int totalDist){
+    public void setDistance(double totalDist){
         this.distance = totalDist;
     }
+    public void setTime(long time){
+        stopWatch.setAmountTime(time);
+        updateWalk();
+    }
+    public String getTimeTaken(){ return this.timeTaken;}
 
 }
