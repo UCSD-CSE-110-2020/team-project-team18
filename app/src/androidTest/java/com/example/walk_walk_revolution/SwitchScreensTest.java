@@ -1,6 +1,7 @@
 package com.example.walk_walk_revolution;
 
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -13,6 +14,8 @@ import androidx.test.runner.AndroidJUnit4;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +33,15 @@ public class SwitchScreensTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+
+    @Rule
+    public ActivityTestRule<HeightScreen> hActivity = new ActivityTestRule<>(HeightScreen.class);
+
+    @Before
+    public void initialize() {
+        hActivity.getActivity().saveHeight(72);
+        hActivity.getActivity().launchMain();
+    }
 
     @Test
     public void switchScreensTest() {
