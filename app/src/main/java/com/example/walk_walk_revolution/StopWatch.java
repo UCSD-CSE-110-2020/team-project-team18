@@ -5,28 +5,53 @@ public class StopWatch {
     private long end;
     private boolean isOn;
 
-    public void start(){
+    public StopWatch() {
         this.start = System.currentTimeMillis();
         isOn = true;
+    }
+    public boolean isRunning(){
+        if(isOn){
+            return true;
+        }else{
+            return false;
+        }
     }
     public void end(){
         this.end = System.currentTimeMillis();
         isOn = false;
+        timeTakenLong();
     }
-    public long timeTaken(){
+    public long timeTakenLong(){
         if(isOn){
             return System.currentTimeMillis() - start;
         }else{
             return end-start;
         }
     }
-    public void setStart(){
+    public void setAmountTime(long time){
         this.start = 0;
-        isOn = true;
-    }
-    public void setEnd(long time){
-        this.end = 0;
+        this.end = time;
         isOn = false;
     }
+    public String timeTakenString() {
+        if (isOn) {
+            return stringFormat(System.currentTimeMillis() - start);
+        } else {
+            return stringFormat(end-start);
+        }
+    }
 
+
+    public String stringFormat(long time){
+        String toReturn;
+        long totalSecs = time/1000;
+        long hours = (totalSecs / 3600);
+        long mins = (totalSecs / 60) % 60;
+        long secs = totalSecs % 60;
+
+        toReturn = String.format("%02d:%02d:%02d", hours, mins, secs);
+        return toReturn;
+    }
 }
+
+
