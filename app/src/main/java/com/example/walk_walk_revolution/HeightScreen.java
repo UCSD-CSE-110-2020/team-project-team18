@@ -2,6 +2,7 @@ package com.example.walk_walk_revolution;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -21,27 +22,35 @@ public class HeightScreen extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveHeight();
+                submitHeight();
             }
         });
     }
 
-    public void saveHeight(){
+    public void submitHeight(){
         EditText userHeight = findViewById(R.id.userHeight);
 
         int heightNum = Integer.parseInt(userHeight.getText().toString());
-        if(heightNum <= 0){
+        if(heightNum <= 0) {
             Toast.makeText(HeightScreen.this, "Must Enter Height", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        SharedPreferences spfs = getSharedPreferences("userHeight", MODE_PRIVATE);
+        saveHeight(heightNum);
+
+        Toast.makeText(HeightScreen.this, "Saved Height", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void saveHeight(int heightNum){
+        SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
         SharedPreferences.Editor editor = spfs.edit();
 
 
         editor.putInt("userHeight", heightNum);
 
         editor.apply();
-        Toast.makeText(HeightScreen.this, "Saved Height", Toast.LENGTH_SHORT).show();
     }
 }
