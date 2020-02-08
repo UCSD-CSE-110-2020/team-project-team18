@@ -10,11 +10,10 @@ import android.util.Log;
 import android.widget.TextView;
 
 
-public class MainActivity extends AppCompatActivity {
-
+public class StepCounter extends AppCompatActivity {
 
     private String fitnessServiceKey = "GOOGLE_FIT";
-    public static final String TAG = "MainActivity";
+    public static final String TAG = "StepCounter";
 
     private TextView textSteps;
     private FitnessService fitnessService;
@@ -26,11 +25,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textSteps = findViewById(R.id.CurrentSteps);
-        UpdateCounter runner = new UpdateCounter();
+        runner = new UpdateCounter();
 
         FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
             @Override
-            public FitnessService create(MainActivity activity) {
+            public FitnessService create(StepCounter activity) {
                 return new GoogleFitAdapter(activity);
             }
         });
@@ -38,16 +37,10 @@ public class MainActivity extends AppCompatActivity {
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
         fitnessService.setup();
 
-        runner.execute();
+        //runner.execute();
 
 
 
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        fitnessService.updateStepCount();
     }
 
     @Override
@@ -87,9 +80,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(String... text)
         {
+
             fitnessService.updateStepCount();
         }
 
+    }
+
+    public void setFitnessServiceKey(String fitnessServiceKey) {
+        this.fitnessServiceKey = fitnessServiceKey;
     }
 
 }
