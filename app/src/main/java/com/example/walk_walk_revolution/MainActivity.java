@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
 
     private String fitnessServiceKey = "GOOGLE_FIT";
@@ -140,4 +142,20 @@ public class MainActivity extends AppCompatActivity {
         this.fitnessServiceKey = fitnessServiceKey;
     }
 
+
+
+    // Display distant
+
+    public void updateTextView()
+    {
+        //initializing a new DistanceCalculator object.
+        DistanceCalculator calculator = new DistanceCalculator();
+        double distanceTraveled = calculator.calculateDistanceTraveled(60, 2000);
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        double result = Double.valueOf(df.format(distanceTraveled));
+
+        TextView distance = (TextView) findViewById(R.id.distanceTraveled);
+        distance.setText(String.valueOf(result) + " miles");
+    }
 }
