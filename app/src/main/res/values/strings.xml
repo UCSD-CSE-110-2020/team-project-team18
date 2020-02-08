@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">walk-walk-revolution</string>
+    <string name="home_but_routes">Home</string>
+    <string name="routes_but_routes">Routes</string>
+    <string name="textName">Name: *</string>
+    <string name="txtName"> </string>
+    <string name="textStartPoint">Starting Point:</string>
+    <string name="txtStartPoint"> </string>
+    <string name="textFeature">Features:</string>
+    <string name="textLoop">Loop</string>
+    <string name="textOut">Out_Back</string>
+    <string name="textFlat">Flat</string>
+    <string name="textHilly">Hilly</string>
+    <string name="textStreet">Street</string>
+    <string name="textTrail">Trail</string>
+    <string name="textSurface1">Surface</string>
+    <string name="textSurface2">Surface</string>
+    <string name="textEasy">Easy</string>
+    <string name="textModerate">Moderate</string>
+    <string name="textDifficult">Difficult</string>
+    <string name="textNote">Notes</string>
+    <string name="txtNote">  </string>
+    <string name="cancel">Cancel</string>
+    <string name="startWalk">Start Walk</string>
+    <string name="textWalk">Walk</string>
+    <string name="textTimer">Timer</string>
+    <string name="stopWalk">Start Walk</string>
 </resources>
