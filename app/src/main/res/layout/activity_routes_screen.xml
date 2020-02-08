@@ -4,46 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".RoutesScreen">
 
     <Button
-        android:id="@+id/home_but_home"
+        android:id="@+id/home_but_routes"
         android:layout_width="140dp"
         android:layout_height="56dp"
         android:layout_marginBottom="20dp"
         android:text="Home"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/routes_but_home" />
+        app:layout_constraintRight_toLeftOf="@id/routes_but_routes" />
 
     <Button
-        android:id="@+id/routes_but_home"
+        android:id="@+id/routes_but_routes"
         android:layout_width="140dp"
         android:layout_height="56dp"
         android:layout_marginBottom="20dp"
         android:text="Routes"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/home_but_home"
-        app:layout_constraintRight_toLeftOf="@id/test_but_home"/>
+        app:layout_constraintLeft_toRightOf="@+id/home_but_routes"
+        app:layout_constraintRight_toLeftOf="@id/test_but_routes"/>
 
     <Button
-        android:id="@+id/test_but_home"
+        android:id="@+id/test_but_routes"
         android:layout_width="140dp"
         android:layout_height="56dp"
         android:layout_marginBottom="20dp"
         android:text="Testing"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/routes_but_home"
+        app:layout_constraintLeft_toRightOf="@+id/routes_but_routes"
         app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
-        android:id="@+id/home_title"
+        android:id="@+id/routes_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25dp"
-        android:text="Home"
+        android:text="Routes"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
