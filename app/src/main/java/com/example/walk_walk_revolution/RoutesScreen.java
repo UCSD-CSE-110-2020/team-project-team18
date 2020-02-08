@@ -4,25 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class RoutesScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_routes_screen);
 
-        Button launchRoutesScreen = (Button)findViewById(R.id.routes_but_home);
-        Button launchTestScreen = (Button)findViewById(R.id.test_but_home);
+        Button launchHomeScreen = (Button)findViewById(R.id.home_but_routes);
+        Button launchTestScreen = (Button)findViewById(R.id.test_but_routes);
 
-        launchRoutesScreen.setOnClickListener(new View.OnClickListener() {
+        launchHomeScreen.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                launchRoutes();
+                launchHome();
             }
         });
 
@@ -36,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void launchRoutes(){
-        Intent intent = new Intent(this, RoutesScreen.class);
+    public void launchHome(){
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
