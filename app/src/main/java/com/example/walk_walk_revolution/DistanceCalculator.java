@@ -1,13 +1,17 @@
 package com.example.walk_walk_revolution;
 
+import android.app.Activity;
+import android.widget.TextView;
+import android.view.View;
+
+import java.text.DecimalFormat;
+
+
 public class DistanceCalculator {
 
-    private int heightInInches = 60;
-
     //returns the number of steps needed to walk one mile.
-    public static int calculateStepsPerMile(int height)
+    public int calculateStepsPerMile(int height)
     {
-        height = 60;
         double strideLengthInInches = height * 0.413;
         double strideLengthInFeet = strideLengthInInches / 12;
         int stepsPerMile = (int) (5280 / strideLengthInFeet);
@@ -15,10 +19,11 @@ public class DistanceCalculator {
     }
 
     //converts the number of steps taken into the distance traveled (in miles).
-    public static double calculateDistanceTraveled(int height, int stepsTaken)
+    public double calculateDistanceTraveled(int height, MainActivity activity)
     {
-        height = 60;
-        stepsTaken = 2000;
+        TextView steps = activity.findViewById(R.id.CurrentSteps);
+        int stepsTaken = Integer.parseInt(steps.getText().toString());
+
         int stepsPerMile = calculateStepsPerMile(height);
         double distanceTraveled = (double) stepsTaken / (double) stepsPerMile;
         return distanceTraveled;
