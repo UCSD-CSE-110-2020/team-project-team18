@@ -18,9 +18,9 @@ public class GoogleFitAdapter implements FitnessService{
     private final String TAG = "GoogleFitAdapter";
     private GoogleSignInAccount account;
 
-    private HomeScreen activity;
+    private MainActivity activity;
 
-    public GoogleFitAdapter(HomeScreen activity) {
+    public GoogleFitAdapter(MainActivity activity) {
         this.activity = activity;
     }
 
