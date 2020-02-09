@@ -28,4 +28,13 @@ public class DistanceCalculator {
         double distanceTraveled = (double) stepsTaken / (double) stepsPerMile;
         return distanceTraveled;
     }
+
+    public double calculateDistanceUsingSteps(int steps, int height)
+    {
+        int stepsPerMile = calculateStepsPerMile(height);
+
+        double distanceTraveled = (double) steps / (double) stepsPerMile;
+        return distanceTraveled;
+    }
+
 }

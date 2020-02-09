@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
             String end_steps = steps.getText().toString();
             int walkSteps = Integer.parseInt(end_steps) - Integer.parseInt(start_steps);
             DistanceCalculator calculator = new DistanceCalculator();
-            double distanceTraveled = calculator.calculateDistanceTraveled(getHeight(), this);
+            double distanceTraveled = calculator.calculateDistanceUsingSteps(walkSteps, getHeight());
 
             DecimalFormat df = new DecimalFormat("#.##");
             double result = Double.valueOf(df.format(distanceTraveled));
