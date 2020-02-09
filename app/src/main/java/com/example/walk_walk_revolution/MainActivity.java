@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
     private TextView textSteps;
+    private TextView distanceTraveled;
     private FitnessService fitnessService;
     private UpdateCounter runner;
     private String start_steps;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     TextView recentWalkDist;
     TextView recentWalkSteps;
     TextView recentWalkTime;
+
+    private DistanceCalculator calculator = new DistanceCalculator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         // GOOGLE FIT
 
         textSteps = findViewById(R.id.CurrentSteps);
+        distanceTraveled = findViewById(R.id.distanceTraveled);
         runner = new UpdateCounter();
 
         FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
@@ -140,6 +144,16 @@ public class MainActivity extends AppCompatActivity {
         textSteps.setText(String.valueOf(stepCount));
     }
 
+    public void setDistanceTraveled()
+    {
+        double distance = calculator.calculateDistanceTraveled(getHeight(), this);
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        double result = Double.valueOf(df.format(distance));
+
+        distanceTraveled.setText(String.valueOf(result) + " miles");
+    }
+
     class UpdateCounter extends AsyncTask<String, String, String> {
 
         @Override
@@ -170,18 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Display distant
 
-    public void updateTextView() {
-        //initializing a new DistanceCalculator object.
-        DistanceCalculator calculator = new DistanceCalculator();
-        double distanceTraveled = calculator.calculateDistanceTraveled(60, 2000);
 
-        DecimalFormat df = new DecimalFormat("#.##");
-        double result = Double.valueOf(df.format(distanceTraveled));
-
-        TextView distance = (TextView) findViewById(R.id.distanceTraveled);
-        distance.setText(String.valueOf(result) + " miles");
-
-    }
 
     public void startWalk() {
         if (currentWalk == null) {
@@ -201,9 +204,9 @@ public class MainActivity extends AppCompatActivity {
         if (currentWalk != null) {
             TextView steps = (TextView) findViewById(R.id.CurrentSteps);
             String end_steps = steps.getText().toString();
-            int walkSteps =  Integer.parseInt(end_steps) - Integer.parseInt(start_steps);
+            int walkSteps = Integer.parseInt(end_steps) - Integer.parseInt(start_steps);
             DistanceCalculator calculator = new DistanceCalculator();
-            double distanceTraveled = calculator.calculateDistanceTraveled(60, walkSteps);
+            double distanceTraveled = calculator.calculateDistanceTraveled(getHeight(), this);
 
             DecimalFormat df = new DecimalFormat("#.##");
             double result = Double.valueOf(df.format(distanceTraveled));
@@ -218,6 +221,6 @@ public class MainActivity extends AppCompatActivity {
             recentWalkSteps.setVisibility(TextView.VISIBLE);
             currentWalk = null;
         }
-
     }
+
 }
