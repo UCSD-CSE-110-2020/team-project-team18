@@ -19,7 +19,7 @@ public class DistanceCalculator {
     }
 
     //converts the number of steps taken into the distance traveled (in miles).
-    public double calculateDistanceTraveled(int height, MainActivity activity)
+    public double calculateDistanceTraveled(int height, HomeScreen activity)
     {
         TextView steps = activity.findViewById(R.id.CurrentSteps);
         int stepsTaken = Integer.parseInt(steps.getText().toString());
