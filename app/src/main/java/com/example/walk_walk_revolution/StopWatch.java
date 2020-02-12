@@ -17,9 +17,11 @@ public class StopWatch {
         }
     }
     public void end(){
-        this.end = System.currentTimeMillis();
-        isOn = false;
-        timeTakenLong();
+        if(isOn) {
+            this.end = System.currentTimeMillis();
+            isOn = false;
+            timeTakenLong();
+        }
     }
     public long timeTakenLong(){
         if(isOn){

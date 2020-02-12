@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button launchRoutesScreen = (Button) findViewById(R.id.routes_but_home);
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
-
+        Button connectToGoogle = (Button) findViewById(R.id.googleConnectButton);
         Button startWalkBut = (Button) findViewById(R.id.start_walk);
         Button endWalkBut = (Button) findViewById(R.id.end_walk);
         Button btnUpdateSteps = (Button) findViewById(R.id.buttonUpdateSteps);
@@ -84,6 +84,12 @@ public class MainActivity extends AppCompatActivity {
                 fitnessService.updateStepCount();
             }
         });
+        connectToGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               setup();
+            }
+        });
         int heightNum = getHeight();
         if (heightNum <= 0) {
             launchHeight();
@@ -103,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-        fitnessService.setup();
+
         //runner.execute();
     }
 
@@ -113,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void setup(){
+        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+        fitnessService.setup();
+    }
     public void launchRoutes() {
         Intent intent = new Intent(this, RoutesScreen.class);
         startActivity(intent);
@@ -208,9 +217,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void endWalk() {
         if (currentWalk != null) {
-
-            fitnessService.updateStepCount();
             endingWalk = true;
+            fitnessService.updateStepCount();
+
         }
     }
 
