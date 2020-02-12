@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void startWalk() {
-        if (currentWalk == null) {
+        if (currentWalk == null && fitnessService != null) {
             currentWalk = new Walk();
             currentWalk.startWalk();
 
@@ -212,19 +212,27 @@ public class MainActivity extends AppCompatActivity {
 
             start_steps = numSteps;
             endingWalk = false;
+        }else if( currentWalk == null && fitnessService == null){
+            currentWalk = new Walk();
+            currentWalk.startWalk();
+            start_steps = numSteps;
+            endingWalk = false;
         }
     }
 
     public void endWalk() {
-        if (currentWalk != null) {
+        if (currentWalk != null && fitnessService != null) {
             endingWalk = true;
             fitnessService.updateStepCount();
 
+        }else if( currentWalk!= null && fitnessService == null){
+            endingWalk = true;
+            walkCleanup();
         }
     }
 
     public void walkCleanup() {
-        if (endingWalk == true) {
+        if (endingWalk == true ) {
             int walkSteps = numSteps - start_steps;
             DistanceCalculator calculator = new DistanceCalculator();
             double distanceTraveled = calculator.calculateDistanceUsingSteps(walkSteps, getHeight());
