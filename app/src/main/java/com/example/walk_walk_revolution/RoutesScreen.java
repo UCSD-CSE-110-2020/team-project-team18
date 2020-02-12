@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,34 +42,46 @@ public class RoutesScreen extends AppCompatActivity {
         // Lookup the recyclerview in activity layout
         RecyclerView rvRoutes = (RecyclerView) findViewById(R.id.rvRoutes);
 
-        // Initialize contacts
+        // Initialize testFile
+        SharedPreferences spfs = getSharedPreferences("route_test", MODE_PRIVATE);
+        SharedPreferences.Editor editor = spfs.edit();
 
+        editor.putString("name", "Test Name");
+        editor.putString("startPoint", "Test Start");
+        editor.putString("loop", "Loop");
+        editor.putString("flat", "");
+        editor.putString("street", "");
+        editor.putString("surface", "Even Surface");
+        editor.putString("easy", "");
+        editor.putString("notes", "Test Notes");
+
+        editor.apply();
         //TESTING RV CREATION
-//        RouteItem route1 = new RouteItem("Current Route 0", "ucsd", 1000, 10.0);
-//        RouteItem route2 = new RouteItem("Current Route 1", "ucsd 2.0", 100, 11.0);
-//        RouteItem route3 = new RouteItem("Current Route 2", "ucsd 3.0", 10, 12.0);
-//
-//        ArrayList<RouteItem> listItems = new ArrayList<RouteItem>();
-//        listItems.add(route1);
-//        listItems.add(route2);
-//        listItems.add(route3);
-//        listItems.add(route3);
-//        listItems.add(route3);
-//        listItems.add(route3);
-//        listItems.add(route3);
-//        listItems.add(route3);
-//        listItems.add(route3);
-//        listItems.add(route3);
-//        listItems.add(route3);
-//        listItems.add(route3);
-//
-//        // Create adapter passing in the sample user data
-//        RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);
-//        // Attach the adapter to the recyclerview to populate items
-//        rvRoutes.setAdapter(adapter);
-//        // Set layout manager to position the items
-//        rvRoutes.setLayoutManager(new LinearLayoutManager(this));
-//        // That's all!
+        RouteItem route1 = new RouteItem("Current Route 0", "ucsd", 1000, 10.0, this);
+        RouteItem route2 = new RouteItem("Current Route 1", "ucsd 2.0", 100, 11.0, this);
+        RouteItem route3 = new RouteItem("Current Route 2", "ucsd 3.0", 10, 12.0, this);
+
+        ArrayList<RouteItem> listItems = new ArrayList<RouteItem>();
+        listItems.add(route1);
+        listItems.add(route2);
+        listItems.add(route3);
+        listItems.add(route3);
+        listItems.add(route3);
+        listItems.add(route3);
+        listItems.add(route3);
+        listItems.add(route3);
+        listItems.add(route3);
+        listItems.add(route3);
+        listItems.add(route3);
+        listItems.add(route3);
+
+        // Create adapter passing in the sample user data
+        RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);
+        // Attach the adapter to the recyclerview to populate items
+        rvRoutes.setAdapter(adapter);
+        // Set layout manager to position the items
+        rvRoutes.setLayoutManager(new LinearLayoutManager(this));
+        // That's all!
     }
 
     public void launchHome(){
@@ -79,5 +92,15 @@ public class RoutesScreen extends AppCompatActivity {
     public void launchTest(){
         Intent intent = new Intent(this, TestScreen.class);
         startActivity(intent);
+    }
+
+    public void launchRouteDetails(String fileName){
+        System.out.println("0.5");
+        Intent intent = new Intent(this, Route.class);
+        System.out.println("0.6");
+        intent.putExtra("fileName", fileName);
+        System.out.println("0");
+        startActivity(intent);
+        System.out.println("1");
     }
 }

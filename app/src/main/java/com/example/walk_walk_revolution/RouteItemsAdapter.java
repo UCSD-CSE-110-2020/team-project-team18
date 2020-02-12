@@ -2,6 +2,7 @@
 package com.example.walk_walk_revolution;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import java.util.List;
 public class RouteItemsAdapter extends
         RecyclerView.Adapter<RouteItemsAdapter.ViewHolder> {
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView nameTextView;
@@ -37,6 +38,16 @@ public class RouteItemsAdapter extends
             this.distanceTextView = (TextView) itemView.findViewById(R.id.distance);
             this.viewRouteButton = (Button) itemView.findViewById(R.id.viewDetailsButton);
 
+
+
+            this.viewRouteButton.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            RouteItem routeItem = routeItemsList.get(position);
+            routeItem.launchRouteDetails();
         }
     }
     // Store a member variable for the contacts
@@ -54,10 +65,10 @@ public class RouteItemsAdapter extends
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.route_item, parent, false);
+        View routeItemView = inflater.inflate(R.layout.route_item, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
+        ViewHolder viewHolder = new ViewHolder(routeItemView);
         return viewHolder;
     }
 
@@ -87,4 +98,5 @@ public class RouteItemsAdapter extends
     public int getItemCount() {
         return this.routeItemsList.size();
     }
+
 }

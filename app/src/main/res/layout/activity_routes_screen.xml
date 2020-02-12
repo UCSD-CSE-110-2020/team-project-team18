@@ -5,7 +5,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RoutesScreen">
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/routes_title">
 
+        <TextView
+            android:id="@+id/nameHeader"
+            android:text="Route Name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/startPointHeader"
+            android:text="Starting Point"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/stepCountHeader"
+            android:text="Step Count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/distanceHeader"
+            android:text="Distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/buttonHeader"
+            android:text="View Details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </LinearLayout>
     <Button
         android:id="@+id/home_but_routes"
         android:layout_width="140dp"
@@ -53,5 +107,5 @@
         app:layout_constraintBottom_toTopOf="@+id/routes_but_routes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/routes_title" />
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
