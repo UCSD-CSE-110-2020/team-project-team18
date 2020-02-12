@@ -32,16 +32,23 @@ public class BasicWalkUITest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
     @Before
     public void setUp() {
+        hActivity.getActivity().saveHeight(72);
+        hActivity.getActivity().launchMain();
         FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
             @Override
             public FitnessService create(MainActivity activity) {
                 return new TestFitnessService(activity);
             }
         });
+        //mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
+    //    mActivityTestRule.getActivity().setup();
      //   mActivityTestRule.getActivity().setup();
     }
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+
+    @Rule
+    public ActivityTestRule<HeightScreen> hActivity = new ActivityTestRule<>(HeightScreen.class);
 
     @Test
     public void basicWalkUITest() {
