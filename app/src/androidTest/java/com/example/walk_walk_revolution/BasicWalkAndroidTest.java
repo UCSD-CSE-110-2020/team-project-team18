@@ -12,7 +12,7 @@ public class BasicWalkAndroidTest {
    private Walk walk;
 
     @Rule
-    public ActivityTestRule<MainActivity> mainActivity = new ActivityTestRule<MainActivity>(MainActivity.class);
+    public ActivityTestRule<Home> home = new ActivityTestRule<Home>(Home.class);
 
     @Before
     public void setup(){

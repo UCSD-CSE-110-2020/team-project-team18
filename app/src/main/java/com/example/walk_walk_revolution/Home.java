@@ -2,9 +2,6 @@ package com.example.walk_walk_revolution;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.app.Activity;
@@ -36,18 +33,26 @@ public class Home extends AppCompatActivity {
     TextView recentWalkSteps;
     TextView recentWalkTime;
     private int numSteps;
+    String fitnessServiceKey;
     private DistanceCalculator calculator = new DistanceCalculator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+
+        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+
+        int heightNum = getHeight();
+        if (heightNum <= 0) {
+            launchHeight();
+        }
+
+
 
         Button launchRoutesScreen = (Button) findViewById(R.id.routes_but_home);
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
-        Button connectToGoogle = (Button) findViewById(R.id.googleConnectButton);
         Button startWalkBut = (Button) findViewById(R.id.start_walk);
         Button endWalkBut = (Button) findViewById(R.id.end_walk);
         Button btnUpdateSteps = (Button) findViewById(R.id.buttonUpdateSteps);
@@ -90,10 +95,7 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        int heightNum = getHeight();
-        if (heightNum <= 0) {
-            launchHeight();
-        }
+
         textSteps = findViewById(R.id.CurrentSteps);
         distanceTraveled = findViewById(R.id.distanceTraveled);
         fitnessService.setup();
@@ -101,13 +103,10 @@ public class Home extends AppCompatActivity {
 
     public void launchHeight() {
         Intent intent = new Intent(this, HeightScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         startActivity(intent);
     }
 
-    // public void setup(){
-    // fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-    // fitnessService.setup();
-    // }
     public void launchRoutes() {
         Intent intent = new Intent(this, RoutesScreen.class);
         startActivity(intent);

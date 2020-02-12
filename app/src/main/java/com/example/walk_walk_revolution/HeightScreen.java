@@ -11,12 +11,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class HeightScreen extends AppCompatActivity {
-
+    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    private String fitnessServiceKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.height_prompt);
-
+        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         Button submitButton = findViewById(R.id.heightSubmitButton);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -39,7 +40,7 @@ public class HeightScreen extends AppCompatActivity {
         saveHeight(heightNum);
 
         Toast.makeText(HeightScreen.this, "Saved Height", Toast.LENGTH_SHORT).show();
-        launchMain();
+        launchHome();
     }
 
     public void saveHeight(int heightNum){
@@ -52,8 +53,9 @@ public class HeightScreen extends AppCompatActivity {
         editor.apply();
     }
 
-    public void launchMain(){
-        Intent intent = new Intent(this, MainActivity.class);
+    public void launchHome(){
+        Intent intent = new Intent(this, Home.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         startActivity(intent);
     }
 }

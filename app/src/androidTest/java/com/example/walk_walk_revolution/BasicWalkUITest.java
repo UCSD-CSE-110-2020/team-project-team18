@@ -33,10 +33,10 @@ public class BasicWalkUITest {
     @Before
     public void setUp() {
         hActivity.getActivity().saveHeight(72);
-        hActivity.getActivity().launchMain();
+        hActivity.getActivity().launchHome();
         FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
             @Override
-            public FitnessService create(MainActivity activity) {
+            public FitnessService create(Home activity) {
                 return new TestFitnessService(activity);
             }
         });
@@ -53,7 +53,7 @@ public class BasicWalkUITest {
     @Test
     public void basicWalkUITest() {
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
-        mActivityTestRule.getActivity().setup();
+        mActivityTestRule.getActivity();
         ViewInteraction textView = onView(
                 allOf(withId(R.id.recent_stats_text), withText("Recent Walk Stats"),
 
@@ -141,9 +141,9 @@ public class BasicWalkUITest {
     }
     private class TestFitnessService implements FitnessService {
         private static final String TAG = "[TestFitnessService]: ";
-        private MainActivity mainActivity;
+        private Home mainActivity;
 
-        public TestFitnessService(MainActivity mainActivity) {
+        public TestFitnessService(Home mainActivity) {
             this.mainActivity = mainActivity;
         }
 
