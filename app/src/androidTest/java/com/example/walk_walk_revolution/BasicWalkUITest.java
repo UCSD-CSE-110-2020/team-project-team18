@@ -13,6 +13,7 @@ import androidx.test.runner.AndroidJUnit4;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,12 +29,24 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class BasicWalkUITest {
-
+    private static final String TEST_SERVICE = "TEST_SERVICE";
+    @Before
+    public void setUp() {
+        FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
+            @Override
+            public FitnessService create(MainActivity activity) {
+                return new TestFitnessService(activity);
+            }
+        });
+     //   mActivityTestRule.getActivity().setup();
+    }
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void basicWalkUITest() {
+        mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
+        mActivityTestRule.getActivity().setup();
         ViewInteraction textView = onView(
                 allOf(withId(R.id.recent_stats_text), withText("Recent Walk Stats"),
 
@@ -118,5 +131,31 @@ public class BasicWalkUITest {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
+    }
+    private class TestFitnessService implements FitnessService {
+        private static final String TAG = "[TestFitnessService]: ";
+        private MainActivity mainActivity;
+
+        public TestFitnessService(MainActivity mainActivity) {
+            this.mainActivity = mainActivity;
+        }
+
+        @Override
+        public int getRequestCode() {
+            return 0;
+        }
+
+        @Override
+        public void setup() {
+            System.out.println(TAG + "setup");
+        }
+
+        @Override
+        public void updateStepCount() {
+            System.out.println(TAG + "updateStepCount");
+            mainActivity.currentWalk.setTime(0L);
+            mainActivity.walkCleanup();
+           // mainActivity.setStepCount(nextStepCount);
+        }
     }
 }

@@ -241,5 +241,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+    <Button
+        android:id="@+id/googleConnectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="71dp"
+        android:layout_marginLeft="71dp"
+        android:layout_marginTop="113dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="86dp"
+        android:text="Connect to Google"
+        app:layout_constraintBottom_toTopOf="@+id/end_walk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recent_stats_text"
+        app:layout_constraintTop_toBottomOf="@+id/buttonUpdateSteps" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
