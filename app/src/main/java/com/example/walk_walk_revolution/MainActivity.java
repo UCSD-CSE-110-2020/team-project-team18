@@ -113,8 +113,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     public void launchRoutes() {
         Intent intent = new Intent(this, RoutesScreen.class);
+        startActivity(intent);
+    }
+
+    public void launchRoutesTest(){
+        Intent intent = new Intent(this, ViewRouteDetail.class);
         startActivity(intent);
     }
 

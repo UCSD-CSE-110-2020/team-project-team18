@@ -66,137 +66,148 @@
         app:layout_constraintTop_toBottomOf="@id/textName"
         app:layout_constraintVertical_bias="0.04" />
 
-    <EditText
-        android:id="@+id/textLoop"
+    <RadioGroup
+        android:id="@+id/groupLoop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textLoop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textFeature"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintTop_toBottomOf="@+id/textFeature"
+        app:layout_constraintVertical_bias="0.04">
 
-    <EditText
-        android:id="@+id/textOut"
+        <RadioButton
+            android:id="@+id/loop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textLoop"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+        <RadioButton
+            android:id="@+id/outnback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textOut"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/groupFlat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textOut"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toRightOf="@id/textLoop"
+        app:layout_constraintLeft_toLeftOf="@+id/textStartPoint"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textFeature"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintVertical_bias="0.04">
 
-    <EditText
-        android:id="@+id/textFlat"
+        <RadioButton
+            android:id="@+id/flat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textFlat"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+        <RadioButton
+            android:id="@+id/hilly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textHilly"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/groupStreet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textFlat"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.24"
-        app:layout_constraintLeft_toRightOf="@id/textOut"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textFeature"
-        app:layout_constraintVertical_bias="0.04" />
-
-    <EditText
-        android:id="@+id/textHilly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textHilly"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toRightOf="@id/textFlat"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textFeature"
-        app:layout_constraintVertical_bias="0.04" />
-
-    <EditText
-        android:id="@+id/textStreet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textStreet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textLoop"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintTop_toBottomOf="@+id/groupLoop"
+        app:layout_constraintVertical_bias="0.04">
 
-    <EditText
-        android:id="@+id/textTrail"
+        <RadioButton
+            android:id="@+id/street"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textStreet"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+        <RadioButton
+            android:id="@+id/trail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textTrail"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/groupSurface"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textTrail"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toRightOf="@id/textLoop"
+        app:layout_constraintLeft_toLeftOf="@+id/textStartPoint"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textLoop"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintTop_toBottomOf="@+id/groupFlat"
+        app:layout_constraintVertical_bias="0.04">
 
-    <EditText
-        android:id="@+id/textSurface1"
+        <RadioButton
+            android:id="@+id/evensurface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textSurface1"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+        <RadioButton
+            android:id="@+id/unevensurface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textSurface2"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/groupEasy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textSurface1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toLeftOf="@id/textFlat"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textFlat"
-        app:layout_constraintVertical_bias="0.04" />
-
-    <EditText
-        android:id="@+id/textSurface2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textSurface2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toRightOf="@id/textSurface1"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textFlat"
-        app:layout_constraintVertical_bias="0.04" />
-
-    <EditText
-        android:id="@+id/textEasy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textEasy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textStreet"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintTop_toBottomOf="@+id/groupStreet"
+        app:layout_constraintVertical_bias="0.04">
 
-    <EditText
-        android:id="@+id/textModerate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textModerate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toRightOf="@+id/textEasy"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textStreet"
-        app:layout_constraintVertical_bias="0.04" />
+        <RadioButton
+            android:id="@+id/easy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textEasy"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+        <RadioButton
+            android:id="@+id/moderate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textModerate"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+        <RadioButton
+            android:id="@+id/difficult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textDifficult"
+            tools:layout_editor_absoluteX="13dp"
+            tools:layout_editor_absoluteY="512dp" />
+    </RadioGroup>
 
-    <EditText
-        android:id="@+id/textDifficult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textDifficult"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toRightOf="@id/textModerate"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textStreet"
-        app:layout_constraintVertical_bias="0.04" />
 
     <TextView
         android:id="@+id/textNote"
@@ -205,9 +216,9 @@
         android:text="@string/textNote"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/textEasy"
+        app:layout_constraintLeft_toLeftOf="@+id/textName"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textEasy"
+        app:layout_constraintTop_toBottomOf="@+id/groupEasy"
         app:layout_constraintVertical_bias="0.057" />
 
     <EditText
@@ -229,8 +240,7 @@
         android:layout_width="140sp"
         android:layout_height="56sp"
         android:layout_marginBottom="20sp"
-        android:text="@+id/cancel"
-        android:textColor="#000000"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/textName"
@@ -243,10 +253,10 @@
         android:layout_width="140sp"
         android:layout_height="56sp"
         android:layout_marginBottom="20sp"
-        android:text="@+id/startWalk"
+        android:text="@string/startWalk"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toLeftOf="@+id/textFlat"
+        app:layout_constraintLeft_toLeftOf="@+id/txtStartPoint"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtNote"
         app:layout_constraintVertical_bias="0.04" />

@@ -6,11 +6,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Route extends AppCompatActivity {
+    private String name;
+    private String startPoint;
+    private String fileName;
+    private RadioGroup radioGroup1;
+    private RadioGroup radioGroup2;
+    private RadioGroup radioGroup3;
+    private RadioGroup radioGroup4;
+    private RadioGroup radioGroup5;
+    private EditText notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +32,24 @@ public class Route extends AppCompatActivity {
 
         displayName.setText(getIntent().getStringExtra("name"));
         displayStartPoint.setText(getIntent().getStringExtra("startPoint"));
+        fileName = getIntent().getStringExtra("fileName");
 
+        name = displayName.getText().toString();
+        startPoint = displayStartPoint.getText().toString();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(fileName, MODE_PRIVATE);
+        String loop = sharedPreferences.getString("loop", "");
+        String flat = sharedPreferences.getString("flat", "");
+        String street = sharedPreferences.getString("street", "");
+        String surface = sharedPreferences.getString("surface", "");
+        String easy = sharedPreferences.getString("easy", "");
+        String note = sharedPreferences.getString("notes", "");
+
+        EditText notes = (EditText)findViewById(R.id.txtNote);
+        notes.setText(note);
+
+        //display content of radio buttons
+        //if (loop)
 
         Button btnCancel = (Button) findViewById(R.id.cancel);
         Button btnStartWalk = (Button) findViewById(R.id.startWalk);
@@ -50,11 +77,9 @@ public class Route extends AppCompatActivity {
     }
 
     public void launchWalk() {
-        EditText name = findViewById(R.id.txtName);
-        EditText startPoint = findViewById(R.id.txtStartPoint);
-        Intent intent = new Intent(this, Walk.class);
-        intent.putExtra("name", name.getText().toString());
-        intent.putExtra("startPoint", startPoint.getText().toString());
+        Intent intent = new Intent(this, RoutesScreen.class);
+        //intent.putExtra("name", name);
+        //intent.putExtra("startPoint", startPoint);
         startActivity(intent);
     }
 }

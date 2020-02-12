@@ -12,6 +12,7 @@
         <activity android:name=".TestScreen"></activity>
         <activity android:name=".RoutesScreen"></activity>
         <activity android:name=".HeightScreen"></activity>
+        <activity android:name=".ViewRouteDetail" />
         <activity android:name=".MainActivity">
 
 
@@ -21,6 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Walk" />
+        <activity android:name=".Route" />
+        <activity android:name=".NewRoute" />
     </application>
 
 </manifest>
