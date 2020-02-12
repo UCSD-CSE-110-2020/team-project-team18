@@ -85,6 +85,7 @@
         app:layout_constraintVertical_bias="0.213" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="124dp"
         android:layout_height="35dp"
         android:text="Distance Traveled"
@@ -223,6 +224,22 @@
         app:layout_constraintBottom_toTopOf="@+id/recentWalkTime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView11" />
+
+    <Button
+        android:id="@+id/buttonUpdateSteps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="157dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginRight="160dp"
+        android:layout_marginBottom="120dp"
+        android:text="Update Steps"
+        app:layout_constraintBottom_toTopOf="@+id/recent_stats_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

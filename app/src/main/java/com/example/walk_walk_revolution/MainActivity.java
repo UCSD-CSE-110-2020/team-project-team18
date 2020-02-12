@@ -25,14 +25,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView textSteps;
     private TextView distanceTraveled;
     private FitnessService fitnessService;
-    private UpdateCounter runner;
-    private String start_steps;
-
+    //  private UpdateCounter runner;
+    private int start_steps;
+    private boolean endingWalk;
     Walk currentWalk = null;
     TextView recentWalkDist;
     TextView recentWalkSteps;
     TextView recentWalkTime;
-
+    private int numSteps;
     private DistanceCalculator calculator = new DistanceCalculator();
 
     @Override
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button startWalkBut = (Button) findViewById(R.id.start_walk);
         Button endWalkBut = (Button) findViewById(R.id.end_walk);
+        Button btnUpdateSteps = (Button) findViewById(R.id.buttonUpdateSteps);
         recentWalkDist = (TextView) findViewById(R.id.recentWalkDist);
         recentWalkSteps = (TextView) findViewById(R.id.recentWalkSteps);
         recentWalkTime = (TextView) findViewById(R.id.recentWalkTime);
@@ -72,13 +73,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         launchTestScreen.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 launchTest();
             }
         });
-
+        btnUpdateSteps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fitnessService.updateStepCount();
+            }
+        });
         int heightNum = getHeight();
         if (heightNum <= 0) {
             launchHeight();
@@ -89,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
         textSteps = findViewById(R.id.CurrentSteps);
         distanceTraveled = findViewById(R.id.distanceTraveled);
-        runner = new UpdateCounter();
+        //  runner = new UpdateCounter();
 
         FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
             @Override
@@ -100,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
         fitnessService.setup();
-        runner.execute();
+        //runner.execute();
     }
 
     public void launchHeight() {
@@ -141,11 +146,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setStepCount(long stepCount) {
+        numSteps = (int) stepCount;
         textSteps.setText(String.valueOf(stepCount));
+        if(endingWalk){
+            walkCleanup();
+            endingWalk = false;
+        }
     }
 
-    public void setDistanceTraveled()
-    {
+    public void setDistanceTraveled() {
         double distance = calculator.calculateDistanceTraveled(getHeight(), this);
 
         DecimalFormat df = new DecimalFormat("#.##");
@@ -154,28 +163,28 @@ public class MainActivity extends AppCompatActivity {
         distanceTraveled.setText(String.valueOf(result) + " miles");
     }
 
-    class UpdateCounter extends AsyncTask<String, String, String> {
+    // class UpdateCounter extends AsyncTask<String, String, String> {
 
-        @Override
-        protected String doInBackground(String... strings) {
-            while (!isCancelled()) {
-                try {
-                    publishProgress();
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
+    //   @Override
+    //    protected String doInBackground(String... strings) {
+    //      while (!isCancelled()) {
+    //          try {
+    //              publishProgress();
+    //             Thread.sleep(1000);
+    //        } catch (InterruptedException e) {
+    //            e.printStackTrace();
+    //          }
+    //     }
+    //     return null;
+    //   }
 
-        @Override
-        protected void onProgressUpdate(String... text) {
+    // @Override
+    //    protected void onProgressUpdate(String... text) {
 
-            fitnessService.updateStepCount();
-        }
+    //       fitnessService.updateStepCount();
+    //   }
 
-    }
+    //  }
 
     public void setFitnessServiceKey(String fitnessServiceKey) {
         this.fitnessServiceKey = fitnessServiceKey;
@@ -185,26 +194,29 @@ public class MainActivity extends AppCompatActivity {
     // Display distant
 
 
-
     public void startWalk() {
         if (currentWalk == null) {
             currentWalk = new Walk();
             currentWalk.startWalk();
-            TextView steps =(TextView) findViewById(R.id.CurrentSteps);
 
-            start_steps = steps.getText().toString();
+            fitnessService.updateStepCount();
 
-            currentWalk.setSteps(0);
-
-
+            start_steps = numSteps;
+            endingWalk = false;
         }
     }
 
     public void endWalk() {
         if (currentWalk != null) {
-            TextView steps = (TextView) findViewById(R.id.CurrentSteps);
-            String end_steps = steps.getText().toString();
-            int walkSteps = Integer.parseInt(end_steps) - Integer.parseInt(start_steps);
+
+            fitnessService.updateStepCount();
+            endingWalk = true;
+        }
+    }
+
+    public void walkCleanup() {
+        if (endingWalk == true) {
+            int walkSteps = numSteps - start_steps;
             DistanceCalculator calculator = new DistanceCalculator();
             double distanceTraveled = calculator.calculateDistanceUsingSteps(walkSteps, getHeight());
 
@@ -215,12 +227,13 @@ public class MainActivity extends AppCompatActivity {
             currentWalk.endWalk();
             recentWalkTime.setText(currentWalk.getTimeTaken());
             recentWalkDist.setText(Double.toString(currentWalk.getDistance()));
-            recentWalkSteps.setText(String.valueOf(currentWalk.getSteps()));
+            recentWalkSteps.setText(String.valueOf(walkSteps));
             recentWalkDist.setVisibility(TextView.VISIBLE);
             recentWalkTime.setVisibility(TextView.VISIBLE);
             recentWalkSteps.setVisibility(TextView.VISIBLE);
             currentWalk = null;
+            endingWalk = false;
         }
     }
-
 }
+
