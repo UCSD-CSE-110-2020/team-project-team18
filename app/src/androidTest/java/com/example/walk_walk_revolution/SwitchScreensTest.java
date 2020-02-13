@@ -22,6 +22,9 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -31,20 +34,37 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class SwitchScreensTest {
 
+    private static final String TEST_SERVICE = "TEST_SERVICE";
+
+
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    @Rule
-    public ActivityTestRule<HeightScreen> hActivity = new ActivityTestRule<>(HeightScreen.class);
 
-    @Before
-    public void initialize() {
-        hActivity.getActivity().saveHeight(72);
-        hActivity.getActivity().launchMain();
-    }
 
     @Test
     public void switchScreensTest() {
+        FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
+            @Override
+            public FitnessService create(Home home) {
+                return new TestFitnessService(home);
+            }
+        });
+        mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
+        mActivityTestRule.getActivity().setHeight(60);
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.loginButton), withText("Login"),
+
+                        isDisplayed()));
+
+        textView.check(matches(withText("Login")));
+        ViewInteraction appCompatButton7 = onView(
+                allOf(withId(R.id.loginButton), withText("Login"),
+
+                        isDisplayed()));
+        appCompatButton7.perform(click());
+
+
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.routes_but_home), withText("Routes"),
 
@@ -100,4 +120,5 @@ public class SwitchScreensTest {
             }
         };
     }
+
 }

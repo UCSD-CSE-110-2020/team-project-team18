@@ -25,4 +25,5 @@
     <string name="textWalk">Walk</string>
     <string name="textTimer">Timer</string>
     <string name="stopWalk">Start Walk</string>
+    <string name="title_activity_home">Home</string>
 </resources>

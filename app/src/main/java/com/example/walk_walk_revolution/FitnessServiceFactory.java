@@ -14,12 +14,12 @@ public class FitnessServiceFactory {
         blueprints.put(key, bluePrint);
     }
 
-    public static FitnessService create(String key, MainActivity stepCountActivity) {
+    public static FitnessService create(String key, Home home) {
         Log.i(TAG, String.format("creating FitnessService with key %s", key));
-        return blueprints.get(key).create(stepCountActivity);
+        return blueprints.get(key).create(home);
     }
 
     public interface BluePrint {
-        FitnessService create(MainActivity stepCountActivity);
+        FitnessService create(Home home);
     }
 }

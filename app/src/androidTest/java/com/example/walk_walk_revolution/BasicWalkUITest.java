@@ -20,6 +20,8 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -30,35 +32,42 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class BasicWalkUITest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
-    @Before
-    public void setUp() {
-        hActivity.getActivity().saveHeight(72);
-        hActivity.getActivity().launchMain();
-        FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
-            @Override
-            public FitnessService create(MainActivity activity) {
-                return new TestFitnessService(activity);
-            }
-        });
-        //mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
-    //    mActivityTestRule.getActivity().setup();
-     //   mActivityTestRule.getActivity().setup();
-    }
+
+
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    @Rule
-    public ActivityTestRule<HeightScreen> hActivity = new ActivityTestRule<>(HeightScreen.class);
 
     @Test
     public void basicWalkUITest() {
+
+        FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
+            @Override
+            public FitnessService create(Home home) {
+                return new TestFitnessService(home);
+            }
+        });
+
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
-        mActivityTestRule.getActivity().setup();
+        mActivityTestRule.getActivity().setHeight(60);
         ViewInteraction textView = onView(
+                allOf(withId(R.id.loginButton), withText("Login"),
+
+                        isDisplayed()));
+
+        textView.check(matches(withText("Login")));
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.loginButton), withText("Login"),
+
+                        isDisplayed()));
+        appCompatButton.perform(click());
+
+
+        ViewInteraction textView8 = onView(
                 allOf(withId(R.id.recent_stats_text), withText("Recent Walk Stats"),
 
                         isDisplayed()));
-        textView.check(matches(withText("Recent Walk Stats")));
+        textView8.check(matches(withText("Recent Walk Stats")));
 
         ViewInteraction textView2 = onView(
                 allOf(withId(R.id.textView13), withText("Total Steps"),
@@ -90,11 +99,11 @@ public class BasicWalkUITest {
                         isDisplayed()));
         textView4.check(matches(withText("Time")));
 
-        ViewInteraction appCompatButton = onView(
+        ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.start_walk), withText("Start Walk"),
 
                         isDisplayed()));
-        appCompatButton.perform(click());
+        appCompatButton3.perform(click());
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.end_walk), withText("End Walk"),
@@ -139,30 +148,5 @@ public class BasicWalkUITest {
             }
         };
     }
-    private class TestFitnessService implements FitnessService {
-        private static final String TAG = "[TestFitnessService]: ";
-        private MainActivity mainActivity;
 
-        public TestFitnessService(MainActivity mainActivity) {
-            this.mainActivity = mainActivity;
-        }
-
-        @Override
-        public int getRequestCode() {
-            return 0;
-        }
-
-        @Override
-        public void setup() {
-            System.out.println(TAG + "setup");
-        }
-
-        @Override
-        public void updateStepCount() {
-            System.out.println(TAG + "updateStepCount");
-            mainActivity.currentWalk.setTime(0L);
-            mainActivity.walkCleanup();
-           // mainActivity.setStepCount(nextStepCount);
-        }
-    }
 }

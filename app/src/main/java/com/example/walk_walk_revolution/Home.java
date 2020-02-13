@@ -1,7 +1,9 @@
 package com.example.walk_walk_revolution;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,69 +18,42 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
-    private String fitnessServiceKey = "GOOGLE_FIT";
-    private int height;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        height = 0;
-        Button btnLogin = findViewById(R.id.loginButton);
-        FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
-            @Override
-            public FitnessService create(Home home) {
-                return new GoogleFitAdapter(home);
-            }
-        });
-
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                launchHomeScreen();
-            }
-        });
-    }
-    public void launchHomeScreen(){
-        Intent intent = new Intent(this, Home.class);
-        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
-        intent.putExtra(Home.HEIGHT_KEY, height);
-        startActivity(intent);
-    }
-    public void setFitnessServiceKey(String fitnessServiceKey){
-        this.fitnessServiceKey = fitnessServiceKey;
-    }
-    public void setHeight(int height){
-        this.height = height;
-    }
-}
-/**private String fitnessServiceKey = "GOOGLE_FIT";
-    public static final String TAG = "MainActivity";
-
+public class Home extends AppCompatActivity {
+    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String HEIGHT_KEY = "HEIGHT_KEY";
+    private static final String TAG = "HomeScreen";
+    private FitnessService fitnessService;
     private TextView textSteps;
     private TextView distanceTraveled;
-    private FitnessService fitnessService;
-    //  private UpdateCounter runner;
     private int start_steps;
     private boolean endingWalk;
+    private int fakeHeight;
     Walk currentWalk = null;
     TextView recentWalkDist;
     TextView recentWalkSteps;
     TextView recentWalkTime;
     private int numSteps;
+    String fitnessServiceKey;
     private DistanceCalculator calculator = new DistanceCalculator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
+        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+        fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
+        int heightNum = getHeight();
+        if (heightNum <= 0 || fakeHeight == 0) {
+            launchHeight();
+        }
+
+
 
         Button launchRoutesScreen = (Button) findViewById(R.id.routes_but_home);
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
-        Button connectToGoogle = (Button) findViewById(R.id.googleConnectButton);
         Button startWalkBut = (Button) findViewById(R.id.start_walk);
         Button endWalkBut = (Button) findViewById(R.id.end_walk);
         Button btnUpdateSteps = (Button) findViewById(R.id.buttonUpdateSteps);
@@ -120,61 +95,42 @@ public class MainActivity extends AppCompatActivity {
                 fitnessService.updateStepCount();
             }
         });
-        connectToGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               setup();
-            }
-        });
-        int heightNum = getHeight();
-        if (heightNum <= 0) {
-            launchHeight();
-        }
 
-
-        // GOOGLE FIT
 
         textSteps = findViewById(R.id.CurrentSteps);
         distanceTraveled = findViewById(R.id.distanceTraveled);
-        //  runner = new UpdateCounter();
-
-        FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
-            @Override
-            public FitnessService create(MainActivity activity) {
-                return new GoogleFitAdapter(activity);
-            }
-        });
-
-
-        //runner.execute();
+        fitnessService.setup();
     }
 
     public void launchHeight() {
         Intent intent = new Intent(this, HeightScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 
-    public void setup(){
-        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-        fitnessService.setup();
-    }
     public void launchRoutes() {
         Intent intent = new Intent(this, RoutesScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 
     public void launchTest() {
         Intent intent = new Intent(this, TestScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 
 
     public int getHeight() {
         SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
-        return spfs.getInt("userHeight", 0);
+        if(fakeHeight == 0){
+            return spfs.getInt("userHeight", 0);
+        }
+       return fakeHeight;
     }
-
-    // GOOGLE FIT
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -193,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     public void setStepCount(long stepCount) {
         numSteps = (int) stepCount;
         textSteps.setText(String.valueOf(stepCount));
-        if(endingWalk){
+        if (endingWalk) {
             walkCleanup();
             endingWalk = false;
         }
@@ -208,37 +164,6 @@ public class MainActivity extends AppCompatActivity {
         distanceTraveled.setText(String.valueOf(result) + " miles");
     }
 
-    // class UpdateCounter extends AsyncTask<String, String, String> {
-
-    //   @Override
-    //    protected String doInBackground(String... strings) {
-    //      while (!isCancelled()) {
-    //          try {
-    //              publishProgress();
-    //             Thread.sleep(1000);
-    //        } catch (InterruptedException e) {
-    //            e.printStackTrace();
-    //          }
-    //     }
-    //     return null;
-    //   }
-
-    // @Override
-    //    protected void onProgressUpdate(String... text) {
-
-    //       fitnessService.updateStepCount();
-    //   }
-
-    //  }
-
-    public void setFitnessServiceKey(String fitnessServiceKey) {
-    this.fitnessServiceKey = fitnessServiceKey;
-    }
-
-
-    // Display distant
-
-
     public void startWalk() {
         if (currentWalk == null && fitnessService != null) {
             currentWalk = new Walk();
@@ -248,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
             start_steps = numSteps;
             endingWalk = false;
-        }else if( currentWalk == null && fitnessService == null){
+        } else if (currentWalk == null && fitnessService == null) {
             currentWalk = new Walk();
             currentWalk.startWalk();
             start_steps = numSteps;
@@ -261,14 +186,17 @@ public class MainActivity extends AppCompatActivity {
             endingWalk = true;
             fitnessService.updateStepCount();
 
-        }else if( currentWalk!= null && fitnessService == null){
+        } else if (currentWalk != null && fitnessService == null) {
             endingWalk = true;
             walkCleanup();
         }
     }
+    public void setFakeHeight(int fakeHeight){
+        this.fakeHeight = fakeHeight;
+    }
 
     public void walkCleanup() {
-        if (endingWalk == true ) {
+        if (endingWalk == true) {
             int walkSteps = numSteps - start_steps;
             DistanceCalculator calculator = new DistanceCalculator();
             double distanceTraveled = calculator.calculateDistanceUsingSteps(walkSteps, getHeight());
@@ -288,5 +216,4 @@ public class MainActivity extends AppCompatActivity {
             endingWalk = false;
         }
     }
-}*/
-
+}
