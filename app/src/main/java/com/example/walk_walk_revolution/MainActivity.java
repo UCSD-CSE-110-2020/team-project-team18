@@ -19,10 +19,12 @@ import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
     private String fitnessServiceKey = "GOOGLE_FIT";
+    private int height;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        height = 0;
         Button btnLogin = findViewById(R.id.loginButton);
         FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
             @Override
@@ -43,10 +45,14 @@ public class MainActivity extends AppCompatActivity {
     public void launchHomeScreen(){
         Intent intent = new Intent(this, Home.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, height);
         startActivity(intent);
     }
     public void setFitnessServiceKey(String fitnessServiceKey){
         this.fitnessServiceKey = fitnessServiceKey;
+    }
+    public void setHeight(int height){
+        this.height = height;
     }
 }
 /**private String fitnessServiceKey = "GOOGLE_FIT";

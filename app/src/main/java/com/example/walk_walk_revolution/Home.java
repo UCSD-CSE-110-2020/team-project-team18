@@ -22,12 +22,14 @@ import android.view.View;
 
 public class Home extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String HEIGHT_KEY = "HEIGHT_KEY";
     private static final String TAG = "HomeScreen";
     private FitnessService fitnessService;
     private TextView textSteps;
     private TextView distanceTraveled;
     private int start_steps;
     private boolean endingWalk;
+    private int fakeHeight;
     Walk currentWalk = null;
     TextView recentWalkDist;
     TextView recentWalkSteps;
@@ -40,12 +42,11 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-
+        fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         int heightNum = getHeight();
-        if (heightNum <= 0) {
+        if (heightNum <= 0 || fakeHeight == 0) {
             launchHeight();
         }
 
@@ -104,23 +105,31 @@ public class Home extends AppCompatActivity {
     public void launchHeight() {
         Intent intent = new Intent(this, HeightScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 
     public void launchRoutes() {
         Intent intent = new Intent(this, RoutesScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 
     public void launchTest() {
         Intent intent = new Intent(this, TestScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 
 
     public int getHeight() {
         SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
-        return spfs.getInt("userHeight", 0);
+        if(fakeHeight == 0){
+            return spfs.getInt("userHeight", 0);
+        }
+       return fakeHeight;
     }
 
     @Override
@@ -181,6 +190,9 @@ public class Home extends AppCompatActivity {
             endingWalk = true;
             walkCleanup();
         }
+    }
+    public void setFakeHeight(int fakeHeight){
+        this.fakeHeight = fakeHeight;
     }
 
     public void walkCleanup() {
