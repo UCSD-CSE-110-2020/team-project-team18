@@ -9,12 +9,19 @@ public class StopWatch {
         this.start = System.currentTimeMillis();
         isOn = true;
     }
+    public StopWatch(long time){
+        this.start = time;
+        isOn = true;
+    }
     public boolean isRunning(){
         if(isOn){
             return true;
         }else{
             return false;
         }
+    }
+    public long getStart(){
+        return this.start;
     }
     public void end(){
         if(isOn) {
@@ -42,6 +49,7 @@ public class StopWatch {
             return stringFormat(end-start);
         }
     }
+
 
 
     public String stringFormat(long time){

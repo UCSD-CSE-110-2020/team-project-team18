@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Route extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +43,7 @@ public class Route extends AppCompatActivity {
                 launchWalk();
             }
         });
+
     }
 
     public void launchRoutes() {
