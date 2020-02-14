@@ -48,7 +48,6 @@ public class HeightScreen extends AppCompatActivity {
 
 
         editor.putInt("userHeight", heightNum);
-
         editor.apply();
     }
 

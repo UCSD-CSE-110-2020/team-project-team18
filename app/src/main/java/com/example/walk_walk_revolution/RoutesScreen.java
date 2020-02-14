@@ -21,6 +21,7 @@ public class RoutesScreen extends AppCompatActivity {
 
         Button launchHomeScreen = (Button)findViewById(R.id.home_but_routes);
         Button launchTestScreen = (Button)findViewById(R.id.test_but_routes);
+        final Button launchNewRouteScreen = (Button)findViewById(R.id.addNewWalk);
 
         launchHomeScreen.setOnClickListener(new View.OnClickListener() {
 
@@ -29,7 +30,6 @@ public class RoutesScreen extends AppCompatActivity {
                 launchHome();
             }
         });
-
         launchTestScreen.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -37,43 +37,18 @@ public class RoutesScreen extends AppCompatActivity {
                 launchTest();
             }
         });
-
+        launchNewRouteScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchNewRouteScreen();
+            }
+        });
 
         // Lookup the recyclerview in activity layout
         RecyclerView rvRoutes = (RecyclerView) findViewById(R.id.rvRoutes);
 
-        // Initialize testFile
-        SharedPreferences spfs = getSharedPreferences("route_test", MODE_PRIVATE);
-        SharedPreferences.Editor editor = spfs.edit();
-
-        editor.putString("name", "Test Name");
-        editor.putString("startPoint", "Test Start");
-        editor.putBoolean("loop", true);
-        editor.putBoolean("flat", true);
-        editor.putBoolean("street", false);
-        editor.putBoolean("evenSurface", true);
-        editor.putInt("difficulty", 2);
-        editor.putString("notes", "Test Notes");
-
-        editor.apply();
-        //TESTING RV CREATION
-        RouteItem route1 = new RouteItem("Current Route 0", "ucsd", 1000, 10.0, this);
-        RouteItem route2 = new RouteItem("Current Route 1", "ucsd 2.0", 100, 11.0, this);
-        RouteItem route3 = new RouteItem("Current Route 2", "ucsd 3.0", 10, 12.0, this);
 
         ArrayList<RouteItem> listItems = new ArrayList<RouteItem>();
-        listItems.add(route1);
-        listItems.add(route2);
-        listItems.add(route3);
-        listItems.add(route3);
-        listItems.add(route3);
-        listItems.add(route3);
-        listItems.add(route3);
-        listItems.add(route3);
-        listItems.add(route3);
-        listItems.add(route3);
-        listItems.add(route3);
-        listItems.add(route3);
 
         // Create adapter passing in the sample user data
         RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);
@@ -91,6 +66,11 @@ public class RoutesScreen extends AppCompatActivity {
 
     public void launchTest(){
         Intent intent = new Intent(this, TestScreen.class);
+        startActivity(intent);
+    }
+
+    public void launchNewRouteScreen(){
+        Intent intent = new Intent(this, NewRoute.class);
         startActivity(intent);
     }
 

@@ -17,11 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class NewRoute extends AppCompatActivity {
 
     public static final String PREF_FILE_NAME = "PrefFile";
-    private RadioGroup radioGroup1;
-    private RadioGroup radioGroup2;
-    private RadioGroup radioGroup3;
-    private RadioGroup radioGroup4;
-    private RadioGroup radioGroup5;
+    private RadioGroup loopGroup;
+    private RadioGroup flatGroup;
+    private RadioGroup streetGroup;
+    private RadioGroup surfaceGroup;
+    private RadioGroup difficultyGroup;
     private EditText notes;
 
 
@@ -37,11 +37,11 @@ public class NewRoute extends AppCompatActivity {
         displayName.setText(getIntent().getStringExtra("name"));
         displayStartPoint.setText(getIntent().getStringExtra("startPoint"));
 
-        radioGroup1 = (RadioGroup)findViewById(R.id.groupLoop);
+        loopGroup = (RadioGroup)findViewById(R.id.groupLoop);
 
-        radioGroup1.clearCheck();
+        loopGroup.clearCheck();
 
-        radioGroup1.setOnCheckedChangeListener(
+        loopGroup.setOnCheckedChangeListener(
                 new RadioGroup
                         .OnCheckedChangeListener() {
                     @Override
@@ -60,11 +60,11 @@ public class NewRoute extends AppCompatActivity {
                     }
                 });
 
-        radioGroup2 = (RadioGroup)findViewById(R.id.groupFlat);
+        flatGroup = (RadioGroup)findViewById(R.id.groupFlat);
 
-        radioGroup2.clearCheck();
+        flatGroup.clearCheck();
 
-        radioGroup2.setOnCheckedChangeListener(
+        flatGroup.setOnCheckedChangeListener(
                 new RadioGroup
                         .OnCheckedChangeListener() {
                     @Override
@@ -83,11 +83,10 @@ public class NewRoute extends AppCompatActivity {
                     }
                 });
 
-        radioGroup3 = (RadioGroup)findViewById(R.id.groupStreet);
+        streetGroup = (RadioGroup)findViewById(R.id.groupStreet);
+        streetGroup.clearCheck();
 
-        radioGroup3.clearCheck();
-
-        radioGroup3.setOnCheckedChangeListener(
+        streetGroup.setOnCheckedChangeListener(
                 new RadioGroup
                         .OnCheckedChangeListener() {
                     @Override
@@ -106,11 +105,11 @@ public class NewRoute extends AppCompatActivity {
                     }
                 });
 
-        radioGroup4 = (RadioGroup)findViewById(R.id.groupSurface);
+        surfaceGroup = (RadioGroup)findViewById(R.id.groupSurface);
 
-        radioGroup4.clearCheck();
+        surfaceGroup.clearCheck();
 
-        radioGroup4.setOnCheckedChangeListener(
+        surfaceGroup.setOnCheckedChangeListener(
                 new RadioGroup
                         .OnCheckedChangeListener() {
                     @Override
@@ -129,11 +128,11 @@ public class NewRoute extends AppCompatActivity {
                     }
                 });
 
-        radioGroup5 = (RadioGroup)findViewById(R.id.groupEasy);
+        difficultyGroup= (RadioGroup)findViewById(R.id.groupDifficulty);
 
-        radioGroup5.clearCheck();
+        difficultyGroup.clearCheck();
 
-        radioGroup5.setOnCheckedChangeListener(
+        difficultyGroup.setOnCheckedChangeListener(
                 new RadioGroup
                         .OnCheckedChangeListener() {
                     @Override
@@ -168,46 +167,44 @@ public class NewRoute extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String loop, flat, street, surface, easy;
-                int selectedId = radioGroup1.getCheckedRadioButtonId();
+                boolean loop, flat, street, surface;
+                int difficulty;
+
+                int selectedId = loopGroup.getCheckedRadioButtonId();
                 if (selectedId == -1) {
-                    loop = "";
+                    loop = false;
                 } else {
-                    RadioButton radioButton = (RadioButton)radioGroup1.findViewById(selectedId);
-                    loop = radioButton.getText().toString();
+                    loop = true;
                 }
 
-                selectedId = radioGroup2.getCheckedRadioButtonId();
+                selectedId = flatGroup.getCheckedRadioButtonId();
 
                 if (selectedId == -1) {
-                    flat = "";
+                    flat = false;
                 } else {
-                    RadioButton radioButton = (RadioButton)radioGroup2.findViewById(selectedId);
-                    flat = radioButton.getText().toString();
+                    flat = true;
                 }
 
-                selectedId = radioGroup3.getCheckedRadioButtonId();
+                selectedId = streetGroup.getCheckedRadioButtonId();
 
                 if (selectedId == -1) {
-                    street = "";
+                    street = false;
                 } else {
-                    RadioButton radioButton = (RadioButton)radioGroup3.findViewById(selectedId);
-                    street = radioButton.getText().toString();
+                    street = true;
                 }
 
-                selectedId = radioGroup4.getCheckedRadioButtonId();
+                selectedId = surfaceGroup.getCheckedRadioButtonId();
 
                 if (selectedId == -1) {
-                    surface = "";
+                    surface = false;
                 } else {
-                    RadioButton radioButton = (RadioButton)radioGroup4.findViewById(selectedId);
-                    surface = radioButton.getText().toString();
+                    surface = true;
                 }
 
-                selectedId = radioGroup5.getCheckedRadioButtonId();
+                selectedId = difficultyGroup.getCheckedRadioButtonId();
 
                 if (selectedId == -1) {
-                    easy = "";
+                    easy = ;
                 } else {
                     RadioButton radioButton = (RadioButton)radioGroup5.findViewById(selectedId);
                     easy = radioButton.getText().toString();
@@ -215,16 +212,25 @@ public class NewRoute extends AppCompatActivity {
 
                 String note = notes.getText().toString();
 
-                SharedPreferences preferences = getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE);
                 SharedPreferences.Editor editor;
+
+                SharedPreferences numWalkFile = getSharedPreferences("numWalk", MODE_PRIVATE);
+                int totalWalks = numWalkFile.getInt("totalWalks", 0);
+                String newWalkFile = "walk_" + totalWalks;
+                totalWalks++;
+
+                editor = numWalkFile.edit();
+                editor.putInt("totalWalks", totalWalks);
+
+                SharedPreferences preferences = getSharedPreferences(newWalkFile, MODE_PRIVATE);
                 editor = preferences.edit();
                 editor.putString("name", displayName.getText().toString());
                 editor.putString("startPoint", displayStartPoint.getText().toString());
-                editor.putString("loop", loop);
-                editor.putString("flat", flat);
-                editor.putString("street", street);
-                editor.putString("surface", surface);
-                editor.putString("easy", easy);
+                editor.putBoolean("loop", loop);
+                editor.putBoolean("flat", flat);
+                editor.putBoolean("street", street);
+                editor.putBoolean("surface", surface);
+                editor.putInt("difficulty", difficulty);
                 editor.putString("notes", note);
                 editor.apply();
                 launchRoutes();

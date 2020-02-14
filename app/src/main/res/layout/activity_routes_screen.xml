@@ -104,8 +104,19 @@
         android:id="@+id/rvRoutes"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/routes_but_routes"
+        app:layout_constraintBottom_toTopOf="@+id/addNewWalk"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerLayout" />
+
+    <Button
+        android:id="@+id/addNewWalk"
+        android:layout_width="132dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="20dp"
+        android:text="Add Walk"
+        app:layout_constraintBottom_toTopOf="@+id/routes_but_routes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
