@@ -16,7 +16,8 @@ public class RouteItem extends AppCompatActivity {
     public RouteItem(String fileName, RoutesScreen routeScreen){
         this.fileName = fileName;
         this.routeScreen = routeScreen;
-        SharedPreferences spfs = getSharedPreferences(fileName,MODE_PRIVATE);
+        SharedPreferences spfs = getSharedPreferences(fileName ,MODE_PRIVATE);
+        System.out.println("Reached");
 
         this.name = spfs.getString("name","Error");
         this.startPoint = spfs.getString("startPoint","Error");

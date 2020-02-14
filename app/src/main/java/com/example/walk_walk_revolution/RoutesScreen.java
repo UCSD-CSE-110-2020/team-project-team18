@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import java.util.ArrayList;
 
 public class RoutesScreen extends AppCompatActivity {
@@ -21,7 +20,7 @@ public class RoutesScreen extends AppCompatActivity {
 
         Button launchHomeScreen = (Button)findViewById(R.id.home_but_routes);
         Button launchTestScreen = (Button)findViewById(R.id.test_but_routes);
-        final Button launchNewRouteScreen = (Button)findViewById(R.id.addNewWalk);
+        Button launchNewRouteScreen = (Button)findViewById(R.id.addNewWalk);
 
         launchHomeScreen.setOnClickListener(new View.OnClickListener() {
 

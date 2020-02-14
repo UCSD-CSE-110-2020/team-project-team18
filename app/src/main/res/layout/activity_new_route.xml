@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.04" />
 
     <EditText
-        android:id="@+id/txtName"
+        android:id="@+id/inputName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txtName"
@@ -38,13 +38,13 @@
         android:text="@string/textStartPoint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.48"
-        app:layout_constraintLeft_toLeftOf="@+id/txtName"
+        app:layout_constraintLeft_toLeftOf="@+id/inputName"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.04" />
 
     <EditText
-        android:id="@+id/txtStartPoint"
+        android:id="@+id/inputStartPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txtStartPoint"
@@ -224,7 +224,7 @@
         app:layout_constraintVertical_bias="0.057" />
 
     <EditText
-        android:id="@+id/txtNote"
+        android:id="@+id/inputNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -247,7 +247,7 @@
         app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintLeft_toLeftOf="@+id/textName"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtNote"
+        app:layout_constraintTop_toBottomOf="@id/inputNote"
         app:layout_constraintVertical_bias="0.04" />
 
     <Button
@@ -260,7 +260,7 @@
         app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintLeft_toLeftOf="@+id/textStartPoint"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtNote"
+        app:layout_constraintTop_toBottomOf="@id/inputNote"
         app:layout_constraintVertical_bias="0.04" />
 
 

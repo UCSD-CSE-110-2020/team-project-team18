@@ -55,10 +55,10 @@ public class Route extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(fileName, MODE_PRIVATE);
         String name = sharedPreferences.getString("name", "");
         String startPoint = sharedPreferences.getString("startPoint", "");
-        boolean loop = sharedPreferences.getBoolean("loop", false);
-        boolean flat = sharedPreferences.getBoolean("flat", false);
-        boolean street = sharedPreferences.getBoolean("street", false);
-        boolean evenSurface = sharedPreferences.getBoolean("evenSurface", false);
+        int loop = sharedPreferences.getInt("loop", 0);
+        int flat = sharedPreferences.getInt("flat", 0);
+        int street = sharedPreferences.getInt("street", 0);
+        int evenSurface = sharedPreferences.getInt("evenSurface", 0);
         int difficulty = sharedPreferences.getInt("difficulty", 1);
         String note = sharedPreferences.getString("notes", "");
 
@@ -72,47 +72,64 @@ public class Route extends AppCompatActivity {
 
         int checkedId;
         //display content of radio buttons
-        if (loop) {
+        if (loop == 1) {
             checkedId = R.id.loop;
-        } else {
+            radioButtonSelected = (RadioButton)loopGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
+        } else if (loop == 2) {
             checkedId = R.id.outnback;
+            radioButtonSelected = (RadioButton)loopGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
         }
-        radioButtonSelected = (RadioButton)loopGroup.findViewById(checkedId);
-        radioButtonSelected.setChecked(true);
 
-        if (flat) {
+
+        if (flat == 1) {
             checkedId = R.id.flat;
-        } else {
+            radioButtonSelected = (RadioButton)flatGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
+        } else if(flat == 2) {
             checkedId = R.id.hilly;
+            radioButtonSelected = (RadioButton)flatGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
         }
-        radioButtonSelected = (RadioButton)flatGroup.findViewById(checkedId);
-        radioButtonSelected.setChecked(true);
 
-        if (street) {
+
+        if (street == 1) {
             checkedId = R.id.street;
-        } else {
+            radioButtonSelected = (RadioButton)streetGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
+        } else if(street == 2){
             checkedId = R.id.trail;
+            radioButtonSelected = (RadioButton)streetGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
         }
-        radioButtonSelected = (RadioButton)streetGroup.findViewById(checkedId);
-        radioButtonSelected.setChecked(true);
 
-        if (evenSurface) {
+
+        if (evenSurface == 1) {
             checkedId = R.id.evensurface;
-        } else {
+            radioButtonSelected = (RadioButton)surfaceGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
+        } else if(evenSurface == 2){
             checkedId = R.id.unevensurface;
+            radioButtonSelected = (RadioButton)surfaceGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
         }
-        radioButtonSelected = (RadioButton)surfaceGroup.findViewById(checkedId);
-        radioButtonSelected.setChecked(true);
+
 
         if (difficulty == 1) {
             checkedId = R.id.easy;
+            radioButtonSelected = (RadioButton)difficultyGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
         } else if(difficulty == 2){
             checkedId = R.id.moderate;
-        } else {
+            radioButtonSelected = (RadioButton)difficultyGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
+        } else if (difficulty == 3){
             checkedId = R.id.difficult;
+            radioButtonSelected = (RadioButton)difficultyGroup.findViewById(checkedId);
+            radioButtonSelected.setChecked(true);
         }
-        radioButtonSelected = (RadioButton)difficultyGroup.findViewById(checkedId);
-        radioButtonSelected.setChecked(true);
+
 
 
         Button btnCancel = (Button) findViewById(R.id.cancel);
