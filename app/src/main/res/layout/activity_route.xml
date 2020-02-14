@@ -19,37 +19,13 @@
         app:layout_constraintVertical_bias="0.04" />
 
     <TextView
-        android:id="@+id/txtName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txtName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toRightOf="@+id/textName"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04" />
-
-    <TextView
         android:id="@+id/textStartPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textStartPoint"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.24"
-        app:layout_constraintLeft_toLeftOf="@+id/txtName"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04" />
-
-    <TextView
-        android:id="@+id/txtStartPoint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txtStartPoint"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toRightOf="@+id/textStartPoint"
+        app:layout_constraintHorizontal_bias="0.693"
+        app:layout_constraintLeft_toLeftOf="@+id/textName"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.04" />
@@ -81,13 +57,17 @@
             android:id="@+id/loop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="false"
+            android:clickable="false"
             android:text="@string/textLoop"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
+
         <RadioButton
             android:id="@+id/outnback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="@string/textOut"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
@@ -108,13 +88,16 @@
             android:id="@+id/flat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="@string/textFlat"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
+
         <RadioButton
             android:id="@+id/hilly"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="@string/textHilly"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
@@ -135,6 +118,7 @@
             android:id="@+id/street"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="@string/textStreet"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
@@ -142,6 +126,7 @@
             android:id="@+id/trail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="@string/textTrail"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
@@ -162,6 +147,7 @@
             android:id="@+id/evensurface"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="@string/textSurface1"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
@@ -169,13 +155,14 @@
             android:id="@+id/unevensurface"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="@string/textSurface2"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
     </RadioGroup>
 
     <RadioGroup
-        android:id="@+id/groupEasy"
+        android:id="@+id/groupDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -189,6 +176,7 @@
             android:id="@+id/easy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="@string/textEasy"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
@@ -196,6 +184,7 @@
             android:id="@+id/moderate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="@string/textModerate"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
@@ -203,6 +192,7 @@
             android:id="@+id/difficult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:text="@string/textDifficult"
             tools:layout_editor_absoluteX="13dp"
             tools:layout_editor_absoluteY="512dp" />
@@ -218,16 +208,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/textName"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/groupEasy"
+        app:layout_constraintTop_toBottomOf="@+id/groupDifficulty"
         app:layout_constraintVertical_bias="0.057" />
 
-    <EditText
+    <TextView
         android:id="@+id/txtNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start|top"
-        android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/textNote"
@@ -252,12 +241,15 @@
         android:id="@+id/startWalk"
         android:layout_width="140sp"
         android:layout_height="56sp"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
         android:layout_marginBottom="20sp"
         android:text="@string/startWalk"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
-        app:layout_constraintLeft_toLeftOf="@+id/txtStartPoint"
+        app:layout_constraintLeft_toLeftOf="@+id/textStartPoint"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cancel"
         app:layout_constraintTop_toBottomOf="@id/txtNote"
         app:layout_constraintVertical_bias="0.04" />
 

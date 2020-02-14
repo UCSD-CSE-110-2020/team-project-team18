@@ -19,7 +19,7 @@
     <string name="textEasy">Easy</string>
     <string name="textModerate">Moderate</string>
     <string name="textDifficult">Difficult</string>
-    <string name="textNote">Notes</string>
+    <string name="textNote">Notes: </string>
     <string name="txtNote"> </string>
     <string name="cancel">Cancel</string>
     <string name="startWalk">Start Walk</string>

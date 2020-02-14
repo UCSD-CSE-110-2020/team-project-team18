@@ -13,15 +13,17 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.w3c.dom.Text;
+
 public class Route extends AppCompatActivity {
     //private String name;
     //private String startPoint;
     private String fileName;
-    private RadioGroup radioGroup1;
-    private RadioGroup radioGroup2;
-    private RadioGroup radioGroup3;
-    private RadioGroup radioGroup4;
-    private RadioGroup radioGroup5;
+    private RadioGroup loopGroup;
+    private RadioGroup flatGroup;
+    private RadioGroup streetGroup;
+    private RadioGroup surfaceGroup;
+    private RadioGroup difficultyGroup;
     //private EditText notes;
 
     @Override
@@ -30,23 +32,17 @@ public class Route extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
 
-        TextView displayName = (TextView) findViewById(R.id.txtName);
-        TextView displayStartPoint = (TextView) findViewById(R.id.txtStartPoint);
+        TextView displayName = (TextView) findViewById(R.id.textName);
+        TextView displayStartPoint = (TextView) findViewById(R.id.textStartPoint);
 
-        radioGroup1 = (RadioGroup)findViewById(R.id.groupLoop);
-        radioGroup2 = (RadioGroup)findViewById(R.id.groupFlat);
-        radioGroup3 = (RadioGroup)findViewById(R.id.groupStreet);
-        radioGroup4 = (RadioGroup)findViewById(R.id.groupSurface);
-        radioGroup5 = (RadioGroup)findViewById(R.id.groupEasy);
-
-        RadioButton radioButton1;
-        RadioButton radioButton2;
-        RadioButton radioButton3;
-        RadioButton radioButton4;
-        RadioButton radioButton5;
+        loopGroup = (RadioGroup)findViewById(R.id.groupLoop);
+        flatGroup = (RadioGroup)findViewById(R.id.groupFlat);
+        streetGroup = (RadioGroup)findViewById(R.id.groupStreet);
+        surfaceGroup = (RadioGroup)findViewById(R.id.groupSurface);
+        difficultyGroup = (RadioGroup)findViewById(R.id.groupDifficulty);
 
         fileName = getIntent().getStringExtra("fileName");
-        System.out.println("3");
+        //System.out.println("3");
         //displayName.setText(getIntent().getStringExtra("name"));
         //displayStartPoint.setText(getIntent().getStringExtra("startPoint"));
 
@@ -54,71 +50,70 @@ public class Route extends AppCompatActivity {
         //name = displayName.getText().toString();
         //startPoint = displayStartPoint.getText().toString();
 
-        int checkedId;
+
 
         SharedPreferences sharedPreferences = getSharedPreferences(fileName, MODE_PRIVATE);
         String name = sharedPreferences.getString("name", "");
         String startPoint = sharedPreferences.getString("startPoint", "");
-        String loop = sharedPreferences.getString("loop", "");
-        String flat = sharedPreferences.getString("flat", "");
-        String street = sharedPreferences.getString("street", "");
-        String surface = sharedPreferences.getString("surface", "");
-        String easy = sharedPreferences.getString("easy", "");
+        boolean loop = sharedPreferences.getBoolean("loop", false);
+        boolean flat = sharedPreferences.getBoolean("flat", false);
+        boolean street = sharedPreferences.getBoolean("street", false);
+        boolean evenSurface = sharedPreferences.getBoolean("evenSurface", false);
+        int difficulty = sharedPreferences.getInt("difficulty", 1);
         String note = sharedPreferences.getString("notes", "");
 
-        displayName.setText(name);
-        displayStartPoint.setText(startPoint);
+        displayName.setText("Name: " + name);
+        displayStartPoint.setText("Starting Point: " + startPoint);
 
-        EditText notes = (EditText)findViewById(R.id.txtNote);
+        TextView notes = (TextView)findViewById(R.id.txtNote);
         notes.setText(note);
 
-//        //display content of radio buttons
-//        if (loop == "Loop") {
-//            checkedId = 1;
-//        } else {
-//            checkedId = 2;
-//        }
-//
-//        radioButton1 = (RadioButton)radioGroup1.findViewById(checkedId);
-//        radioButton1.setChecked(true);
-//
-//        if (flat == "Flat") {
-//            checkedId = 1;
-//        } else {
-//            checkedId = 2;
-//        }
-//
-//        radioButton2 = (RadioButton)radioGroup2.findViewById(checkedId);
-//        radioButton2.setChecked(true);
-//
-//        if (street == "Street") {
-//            checkedId = 1;
-//        } else {
-//            checkedId = 2;
-//        }
-//
-//        radioButton3 = (RadioButton)radioGroup3.findViewById(checkedId);
-//        radioButton3.setChecked(true);
-//
-//        if (surface == "Even Surface") {
-//            checkedId = 1;
-//        } else {
-//            checkedId = 2;
-//        }
-//
-//        radioButton4 = (RadioButton)radioGroup4.findViewById(checkedId);
-//        radioButton4.setChecked(true);
-//
-//        if (easy == "Easy") {
-//            checkedId = 1;
-//        } else if (easy == "Moderate"){
-//            checkedId = 2;
-//        } else {
-//            checkedId = 3;
-//        }
-//
-//        radioButton5 = (RadioButton)radioGroup5.findViewById(checkedId);
-//        radioButton5.setChecked(true);
+        RadioButton radioButtonSelected;
+
+        int checkedId;
+        //display content of radio buttons
+        if (loop) {
+            checkedId = R.id.loop;
+        } else {
+            checkedId = R.id.outnback;
+        }
+        radioButtonSelected = (RadioButton)loopGroup.findViewById(checkedId);
+        radioButtonSelected.setChecked(true);
+
+        if (flat) {
+            checkedId = R.id.flat;
+        } else {
+            checkedId = R.id.hilly;
+        }
+        radioButtonSelected = (RadioButton)flatGroup.findViewById(checkedId);
+        radioButtonSelected.setChecked(true);
+
+        if (street) {
+            checkedId = R.id.street;
+        } else {
+            checkedId = R.id.trail;
+        }
+        radioButtonSelected = (RadioButton)streetGroup.findViewById(checkedId);
+        radioButtonSelected.setChecked(true);
+
+        if (evenSurface) {
+            checkedId = R.id.evensurface;
+        } else {
+            checkedId = R.id.unevensurface;
+        }
+        radioButtonSelected = (RadioButton)surfaceGroup.findViewById(checkedId);
+        radioButtonSelected.setChecked(true);
+
+        if (difficulty == 1) {
+            checkedId = R.id.easy;
+        } else if(difficulty == 2){
+            checkedId = R.id.moderate;
+        } else {
+            checkedId = R.id.difficult;
+        }
+        radioButtonSelected = (RadioButton)difficultyGroup.findViewById(checkedId);
+        radioButtonSelected.setChecked(true);
+
 
         Button btnCancel = (Button) findViewById(R.id.cancel);
         Button btnStartWalk = (Button) findViewById(R.id.startWalk);

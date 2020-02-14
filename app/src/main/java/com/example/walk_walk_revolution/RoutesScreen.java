@@ -48,11 +48,11 @@ public class RoutesScreen extends AppCompatActivity {
 
         editor.putString("name", "Test Name");
         editor.putString("startPoint", "Test Start");
-        editor.putString("loop", "Loop");
-        editor.putString("flat", "");
-        editor.putString("street", "");
-        editor.putString("surface", "Even Surface");
-        editor.putString("easy", "");
+        editor.putBoolean("loop", true);
+        editor.putBoolean("flat", true);
+        editor.putBoolean("street", false);
+        editor.putBoolean("evenSurface", true);
+        editor.putInt("difficulty", 2);
         editor.putString("notes", "Test Notes");
 
         editor.apply();
