@@ -1,9 +1,11 @@
 package com.example.walk_walk_revolution;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -46,8 +48,33 @@ public class RoutesScreen extends AppCompatActivity {
         // Lookup the recyclerview in activity layout
         RecyclerView rvRoutes = (RecyclerView) findViewById(R.id.rvRoutes);
 
-
         ArrayList<RouteItem> listItems = new ArrayList<RouteItem>();
+
+        SharedPreferences routeData = getSharedPreferences("numWalks", Context.MODE_PRIVATE);
+        int totalNumWalks = routeData.getInt("totalWalks", 0);
+        System.out.println(totalNumWalks);
+
+
+
+
+        for(int i = 1; i <= totalNumWalks; i++) {
+            String fileName = "walk_" + i;
+            SharedPreferences routeInfo = getSharedPreferences(fileName, MODE_PRIVATE);
+            String name = routeInfo.getString("name", "ERROR");
+            String startPoint = routeInfo.getString("startPoint", "ERROR");
+            int stepCount = routeInfo.getInt("stepCount", 0);
+            int distance = routeInfo.getInt("distance", 0);
+
+            System.out.println(fileName);
+            System.out.println(name);
+            System.out.println(startPoint);
+            System.out.println(stepCount);
+            System.out.println(distance);
+
+            RouteItem item = new RouteItem(fileName, name, startPoint, stepCount, distance, this);
+            listItems.add(item);
+        }
+
 
         // Create adapter passing in the sample user data
         RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);

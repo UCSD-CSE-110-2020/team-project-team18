@@ -1,6 +1,6 @@
 package com.example.walk_walk_revolution;
 
-import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,22 +16,22 @@ public class RouteItem extends AppCompatActivity {
     public RouteItem(String fileName, RoutesScreen routeScreen){
         this.fileName = fileName;
         this.routeScreen = routeScreen;
-        SharedPreferences spfs = getSharedPreferences(fileName ,MODE_PRIVATE);
-        System.out.println("Reached");
+        SharedPreferences preferences = getSharedPreferences(fileName, Context.MODE_PRIVATE);
+        System.out.println(fileName);
 
-        this.name = spfs.getString("name","Error");
-        this.startPoint = spfs.getString("startPoint","Error");
-        this.stepCount = spfs.getInt("stepCount", -1);
-        this.distance = spfs.getInt("distance", -1);
+        this.name = preferences.getString("name","Error");
+        this.startPoint = preferences.getString("startPoint","Error");
+        this.stepCount = preferences.getInt("stepCount", -1);
+        this.distance = preferences.getInt("distance", -1);
     }
 
-    public RouteItem(String name, String startPoint, int stepCount, double distance, RoutesScreen routeScreen) {
+    public RouteItem(String filename, String name, String startPoint, int stepCount, double distance, RoutesScreen routeScreen) {
         this.routeScreen = routeScreen;
         this.name = name;
         this.startPoint = startPoint;
         this.stepCount = stepCount;
         this.distance = distance;
-        fileName = "route_test";
+        this.fileName = filename;
     }
 
     public void launchRouteDetails(){

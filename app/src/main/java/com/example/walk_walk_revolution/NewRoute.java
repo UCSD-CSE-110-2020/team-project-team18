@@ -1,5 +1,6 @@
 package com.example.walk_walk_revolution;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,14 +30,11 @@ public class NewRoute extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_route);
+        setContentView(R.layout.activity_new_route);
 
         displayName = (EditText) findViewById(R.id.inputName);
         displayStartPoint = (EditText) findViewById(R.id.inputStartPoint);
 
-
-//        displayName.setText(getIntent().getStringExtra("name"));
-//        displayStartPoint.setText(getIntent().getStringExtra("startPoint"));
 
         loopGroup = (RadioGroup)findViewById(R.id.groupLoop);
 
@@ -164,7 +162,6 @@ public class NewRoute extends AppCompatActivity {
                 alertDialog();
             }
         });
-        System.out.println("Reached");
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,11 +172,7 @@ public class NewRoute extends AppCompatActivity {
     }
 
     public void launchRoutes() {
-        EditText name = findViewById(R.id.inputName);
-        EditText startPoint = findViewById(R.id.inputStartPoint);
         Intent intent = new Intent(this, RoutesScreen.class);
-        intent.putExtra("name", name.getText().toString());
-        intent.putExtra("startPoint", startPoint.getText().toString());
         startActivity(intent);
     }
 
@@ -210,6 +203,18 @@ public class NewRoute extends AppCompatActivity {
         streetGroup.clearCheck();
         surfaceGroup.clearCheck();
         difficultyGroup.clearCheck();
+
+
+        SharedPreferences numWalkFile = getSharedPreferences("numWalks", MODE_PRIVATE);
+        int totalWalks = numWalkFile.getInt("totalWalks", 0);
+
+        SharedPreferences.Editor editor = numWalkFile.edit();
+
+        if(totalWalks > 0) {
+            totalWalks--;
+            editor.putInt("totalWalks", totalWalks);
+        }
+
         Intent intent = new Intent(this, RoutesScreen.class);
         startActivity(intent);
     }
@@ -276,15 +281,18 @@ public class NewRoute extends AppCompatActivity {
 
         SharedPreferences.Editor editor;
 
-        SharedPreferences numWalkFile = getSharedPreferences("numWalk", MODE_PRIVATE);
+        SharedPreferences numWalkFile = getSharedPreferences("numWalks", MODE_PRIVATE);
         int totalWalks = numWalkFile.getInt("totalWalks", 0);
-        String newWalkFile = "walk_" + totalWalks;
         totalWalks++;
 
         editor = numWalkFile.edit();
         editor.putInt("totalWalks", totalWalks);
+        editor.apply();
 
-        SharedPreferences preferences = getSharedPreferences(newWalkFile, MODE_PRIVATE);
+        String newWalkFile = "walk_" + totalWalks;
+        System.out.println(newWalkFile);
+
+        SharedPreferences preferences = getSharedPreferences(newWalkFile, Context.MODE_PRIVATE);
         editor = preferences.edit();
         editor.putString("name", displayName.getText().toString());
         editor.putString("startPoint", displayStartPoint.getText().toString());
@@ -293,6 +301,8 @@ public class NewRoute extends AppCompatActivity {
         editor.putInt("street", street);
         editor.putInt("surface", surface);
         editor.putInt("difficulty", difficulty);
+        editor.putInt("stepCount", getIntent().getIntExtra("stepCount", 0));
+        editor.putInt("distance", getIntent().getIntExtra("distance", 0));
         editor.putString("notes", note);
         editor.apply();
         launchRoutes();

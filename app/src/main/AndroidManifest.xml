@@ -25,6 +25,7 @@
         <activity android:name=".Walk" />
         <activity android:name=".Route" />
         <activity android:name=".NewRoute" />
+        <activity android:name=".RouteItem" />
     </application>
 
 </manifest>
