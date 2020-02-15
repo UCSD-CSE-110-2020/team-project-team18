@@ -63,7 +63,8 @@ public class RoutesScreen extends AppCompatActivity {
             String name = routeInfo.getString("name", "ERROR");
             String startPoint = routeInfo.getString("startPoint", "ERROR");
             int stepCount = routeInfo.getInt("stepCount", 0);
-            int distance = routeInfo.getInt("distance", 0);
+            float distance = routeInfo.getFloat("distance", 1.4f);
+            String time = routeInfo.getString("time", "00:00:00");
 
             System.out.println(fileName);
             System.out.println(name);
@@ -71,7 +72,7 @@ public class RoutesScreen extends AppCompatActivity {
             System.out.println(stepCount);
             System.out.println(distance);
 
-            RouteItem item = new RouteItem(fileName, name, startPoint, stepCount, distance, this);
+            RouteItem item = new RouteItem(fileName, name, startPoint, stepCount, distance, time, this);
             listItems.add(item);
         }
 

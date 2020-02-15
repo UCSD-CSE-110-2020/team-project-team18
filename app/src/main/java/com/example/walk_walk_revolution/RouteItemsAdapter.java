@@ -23,6 +23,7 @@ public class RouteItemsAdapter extends
         public TextView startPointTextView;
         public TextView stepCountTextView;
         public TextView distanceTextView;
+        public TextView timeTextView;
         public Button viewRouteButton;
 
         // We also create a constructor that accepts the entire item row
@@ -36,6 +37,7 @@ public class RouteItemsAdapter extends
             this.startPointTextView = (TextView) itemView.findViewById(R.id.startPoint);
             this.stepCountTextView = (TextView) itemView.findViewById(R.id.stepCount);
             this.distanceTextView = (TextView) itemView.findViewById(R.id.distance);
+            this.timeTextView = (TextView)itemView.findViewById(R.id.timeDisplay);
             this.viewRouteButton = (Button) itemView.findViewById(R.id.viewDetailsButton);
 
 
@@ -91,6 +93,9 @@ public class RouteItemsAdapter extends
         TextView textViewDistance = viewHolder.distanceTextView;
         double textDistance = Math.round(routeItem.getDistance() * 10) / 10.0;
         textViewDistance.setText(Double.toString(textDistance));
+
+        TextView textViewTime = viewHolder.timeTextView;
+        textViewTime.setText(routeItem.getTime());
     }
 
     // Returns the total count of items in the list

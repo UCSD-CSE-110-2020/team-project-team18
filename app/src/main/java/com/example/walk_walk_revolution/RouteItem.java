@@ -10,6 +10,7 @@ public class RouteItem extends AppCompatActivity {
     private String startPoint;
     private int stepCount;
     private double distance;
+    private String time;
     private String fileName;
     private RoutesScreen routeScreen;
 
@@ -25,12 +26,13 @@ public class RouteItem extends AppCompatActivity {
         this.distance = preferences.getInt("distance", -1);
     }
 
-    public RouteItem(String filename, String name, String startPoint, int stepCount, double distance, RoutesScreen routeScreen) {
+    public RouteItem(String filename, String name, String startPoint, int stepCount, double distance, String time, RoutesScreen routeScreen) {
         this.routeScreen = routeScreen;
         this.name = name;
         this.startPoint = startPoint;
         this.stepCount = stepCount;
         this.distance = distance;
+        this.time = time;
         this.fileName = filename;
     }
 
@@ -53,6 +55,7 @@ public class RouteItem extends AppCompatActivity {
     public double getDistance() {
         return this.distance;
     }
+    public String getTime(){return this.time;}
 
     public String getFileName() {
         return this.fileName;

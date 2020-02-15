@@ -36,6 +36,9 @@ public class NewRoute extends AppCompatActivity {
         displayStartPoint = (EditText) findViewById(R.id.inputStartPoint);
 
 
+        displayName.setText(getIntent().getStringExtra("name"));
+        displayStartPoint.setText(getIntent().getStringExtra("startPoint"));
+
         loopGroup = (RadioGroup)findViewById(R.id.groupLoop);
 
         loopGroup.clearCheck();
@@ -302,7 +305,8 @@ public class NewRoute extends AppCompatActivity {
         editor.putInt("surface", surface);
         editor.putInt("difficulty", difficulty);
         editor.putInt("stepCount", getIntent().getIntExtra("stepCount", 0));
-        editor.putInt("distance", getIntent().getIntExtra("distance", 0));
+        editor.putFloat("distance", Float.parseFloat(getIntent().getStringExtra("distance")));
+        editor.putString("time", getIntent().getStringExtra("time"));
         editor.putString("notes", note);
         editor.apply();
         launchRoutes();

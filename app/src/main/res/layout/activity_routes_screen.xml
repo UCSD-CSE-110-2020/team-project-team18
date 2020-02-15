@@ -52,6 +52,15 @@
             android:gravity="center"/>
 
         <TextView
+            android:id="@+id/timeCount"
+            android:text="Time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
             android:id="@+id/buttonHeader"
             android:text="View Details"
             android:layout_width="0dp"
@@ -114,7 +123,7 @@
         android:layout_width="132dp"
         android:layout_height="51dp"
         android:layout_marginBottom="20dp"
-        android:text="Add Walk"
+        android:text="+"
         app:layout_constraintBottom_toTopOf="@+id/routes_but_routes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     TextView recentWalkDist;
     TextView recentWalkSteps;
     TextView recentWalkTime;
+    TextView nameDisplay;
+    TextView startPointDisplay;
+    TextView walkStarted;
     private int numSteps;
     private DistanceCalculator calculator = new DistanceCalculator();
 
@@ -49,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
         recentWalkDist = (TextView) findViewById(R.id.recentWalkDist);
         recentWalkSteps = (TextView) findViewById(R.id.recentWalkSteps);
         recentWalkTime = (TextView) findViewById(R.id.recentWalkTime);
+
+        walkStarted = (TextView)findViewById(R.id.walkStarted);
+
+        nameDisplay = (TextView)findViewById(R.id.nameDisplay);
+        startPointDisplay = (TextView)findViewById(R.id.startPointDisplay);
+        nameDisplay.setText(getIntent().getStringExtra("name"));
+        startPointDisplay.setText(getIntent().getStringExtra("startPoint"));
 
         launchRoutesScreen.setOnClickListener(new View.OnClickListener() {
 
@@ -105,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
 
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
         fitnessService.setup();
+
+        if(!nameDisplay.getText().equals("")) {
+            startWalk();
+        }
         //runner.execute();
     }
 
@@ -202,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startWalk() {
         if (currentWalk == null) {
+            walkStarted.setText("WALK IN PROGRESS");
             currentWalk = new Walk();
             currentWalk.startWalk();
 
@@ -214,9 +229,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void endWalk() {
         if (currentWalk != null) {
-
+            walkStarted.setText("");
             fitnessService.updateStepCount();
             endingWalk = true;
+
+
         }
     }
 
@@ -239,6 +256,15 @@ public class MainActivity extends AppCompatActivity {
             recentWalkSteps.setVisibility(TextView.VISIBLE);
             currentWalk = null;
             endingWalk = false;
+
+            Intent intent = new Intent(this, NewRoute.class);
+            intent.putExtra("stepCount", Integer.parseInt(recentWalkSteps.getText().toString()));
+            System.out.println(recentWalkDist.getText().toString());
+            intent.putExtra("distance", recentWalkDist.getText().toString());
+            intent.putExtra("time", recentWalkTime.getText().toString());
+
+
+            startActivity(intent);
         }
     }
 }

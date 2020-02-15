@@ -16,8 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.w3c.dom.Text;
 
 public class Route extends AppCompatActivity {
-    //private String name;
-    //private String startPoint;
+    private String name;
+    private String startPoint;
     private String fileName;
     private RadioGroup loopGroup;
     private RadioGroup flatGroup;
@@ -53,8 +53,8 @@ public class Route extends AppCompatActivity {
 
 
         SharedPreferences sharedPreferences = getSharedPreferences(fileName, MODE_PRIVATE);
-        String name = sharedPreferences.getString("name", "");
-        String startPoint = sharedPreferences.getString("startPoint", "");
+        this.name = sharedPreferences.getString("name", "");
+        this.startPoint = sharedPreferences.getString("startPoint", "");
         int loop = sharedPreferences.getInt("loop", 0);
         int flat = sharedPreferences.getInt("flat", 0);
         int street = sharedPreferences.getInt("street", 0);
@@ -147,7 +147,7 @@ public class Route extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                launchWalk();
+                launchWalk(name, startPoint);
             }
         });
     }
@@ -157,10 +157,10 @@ public class Route extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void launchWalk() {
-        Intent intent = new Intent(this, RoutesScreen.class);
-        //intent.putExtra("name", name);
-        //intent.putExtra("startPoint", startPoint);
+    public void launchWalk(String name, String startPoint) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("name", name);
+        intent.putExtra("startPoint", startPoint);
         startActivity(intent);
     }
 }
