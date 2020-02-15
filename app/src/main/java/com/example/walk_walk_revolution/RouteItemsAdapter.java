@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class RouteItemsAdapter extends
@@ -91,8 +92,13 @@ public class RouteItemsAdapter extends
         textViewStepCount.setText(Integer.toString(routeItem.getStepCount()));
 
         TextView textViewDistance = viewHolder.distanceTextView;
-        double textDistance = Math.round(routeItem.getDistance() * 10) / 10.0;
-        textViewDistance.setText(Double.toString(textDistance));
+//        double textDistance = Math.round(routeItem.getDistance() * 10) / 10.0;
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        double result = Double.valueOf(df.format(routeItem.getDistance()));
+
+//        System.out.println(textDistance);
+        textViewDistance.setText(Double.toString(result));
 
         TextView textViewTime = viewHolder.timeTextView;
         textViewTime.setText(routeItem.getTime());

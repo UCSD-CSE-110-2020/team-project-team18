@@ -19,6 +19,8 @@ public class NewRoute extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String PREF_FILE_NAME = "PrefFile";
+    public static final String STEPS_KEY = "STEPS_KEY";
+    private int numSteps;
     private RadioGroup loopGroup;
     private RadioGroup flatGroup;
     private RadioGroup streetGroup;
@@ -38,6 +40,7 @@ public class NewRoute extends AppCompatActivity {
         displayName = (EditText) findViewById(R.id.inputName);
         displayStartPoint = (EditText) findViewById(R.id.inputStartPoint);
 
+        numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
 
         displayName.setText(getIntent().getStringExtra("name"));
         displayStartPoint.setText(getIntent().getStringExtra("startPoint"));
@@ -181,6 +184,7 @@ public class NewRoute extends AppCompatActivity {
         Intent intent = new Intent(this, RoutesScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
         startActivity(intent);
     }
 

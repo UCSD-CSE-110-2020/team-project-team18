@@ -17,7 +17,9 @@ import java.text.DecimalFormat;
 
 public class RoutesScreen extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String STEPS_KEY = "STEPS_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
+    private int numSteps;
     public int fakeHeight;
     private int steps;
     private Walk currentWalk;
@@ -33,6 +35,8 @@ public class RoutesScreen extends AppCompatActivity {
         Button launchHomeScreen = (Button)findViewById(R.id.home_but_routes);
         Button launchTestScreen = (Button)findViewById(R.id.test_but_routes);
         Button launchNewRouteScreen = (Button)findViewById(R.id.addNewWalk);
+
+        numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
 
         launchHomeScreen.setOnClickListener(new View.OnClickListener() {
 
@@ -74,7 +78,7 @@ public class RoutesScreen extends AppCompatActivity {
             String name = routeInfo.getString("name", "ERROR");
             String startPoint = routeInfo.getString("startPoint", "ERROR");
             int stepCount = routeInfo.getInt("stepCount", 0);
-            float distance = routeInfo.getFloat("distance", 1.4f);
+            float distance = routeInfo.getFloat("distance", 0.0f);
             String time = routeInfo.getString("time", "00:00:00");
 
             System.out.println(fileName);
@@ -104,6 +108,7 @@ public class RoutesScreen extends AppCompatActivity {
         Intent intent = new Intent(this, Home.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
         saveCurrentWalk();
         startActivity(intent);
     }
@@ -112,6 +117,7 @@ public class RoutesScreen extends AppCompatActivity {
         Intent intent = new Intent(this, TestScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
         saveCurrentWalk();
         startActivity(intent);
     }
@@ -120,6 +126,7 @@ public class RoutesScreen extends AppCompatActivity {
         Intent intent = new Intent(this, NewRoute.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
         startActivity(intent);
     }
 
@@ -127,6 +134,7 @@ public class RoutesScreen extends AppCompatActivity {
         Intent intent = new Intent(this, Route.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra("fileName", fileName);
         startActivity(intent);
     }

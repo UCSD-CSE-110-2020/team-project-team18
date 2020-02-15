@@ -2,6 +2,8 @@ package com.example.walk_walk_revolution;
 
 import android.util.Log;
 
+import com.google.android.gms.fitness.Fitness;
+
 import java.util.HashMap;
 import java.util.Map;
 

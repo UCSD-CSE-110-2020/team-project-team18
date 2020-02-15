@@ -43,6 +43,7 @@ public class GoogleFitAdapter implements FitnessService{
             updateStepCount();
             startRecording();
         }
+
     }
 
     private void startRecording() {

@@ -27,7 +27,9 @@ import android.view.View;
 public class Home extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
+    public static final String STEPS_KEY = "STEPS_KEY";
     private static final String TAG = "HomeScreen";
+    private int stepCount;
     private FitnessService fitnessService;
     private TextView textSteps;
     private TextView distanceTraveled;
@@ -53,6 +55,20 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+
+
+        textSteps = findViewById(R.id.CurrentSteps);
+        distanceTraveled = findViewById(R.id.distanceTraveled);
+        fitnessService.setup();
+        updateCounter();
+
+
+
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         int heightNum = getHeight();
         if (heightNum <= 0 && fakeHeight == 0) {
@@ -109,7 +125,6 @@ public class Home extends AppCompatActivity {
 
         textSteps = findViewById(R.id.CurrentSteps);
         distanceTraveled = findViewById(R.id.distanceTraveled);
-        fitnessService.setup();
         recentWalk = getRecentWalk();
         if(recentWalk != null){
             recentWalkTime.setText(recentWalk.getTimeTaken());
@@ -120,18 +135,24 @@ public class Home extends AppCompatActivity {
             recentWalkSteps.setVisibility(TextView.VISIBLE);
         }
         currentWalk = getCurrentWalk();
-        updateCounter();
-        fitnessService.updateStepCount();
+
+        numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
+
+//        if(numSteps == 0){
+//            numSteps = Integer.parseInt(textSteps.getText().toString());
+//        }
+
         if(fileName != null) {
             startWalk();
         }
-
     }
+
 
     public void launchHeight() {
         Intent intent = new Intent(this, HeightScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
         startActivity(intent);
     }
 
@@ -139,6 +160,8 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent(this, RoutesScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+
+        intent.putExtra(Home.STEPS_KEY, numSteps);
         if(currentWalk != null){
             saveCurrentWalk();
         }
@@ -149,6 +172,7 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent(this, TestScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
             saveCurrentWalk();
         startActivity(intent);
     }
@@ -315,6 +339,25 @@ public class Home extends AppCompatActivity {
             recentWalkDist.setVisibility(TextView.VISIBLE);
             recentWalkTime.setVisibility(TextView.VISIBLE);
             recentWalkSteps.setVisibility(TextView.VISIBLE);
+
+
+            if(fileName != null) {
+                SharedPreferences pref = getSharedPreferences(fileName, MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+
+                editor.putInt("stepCount", walkSteps);
+                editor.putFloat("distance", Float.parseFloat(recentWalkDist.getText().toString()));
+                editor.putString("time", currentWalk.getTimeTaken());
+                editor.apply();
+
+                currentWalk = null;
+                saveRecentWalk();
+                endingWalk = false;
+                
+                launchRoutes();
+                return;
+            }
+
             currentWalk = null;
             saveRecentWalk();
             endingWalk = false;
