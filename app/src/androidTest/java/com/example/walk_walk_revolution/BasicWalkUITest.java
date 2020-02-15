@@ -13,12 +13,15 @@ import androidx.test.runner.AndroidJUnit4;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -28,17 +31,43 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class BasicWalkUITest {
+    private static final String TEST_SERVICE = "TEST_SERVICE";
+
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+
     @Test
     public void basicWalkUITest() {
+
+        FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
+            @Override
+            public FitnessService create(Home home) {
+                return new TestFitnessService(home);
+            }
+        });
+
+        mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
+        mActivityTestRule.getActivity().setHeight(60);
         ViewInteraction textView = onView(
+                allOf(withId(R.id.loginButton), withText("Login"),
+
+                        isDisplayed()));
+
+        textView.check(matches(withText("Login")));
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.loginButton), withText("Login"),
+
+                        isDisplayed()));
+        appCompatButton.perform(click());
+
+
+        ViewInteraction textView8 = onView(
                 allOf(withId(R.id.recent_stats_text), withText("Recent Walk Stats"),
 
                         isDisplayed()));
-        textView.check(matches(withText("Recent Walk Stats")));
+        textView8.check(matches(withText("Recent Walk Stats")));
 
         ViewInteraction textView2 = onView(
                 allOf(withId(R.id.textView13), withText("Total Steps"),
@@ -70,11 +99,11 @@ public class BasicWalkUITest {
                         isDisplayed()));
         textView4.check(matches(withText("Time")));
 
-        ViewInteraction appCompatButton = onView(
+        ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.start_walk), withText("Start Walk"),
 
                         isDisplayed()));
-        appCompatButton.perform(click());
+        appCompatButton3.perform(click());
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.end_walk), withText("End Walk"),
@@ -119,4 +148,5 @@ public class BasicWalkUITest {
             }
         };
     }
+
 }

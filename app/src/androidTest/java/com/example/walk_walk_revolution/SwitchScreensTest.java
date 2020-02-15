@@ -22,6 +22,9 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -31,77 +34,70 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class SwitchScreensTest {
 
+    private static final String TEST_SERVICE = "TEST_SERVICE";
+
+
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
-    @Rule
-    public ActivityTestRule<HeightScreen> hActivity = new ActivityTestRule<>(HeightScreen.class);
 
-    @Before
-    public void initialize() {
-        hActivity.getActivity().saveHeight(72);
-        hActivity.getActivity().launchMain();
-    }
 
     @Test
     public void switchScreensTest() {
+        FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
+            @Override
+            public FitnessService create(Home home) {
+                return new TestFitnessService(home);
+            }
+        });
+        mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
+        mActivityTestRule.getActivity().setHeight(60);
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.loginButton), withText("Login"),
+
+                        isDisplayed()));
+
+        textView.check(matches(withText("Login")));
+        ViewInteraction appCompatButton7 = onView(
+                allOf(withId(R.id.loginButton), withText("Login"),
+
+                        isDisplayed()));
+        appCompatButton7.perform(click());
+
+
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.routes_but_home), withText("Routes"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
+
                         isDisplayed()));
         appCompatButton.perform(click());
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.test_but_routes), withText("Testing"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
+
                         isDisplayed()));
         appCompatButton2.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.routes_but_test), withText("Routes"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
+
                         isDisplayed()));
         appCompatButton3.perform(click());
 
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.home_but_routes), withText("Home"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
+
                         isDisplayed()));
         appCompatButton4.perform(click());
 
         ViewInteraction appCompatButton5 = onView(
                 allOf(withId(R.id.test_but_home), withText("Testing"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
+
                         isDisplayed()));
         appCompatButton5.perform(click());
 
         ViewInteraction appCompatButton6 = onView(
                 allOf(withId(R.id.home_but_test), withText("Home"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
+
                         isDisplayed()));
         appCompatButton6.perform(click());
     }
@@ -124,4 +120,5 @@ public class SwitchScreensTest {
             }
         };
     }
+
 }

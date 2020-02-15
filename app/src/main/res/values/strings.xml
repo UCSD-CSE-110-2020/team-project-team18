@@ -27,4 +27,6 @@
     <string name="textTimer">Timer</string>
     <string name="save">Save</string>
     <string name="viewRoute">View Route</string>
+    <string name="stopWalk">Start Walk</string>
+    <string name="title_activity_home">Home</string>
 </resources>

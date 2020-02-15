@@ -49,6 +49,17 @@ public class Walk {
     private String timeTaken;
     public boolean isActive;
 
+    public Walk(String steps, String dist, String time){
+        this.steps = Integer.parseInt(steps);
+        this.distance = Double.parseDouble(dist);
+        this.timeTaken = time;
+    }
+    public Walk(int steps, String dist, long time){
+        this.steps = steps;
+        this.distance = Double.parseDouble(dist);
+        stopWatch = new StopWatch(time);
+    }
+    public Walk(){ }
     public void startWalk(){
         this.steps = 0;
         this.distance = 0;
@@ -81,9 +92,15 @@ public class Walk {
     public void setDistance(double totalDist){
         this.distance = totalDist;
     }
+    public long getStartTime(){
+        return stopWatch.getStart();
+    }
     public void setTime(long time){
         stopWatch.setAmountTime(time);
         updateWalk();
+    }
+    public long getTime(){
+       return stopWatch.timeTakenLong();
     }
     public String getTimeTaken(){ return this.timeTaken;}
 

@@ -16,7 +16,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NewRoute extends AppCompatActivity {
-
+    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String PREF_FILE_NAME = "PrefFile";
     private RadioGroup loopGroup;
     private RadioGroup flatGroup;
@@ -24,14 +25,16 @@ public class NewRoute extends AppCompatActivity {
     private RadioGroup surfaceGroup;
     private RadioGroup difficultyGroup;
     private EditText notes;
-
+    private String fitnessServiceKey;
+    public int fakeHeight;
     private EditText displayName;
     private EditText displayStartPoint;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_route);
-
+        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         displayName = (EditText) findViewById(R.id.inputName);
         displayStartPoint = (EditText) findViewById(R.id.inputStartPoint);
 
@@ -176,6 +179,8 @@ public class NewRoute extends AppCompatActivity {
 
     public void launchRoutes() {
         Intent intent = new Intent(this, RoutesScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 
@@ -218,7 +223,9 @@ public class NewRoute extends AppCompatActivity {
             editor.putInt("totalWalks", totalWalks);
         }
 
-        Intent intent = new Intent(this, RoutesScreen.class);
+        Intent intent = new Intent(this, Home.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 

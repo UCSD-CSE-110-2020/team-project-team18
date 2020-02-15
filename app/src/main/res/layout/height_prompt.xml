@@ -24,7 +24,7 @@
         android:layout_height="62dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="heght (inches)"
+        android:hint="height (inches)"
         android:inputType="number"
         android:textAlignment="center"
         android:textSize="24sp"

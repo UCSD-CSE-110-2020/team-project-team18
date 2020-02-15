@@ -11,12 +11,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class HeightScreen extends AppCompatActivity {
-
+    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    private String fitnessServiceKey;
+    private int heightNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.height_prompt);
-
+        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         Button submitButton = findViewById(R.id.heightSubmitButton);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -30,7 +32,7 @@ public class HeightScreen extends AppCompatActivity {
     public void submitHeight(){
         EditText userHeight = findViewById(R.id.userHeight);
 
-        int heightNum = Integer.parseInt(userHeight.getText().toString());
+         heightNum = Integer.parseInt(userHeight.getText().toString());
         if(heightNum <= 0) {
             Toast.makeText(HeightScreen.this, "Must Enter Height", Toast.LENGTH_SHORT).show();
             return;
@@ -39,7 +41,7 @@ public class HeightScreen extends AppCompatActivity {
         saveHeight(heightNum);
 
         Toast.makeText(HeightScreen.this, "Saved Height", Toast.LENGTH_SHORT).show();
-        launchMain();
+        launchHome();
     }
 
     public void saveHeight(int heightNum){
@@ -51,8 +53,12 @@ public class HeightScreen extends AppCompatActivity {
         editor.apply();
     }
 
-    public void launchMain(){
-        Intent intent = new Intent(this, MainActivity.class);
+    public void launchHome(){
+        Intent intent = new Intent(this, Home.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         startActivity(intent);
+    }
+    public void setHeight(int height){
+
     }
 }

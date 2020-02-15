@@ -9,13 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TestScreen"></activity>
-        <activity android:name=".RoutesScreen"></activity>
-        <activity android:name=".HeightScreen"></activity>
-        <activity android:name=".ViewRouteDetail" />
+
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".TestScreen" />
+        <activity android:name=".RoutesScreen" />
+        <activity android:name=".HeightScreen" />
         <activity android:name=".MainActivity">
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

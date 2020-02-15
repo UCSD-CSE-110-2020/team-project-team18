@@ -16,13 +16,16 @@ public class TestScreen extends AppCompatActivity {
     private TextView currSteps;
     private TextView currTime;
     private EditText timeInput;
-
-
+    private String fitnessServiceKey;
+    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String HEIGHT_KEY = "HEIGHT_KEY";
+    public int fakeHeight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_screen);
-
+        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         // Screen switching task
         Button launchHomeScreen = (Button)findViewById(R.id.home_but_test);
         Button launchRoutesScreen = (Button)findViewById(R.id.routes_but_test);
@@ -76,11 +79,15 @@ public class TestScreen extends AppCompatActivity {
 
     public void launchHome(){
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 
     public void launchRoutes(){
         Intent intent = new Intent(this, RoutesScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 }

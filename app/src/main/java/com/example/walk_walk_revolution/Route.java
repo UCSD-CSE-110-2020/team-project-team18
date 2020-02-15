@@ -16,6 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.w3c.dom.Text;
 
 public class Route extends AppCompatActivity {
+    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String HEIGHT_KEY = "HEIGHT_KEY";
+    private String fitnessServiceKey;
+    public int fakeHeight;
     private String name;
     private String startPoint;
     private String fileName;
@@ -26,11 +30,14 @@ public class Route extends AppCompatActivity {
     private RadioGroup difficultyGroup;
     //private EditText notes;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         System.out.println("2");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
+        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
 
         TextView displayName = (TextView) findViewById(R.id.textName);
         TextView displayStartPoint = (TextView) findViewById(R.id.textStartPoint);
@@ -150,17 +157,23 @@ public class Route extends AppCompatActivity {
                 launchWalk(name, startPoint);
             }
         });
+
     }
 
     public void launchRoutes() {
         Intent intent = new Intent(this, RoutesScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         startActivity(intent);
     }
 
     public void launchWalk(String name, String startPoint) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Home.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra("name", name);
         intent.putExtra("startPoint", startPoint);
+        intent.putExtra("fileName", fileName);
         startActivity(intent);
     }
 }
