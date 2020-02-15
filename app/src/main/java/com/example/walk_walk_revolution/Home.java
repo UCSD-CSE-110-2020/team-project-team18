@@ -18,6 +18,10 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import android.view.View;
 
 public class Home extends AppCompatActivity {
@@ -58,7 +62,7 @@ public class Home extends AppCompatActivity {
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
         Button startWalkBut = (Button) findViewById(R.id.start_walk);
         Button endWalkBut = (Button) findViewById(R.id.end_walk);
-        Button btnUpdateSteps = (Button) findViewById(R.id.buttonUpdateSteps);
+
         recentWalkDist = (TextView) findViewById(R.id.recentWalkDist);
         recentWalkSteps = (TextView) findViewById(R.id.recentWalkSteps);
         recentWalkTime = (TextView) findViewById(R.id.recentWalkTime);
@@ -91,12 +95,6 @@ public class Home extends AppCompatActivity {
                 launchTest();
             }
         });
-        btnUpdateSteps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fitnessService.updateStepCount();
-            }
-        });
 
 
         textSteps = findViewById(R.id.CurrentSteps);
@@ -112,6 +110,7 @@ public class Home extends AppCompatActivity {
             recentWalkSteps.setVisibility(TextView.VISIBLE);
         }
         currentWalk = getCurrentWalk();
+        updateCounter();
 
     }
 
@@ -140,6 +139,15 @@ public class Home extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void updateCounter(){
+        ScheduledExecutorService task = Executors.newScheduledThreadPool(1);
+        task.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                fitnessService.updateStepCount();
+            }
+        } , 0, 30, TimeUnit.SECONDS);
+    }
 
     public int getHeight() {
         SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
@@ -211,7 +219,8 @@ public class Home extends AppCompatActivity {
                 editor.putString("current_walk_dist", Double.toString(result));
                 editor.apply();
             }else {
-                editor.putInt("current_walk_steps", numSteps);
+
+                editor.putInt("current_walk_steps", start_steps);
                 editor.putLong("current_walk_time", currentWalk.getStartTime());
                 double distanceTraveled = calculator.calculateDistanceUsingSteps(numSteps, getHeight());
 
@@ -228,6 +237,7 @@ public class Home extends AppCompatActivity {
             }
             else{
                  int steps = spfs.getInt("current_walk_steps", 0);
+                 start_steps = steps;
                  long time = spfs.getLong("current_walk_time", 0L);
                  String dist = spfs.getString("current_walk_dist", null);
                  return new Walk(steps, dist, time);
