@@ -20,7 +20,9 @@ public class TestScreen extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String STEPS_KEY = "STEPS_KEY";
+    public static final String TEST_KEY = "TEST_KEY";
     private int numSteps;
+    private int testSteps;
 
 
     public int fakeHeight;
@@ -32,8 +34,9 @@ public class TestScreen extends AppCompatActivity {
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
 
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
+        testSteps = getIntent().getIntExtra(TEST_KEY, 0);
 
-
+        System.out.println(numSteps);
         // Screen switching task
         Button launchHomeScreen = (Button)findViewById(R.id.home_but_test);
         Button launchRoutesScreen = (Button)findViewById(R.id.routes_but_test);
@@ -56,25 +59,18 @@ public class TestScreen extends AppCompatActivity {
 
         // Add step counter
         currSteps = findViewById(R.id.curr_step);
-        currSteps.setText(Integer.toString(numSteps));
+        currSteps.setText(Integer.toString(numSteps + testSteps));
 
         Button addMockStep = (Button)findViewById(R.id.step_but);
         addMockStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int tempNumSteps = Integer.parseInt(currSteps.getText().toString()) + STEP_500;
 
-                numSteps += 500;
+                testSteps += 500;
 
-                currSteps.setText(Integer.toString(tempNumSteps));
+                currSteps.setText(Integer.toString(testSteps + numSteps));
 
-                SharedPreferences spfs = getSharedPreferences("test_steps", MODE_PRIVATE);
 
-                int testSteps = spfs.getInt("testSteps", 0);
-                SharedPreferences.Editor editor = spfs.edit();
-                testSteps += STEP_500;
-                editor.putInt("testSteps", testSteps);
-                editor.apply();
             }
         });
 
@@ -102,6 +98,7 @@ public class TestScreen extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
         startActivity(intent);
     }
 
@@ -110,6 +107,7 @@ public class TestScreen extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
         startActivity(intent);
     }
 }

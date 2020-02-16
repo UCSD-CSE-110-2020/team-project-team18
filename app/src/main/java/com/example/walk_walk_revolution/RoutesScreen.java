@@ -19,7 +19,9 @@ public class RoutesScreen extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String STEPS_KEY = "STEPS_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
+    public static final String TEST_KEY = "TEST_KEY";
     private int numSteps;
+    private int testSteps;
     public int fakeHeight;
     private int steps;
     private Walk currentWalk;
@@ -37,6 +39,7 @@ public class RoutesScreen extends AppCompatActivity {
         Button launchNewRouteScreen = (Button)findViewById(R.id.addNewWalk);
 
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
+        testSteps = getIntent().getIntExtra(TEST_KEY, 0);
 
         launchHomeScreen.setOnClickListener(new View.OnClickListener() {
 
@@ -109,6 +112,7 @@ public class RoutesScreen extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
         saveCurrentWalk();
         startActivity(intent);
     }
@@ -118,6 +122,8 @@ public class RoutesScreen extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
+
         saveCurrentWalk();
         startActivity(intent);
     }
@@ -127,6 +133,8 @@ public class RoutesScreen extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
+
         startActivity(intent);
     }
 
@@ -135,6 +143,7 @@ public class RoutesScreen extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
         intent.putExtra("fileName", fileName);
         startActivity(intent);
     }
@@ -144,6 +153,7 @@ public class RoutesScreen extends AppCompatActivity {
 
         if(currentWalk == null){
             editor.putInt("current_walk_steps", -1);
+            editor.putInt("current_test_steps", 0);
             editor.putLong("current_walk_time", 0L);
             double distanceTraveled = calculator.calculateDistanceUsingSteps(-1, getHeight());
 
@@ -152,9 +162,11 @@ public class RoutesScreen extends AppCompatActivity {
             editor.putString("current_walk_dist", Double.toString(result));
             editor.apply();
         }else {
+
             editor.putInt("current_walk_steps", steps);
+            editor.putInt("current_test_steps", testSteps);
             editor.putLong("current_walk_time", currentWalk.getStartTime());
-            double distanceTraveled = calculator.calculateDistanceUsingSteps(steps, getHeight());
+            double distanceTraveled = calculator.calculateDistanceUsingSteps(numSteps + testSteps, getHeight());
 
             DecimalFormat df = new DecimalFormat("#.##");
             double result = Double.valueOf(df.format(distanceTraveled));
@@ -169,6 +181,7 @@ public class RoutesScreen extends AppCompatActivity {
         }
         else{
             steps = spfs.getInt("current_walk_steps", 0);
+            testSteps = spfs.getInt("current_test_steps", 0);
             long time = spfs.getLong("current_walk_time", 0L);
             String dist = spfs.getString("current_walk_dist", null);
             return new Walk(steps, dist, time);

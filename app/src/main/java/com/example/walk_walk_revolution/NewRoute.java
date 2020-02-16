@@ -22,7 +22,11 @@ public class NewRoute extends AppCompatActivity {
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String PREF_FILE_NAME = "PrefFile";
     public static final String STEPS_KEY = "STEPS_KEY";
+    public static final String TEST_KEY = "TEST_KEY";
     private int numSteps;
+    private int test_start_steps;
+    private int testSteps;
+
     private RadioGroup loopGroup;
     private RadioGroup flatGroup;
     private RadioGroup streetGroup;
@@ -191,6 +195,7 @@ public class NewRoute extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
         startActivity(intent);
     }
 
@@ -246,6 +251,7 @@ public class NewRoute extends AppCompatActivity {
 
         if(currentWalk == null){
             editor.putInt("current_walk_steps", -1);
+            editor.putInt("current_test_steps", 0);
             editor.putLong("current_walk_time", 0L);
             double distanceTraveled = calculator.calculateDistanceUsingSteps(-1, getHeight());
 
@@ -256,8 +262,9 @@ public class NewRoute extends AppCompatActivity {
         }else {
 
             editor.putInt("current_walk_steps", start_steps);
+            editor.putInt("current_test_steps", test_start_steps);
             editor.putLong("current_walk_time", currentWalk.getStartTime());
-            double distanceTraveled = calculator.calculateDistanceUsingSteps(numSteps, getHeight());
+            double distanceTraveled = calculator.calculateDistanceUsingSteps(numSteps + testSteps, getHeight());
 
             DecimalFormat df = new DecimalFormat("#.##");
             double result = Double.valueOf(df.format(distanceTraveled));
@@ -272,7 +279,9 @@ public class NewRoute extends AppCompatActivity {
         }
         else{
             int steps = spfs.getInt("current_walk_steps", 0);
+            int testSteps = spfs.getInt("current_test_steps", 0);
             start_steps = steps;
+            test_start_steps = testSteps;
             long time = spfs.getLong("current_walk_time", 0L);
             String dist = spfs.getString("current_walk_dist", null);
             return new Walk(steps, dist, time);
