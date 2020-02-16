@@ -56,13 +56,25 @@ public class TestScreen extends AppCompatActivity {
 
         // Add step counter
         currSteps = findViewById(R.id.curr_step);
+        currSteps.setText(Integer.toString(numSteps));
 
         Button addMockStep = (Button)findViewById(R.id.step_but);
         addMockStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int numSteps = Integer.parseInt(currSteps.getText().toString()) + STEP_500;
-                currSteps.setText(Integer.toString(numSteps));
+                int tempNumSteps = Integer.parseInt(currSteps.getText().toString()) + STEP_500;
+
+                numSteps += 500;
+
+                currSteps.setText(Integer.toString(tempNumSteps));
+
+                SharedPreferences spfs = getSharedPreferences("test_steps", MODE_PRIVATE);
+
+                int testSteps = spfs.getInt("testSteps", 0);
+                SharedPreferences.Editor editor = spfs.edit();
+                testSteps += STEP_500;
+                editor.putInt("testSteps", testSteps);
+                editor.apply();
             }
         });
 

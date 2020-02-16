@@ -111,6 +111,7 @@ public class Home extends AppCompatActivity {
 
 
         textSteps = findViewById(R.id.CurrentSteps);
+
         distanceTraveled = findViewById(R.id.distanceTraveled);
         fitnessService.setup();
         recentWalk = getRecentWalk();
@@ -129,6 +130,7 @@ public class Home extends AppCompatActivity {
         fitnessService.updateStepCount();
 
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
+        textSteps.setText(Integer.toString(numSteps));
         if(fileName != null) {
             startWalk();
         }
@@ -202,6 +204,12 @@ public class Home extends AppCompatActivity {
 
     public void setStepCount(long stepCount) {
         numSteps = (int) stepCount;
+
+        SharedPreferences spfs = getSharedPreferences("test_steps", MODE_PRIVATE);
+
+        int testSteps = spfs.getInt("testSteps", 0);
+        numSteps += testSteps;
+
         textSteps.setText(String.valueOf(stepCount));
 
         if (endingWalk) {
