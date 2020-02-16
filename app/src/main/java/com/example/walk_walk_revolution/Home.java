@@ -55,25 +55,12 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
-
-
-        textSteps = findViewById(R.id.CurrentSteps);
-        distanceTraveled = findViewById(R.id.distanceTraveled);
-        fitnessService.setup();
-        updateCounter();
-
-
-
-    }
-    @Override
-    public void onStart(){
-        super.onStart();
-
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         int heightNum = getHeight();
         if (heightNum <= 0 && fakeHeight == 0) {
             launchHeight();
         }
+
 
         Button launchRoutesScreen = (Button) findViewById(R.id.routes_but_home);
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
@@ -125,6 +112,7 @@ public class Home extends AppCompatActivity {
 
         textSteps = findViewById(R.id.CurrentSteps);
         distanceTraveled = findViewById(R.id.distanceTraveled);
+        fitnessService.setup();
         recentWalk = getRecentWalk();
         if(recentWalk != null){
             recentWalkTime.setText(recentWalk.getTimeTaken());
@@ -136,15 +124,18 @@ public class Home extends AppCompatActivity {
         }
         currentWalk = getCurrentWalk();
 
+
+        updateCounter();
+        fitnessService.updateStepCount();
+
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
-
-//        if(numSteps == 0){
-//            numSteps = Integer.parseInt(textSteps.getText().toString());
-//        }
-
         if(fileName != null) {
             startWalk();
         }
+
+
+
+
     }
 
 
@@ -212,6 +203,7 @@ public class Home extends AppCompatActivity {
     public void setStepCount(long stepCount) {
         numSteps = (int) stepCount;
         textSteps.setText(String.valueOf(stepCount));
+
         if (endingWalk) {
             walkCleanup();
             endingWalk = false;
@@ -229,8 +221,8 @@ public class Home extends AppCompatActivity {
 
     public void startWalk() {
         if (currentWalk == null && fitnessService != null) {
-
             walkStarted.setText("WALK IN PROGRESS");
+
             currentWalk = new Walk();
             currentWalk.startWalk();
 
@@ -239,6 +231,7 @@ public class Home extends AppCompatActivity {
             endingWalk = false;
         } else if (currentWalk == null && fitnessService == null) {
             walkStarted.setText("WALK IN PROGRESS");
+
             currentWalk = new Walk();
             currentWalk.startWalk();
             start_steps = numSteps;
@@ -340,7 +333,7 @@ public class Home extends AppCompatActivity {
             recentWalkTime.setVisibility(TextView.VISIBLE);
             recentWalkSteps.setVisibility(TextView.VISIBLE);
 
-
+            System.out.println(fileName);
             if(fileName != null) {
                 SharedPreferences pref = getSharedPreferences(fileName, MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();

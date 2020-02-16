@@ -77,6 +77,7 @@ public class GoogleFitAdapter implements FitnessService{
             return;
         }
 
+
         Fitness.getHistoryClient(activity, account)
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -101,6 +102,7 @@ public class GoogleFitAdapter implements FitnessService{
                                 Log.d(TAG, "There was a problem getting the step count.", e);
                             }
                         });
+
     }
 
 

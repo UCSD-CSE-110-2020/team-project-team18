@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DecimalFormat;
+
 public class NewRoute extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
@@ -25,10 +27,13 @@ public class NewRoute extends AppCompatActivity {
     private RadioGroup flatGroup;
     private RadioGroup streetGroup;
     private RadioGroup surfaceGroup;
+    private int start_steps;
     private RadioGroup difficultyGroup;
     private EditText notes;
+    private Walk currentWalk;
     private String fitnessServiceKey;
     public int fakeHeight;
+    private DistanceCalculator calculator = new DistanceCalculator();
     private EditText displayName;
     private EditText displayStartPoint;
     @Override
@@ -178,6 +183,7 @@ public class NewRoute extends AppCompatActivity {
                 action();
             }
         });
+        currentWalk = getCurrentWalk();
     }
 
     public void launchRoutes() {
@@ -226,13 +232,52 @@ public class NewRoute extends AppCompatActivity {
             totalWalks--;
             editor.putInt("totalWalks", totalWalks);
         }
-
+        currentWalk = null;
+        saveCurrentWalk();
         Intent intent = new Intent(this, Home.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
         startActivity(intent);
     }
+    public void saveCurrentWalk(){
+        SharedPreferences spfs = getSharedPreferences("current_walk", MODE_PRIVATE);
+        SharedPreferences.Editor editor = spfs.edit();
 
+        if(currentWalk == null){
+            editor.putInt("current_walk_steps", -1);
+            editor.putLong("current_walk_time", 0L);
+            double distanceTraveled = calculator.calculateDistanceUsingSteps(-1, getHeight());
+
+            DecimalFormat df = new DecimalFormat("#.##");
+            double result = Double.valueOf(df.format(distanceTraveled));
+            editor.putString("current_walk_dist", Double.toString(result));
+            editor.apply();
+        }else {
+
+            editor.putInt("current_walk_steps", start_steps);
+            editor.putLong("current_walk_time", currentWalk.getStartTime());
+            double distanceTraveled = calculator.calculateDistanceUsingSteps(numSteps, getHeight());
+
+            DecimalFormat df = new DecimalFormat("#.##");
+            double result = Double.valueOf(df.format(distanceTraveled));
+            editor.putString("current_walk_dist", Double.toString(result));
+            editor.apply();
+        }
+    }
+    public Walk getCurrentWalk(){
+        SharedPreferences spfs = getSharedPreferences("current_walk", MODE_PRIVATE);
+        if(spfs.getInt("current_walk_steps", -1) == -1){
+            return null;
+        }
+        else{
+            int steps = spfs.getInt("current_walk_steps", 0);
+            start_steps = steps;
+            long time = spfs.getLong("current_walk_time", 0L);
+            String dist = spfs.getString("current_walk_dist", null);
+            return new Walk(steps, dist, time);
+        }
+    }
     public void action(){
         int loop = 0;
         int flat = 0;
@@ -316,10 +361,24 @@ public class NewRoute extends AppCompatActivity {
         editor.putInt("surface", surface);
         editor.putInt("difficulty", difficulty);
         editor.putInt("stepCount", getIntent().getIntExtra("stepCount", 0));
-        editor.putFloat("distance", Float.parseFloat(getIntent().getStringExtra("distance")));
+        String distance = getIntent().getStringExtra("distance");
+        if(distance == null) {
+            editor.putFloat("distance", 0.0f);
+        } else {
+            editor.putFloat("distance", Float.parseFloat(distance));
+
+        }
         editor.putString("time", getIntent().getStringExtra("time"));
         editor.putString("notes", note);
         editor.apply();
         launchRoutes();
+    }
+    public int getHeight() {
+        SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
+        if(fakeHeight == 0) {
+            return spfs.getInt("userHeight", 0);
+        }
+        return fakeHeight;
+
     }
 }
