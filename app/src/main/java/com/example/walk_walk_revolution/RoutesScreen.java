@@ -40,7 +40,8 @@ public class RoutesScreen extends AppCompatActivity {
 
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
         testSteps = getIntent().getIntExtra(TEST_KEY, 0);
-
+        System.out.println("numSteps: " + numSteps);
+        System.out.println("testSteps: " + testSteps);
         launchHomeScreen.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -108,6 +109,8 @@ public class RoutesScreen extends AppCompatActivity {
     }
 
     public void launchHome(){
+        System.out.println("numSteps: " + numSteps);
+        System.out.println("testSteps: " + testSteps);
         Intent intent = new Intent(this, Home.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
@@ -181,7 +184,7 @@ public class RoutesScreen extends AppCompatActivity {
         }
         else{
             steps = spfs.getInt("current_walk_steps", 0);
-            testSteps = spfs.getInt("current_test_steps", 0);
+
             long time = spfs.getLong("current_walk_time", 0L);
             String dist = spfs.getString("current_walk_dist", null);
             return new Walk(steps, dist, time);

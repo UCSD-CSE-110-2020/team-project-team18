@@ -19,7 +19,9 @@ public class Route extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String STEPS_KEY = "STEPS_KEY";
+    public static final String TEST_KEY = "TEST_KEY";
     private int numSteps;
+    private int testSteps;
     private String fitnessServiceKey;
     public int fakeHeight;
     private String name;
@@ -42,7 +44,7 @@ public class Route extends AppCompatActivity {
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
 
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
-
+        testSteps = getIntent().getIntExtra(TEST_KEY, 0);
 
         TextView displayName = (TextView) findViewById(R.id.textName);
         TextView displayStartPoint = (TextView) findViewById(R.id.textStartPoint);
@@ -170,6 +172,7 @@ public class Route extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(Home.TEST_KEY, testSteps);
 
         startActivity(intent);
     }
@@ -179,6 +182,7 @@ public class Route extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(Home.TEST_KEY, testSteps);
         intent.putExtra("name", name);
         intent.putExtra("startPoint", startPoint);
         intent.putExtra("fileName", fileName);

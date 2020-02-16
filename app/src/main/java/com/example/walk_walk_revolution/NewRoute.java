@@ -50,6 +50,7 @@ public class NewRoute extends AppCompatActivity {
         displayStartPoint = (EditText) findViewById(R.id.inputStartPoint);
 
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
+        testSteps = getIntent().getIntExtra(TEST_KEY,0);
 
         displayName.setText(getIntent().getStringExtra("name"));
         displayStartPoint.setText(getIntent().getStringExtra("startPoint"));
@@ -243,6 +244,7 @@ public class NewRoute extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(Home.TEST_KEY, testSteps);
         startActivity(intent);
     }
     public void saveCurrentWalk(){
