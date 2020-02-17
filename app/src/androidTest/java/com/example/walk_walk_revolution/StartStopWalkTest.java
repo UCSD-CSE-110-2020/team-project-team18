@@ -64,140 +64,72 @@ public class StartStopWalkTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.userHeight),
-                        childAtPosition(
-                                allOf(withId(R.id.heightConstraint),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                1),
-                        isDisplayed()));
-        appCompatEditText.perform(replaceText("1000"), closeSoftKeyboard());
-
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.heightSubmitButton), withText("Submit Height"),
-                        childAtPosition(
-                                allOf(withId(R.id.heightConstraint),
-                                        childAtPosition(
-                                                withId(android.R.id.content),
-                                                0)),
-                                2),
-                        isDisplayed()));
-        appCompatButton2.perform(click());
 
         ViewInteraction textView = onView(
                 allOf(withId(R.id.home_title), withText("Home"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
+
                         isDisplayed()));
         textView.check(matches(withText("Home")));
 
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.start_walk), withText("Start Walk"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                8),
+
                         isDisplayed()));
         appCompatButton3.perform(click());
 
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.end_walk), withText("End Walk"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                9),
+
                         isDisplayed()));
         appCompatButton4.perform(click());
 
         ViewInteraction textView2 = onView(
                 allOf(withId(R.id.textName), withText("Name: *"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                0),
+
                         isDisplayed()));
         textView2.check(matches(withText("Name: *")));
 
         ViewInteraction button = onView(
                 allOf(withId(R.id.save),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                13),
+
                         isDisplayed()));
         button.check(matches(isDisplayed()));
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.inputName),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
+
                         isDisplayed()));
         appCompatEditText2.perform(replaceText("yfj"), closeSoftKeyboard());
 
         ViewInteraction appCompatRadioButton = onView(
                 allOf(withId(R.id.flat), withText("Flat"),
-                        childAtPosition(
-                                allOf(withId(R.id.groupFlat),
-                                        childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                6)),
-                                0),
+
                         isDisplayed()));
         appCompatRadioButton.perform(click());
 
         ViewInteraction appCompatRadioButton2 = onView(
                 allOf(withId(R.id.street), withText("Street"),
-                        childAtPosition(
-                                allOf(withId(R.id.groupStreet),
-                                        childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                7)),
-                                0),
+
                         isDisplayed()));
         appCompatRadioButton2.perform(click());
 
         ViewInteraction appCompatRadioButton3 = onView(
                 allOf(withId(R.id.moderate), withText("Moderate"),
-                        childAtPosition(
-                                allOf(withId(R.id.groupDifficulty),
-                                        childAtPosition(
-                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                9)),
-                                1),
+
                         isDisplayed()));
         appCompatRadioButton3.perform(click());
 
-        pressBack();
+
 
         ViewInteraction appCompatButton5 = onView(
                 allOf(withId(R.id.save), withText("Save"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                13),
+
                         isDisplayed()));
         appCompatButton5.perform(click());
 
         ViewInteraction textView3 = onView(
-                allOf(withId(R.id.name), withText("yfj"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.rvRoutes),
-                                        0),
-                                0),
+                allOf(withId(R.id.name),
+
                         isDisplayed()));
         textView3.check(matches(withText("yfj")));
     }
