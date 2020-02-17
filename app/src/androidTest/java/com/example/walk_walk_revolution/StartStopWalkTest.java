@@ -128,7 +128,7 @@ public class StartStopWalkTest {
         appCompatButton5.perform(click());
 
         ViewInteraction textView3 = onView(
-                allOf(withId(R.id.name),
+                allOf(withId(R.id.name), withText("yfj"),
 
                         isDisplayed()));
         textView3.check(matches(withText("yfj")));

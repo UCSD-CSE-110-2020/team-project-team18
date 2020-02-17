@@ -331,9 +331,9 @@ public class NewRoute extends AppCompatActivity {
         if (selectedId == -1) {
             surface = 0;
         } else if(selectedId == R.id.evensurface){
-            loop = 1;
+            surface = 1;
         } else if(selectedId == R.id.unevensurface) {
-            loop = 2;
+            surface = 2;
         }
 
         selectedId = difficultyGroup.getCheckedRadioButtonId();
