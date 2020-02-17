@@ -14,16 +14,8 @@ public class RouteItem extends AppCompatActivity {
     private String fileName;
     private RoutesScreen routeScreen;
 
-    public RouteItem(String fileName, RoutesScreen routeScreen){
-        this.fileName = fileName;
-        this.routeScreen = routeScreen;
-        SharedPreferences preferences = getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        System.out.println(fileName);
+    public RouteItem(){
 
-        this.name = preferences.getString("name","Error");
-        this.startPoint = preferences.getString("startPoint","Error");
-        this.stepCount = preferences.getInt("stepCount", -1);
-        this.distance = preferences.getInt("distance", -1);
     }
 
     public RouteItem(String filename, String name, String startPoint, int stepCount, double distance, String time, RoutesScreen routeScreen) {
