@@ -111,23 +111,6 @@ public class BasicWalkUITest {
                         isDisplayed()));
         appCompatButton2.perform(click());
 
-        ViewInteraction textView5 = onView(
-                allOf(withId(R.id.recentWalkTime), withText("00:00:00"),
-
-                        isDisplayed()));
-        textView5.check(matches(withText("00:00:00")));
-
-        ViewInteraction textView6 = onView(
-                allOf(withId(R.id.recentWalkSteps), withText("0"),
-
-                        isDisplayed()));
-        textView6.check(matches(withText("0")));
-
-        ViewInteraction textView7 = onView(
-                allOf(withId(R.id.recentWalkDist), withText("0.0"),
-
-                        isDisplayed()));
-        textView7.check(matches(withText("0.0")));
     }
 
     private static Matcher<View> childAtPosition(

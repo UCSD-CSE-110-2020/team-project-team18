@@ -50,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
     }
     public void setFitnessServiceKey(String fitnessServiceKey){
         this.fitnessServiceKey = fitnessServiceKey;
+        if(fitnessServiceKey == "TEST_SERVICE"){
+            SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
+            SharedPreferences.Editor editor = spfs.edit();
+
+
+            editor.putInt("userHeight", -1);
+            editor.apply();
+
+        }
     }
     public void setHeight(int height){
         this.height = height;

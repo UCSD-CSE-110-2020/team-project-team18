@@ -24,6 +24,8 @@ import java.util.concurrent.TimeUnit;
 
 import android.view.View;
 
+import javax.xml.parsers.SAXParser;
+
 public class Home extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
@@ -372,6 +374,7 @@ public class Home extends AppCompatActivity {
 
             currentWalk = null;
             saveRecentWalk();
+            saveCurrentWalk();
             endingWalk = false;
 
             Intent intent = new Intent(this, NewRoute.class);
