@@ -325,7 +325,10 @@ public class Home extends AppCompatActivity {
             walkStarted.setText("");
             endingWalk = true;
             fitnessService.updateStepCount();
-
+            if (endingWalk) {
+                walkCleanup();
+                endingWalk = false;
+            }
         } else if (currentWalk != null && fitnessService == null) {
             walkStarted.setText("");
             endingWalk = true;
