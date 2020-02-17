@@ -103,6 +103,7 @@ public class Walk {
        return stopWatch.timeTakenLong();
     }
     public String getTimeTaken(){ return this.timeTaken;}
+    public StopWatch getStopWatch() {return this.stopWatch;}
 
 
 }
