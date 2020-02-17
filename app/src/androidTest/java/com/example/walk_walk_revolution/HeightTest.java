@@ -1,5 +1,7 @@
 package com.example.walk_walk_revolution;
 
+import android.content.SharedPreferences;
+
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.rule.ActivityTestRule;
 
@@ -14,15 +16,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class HeightTest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
-
-
+    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
     public void testSaveHeight() {
