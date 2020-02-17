@@ -60,6 +60,5 @@ public class HeightTest {
                         isDisplayed()));
         appCompatButton2.perform(click());
 
-
     }
 }
