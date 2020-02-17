@@ -50,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
     }
     public void setFitnessServiceKey(String fitnessServiceKey){
         this.fitnessServiceKey = fitnessServiceKey;
+        if(fitnessServiceKey == "TEST_SERVICE"){
+            SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
+            SharedPreferences.Editor editor = spfs.edit();
+
+
+            editor.putInt("userHeight", -1);
+            editor.apply();
+
+        }
     }
     public void setHeight(int height){
         this.height = height;
@@ -68,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
     TextView recentWalkDist;
     TextView recentWalkSteps;
     TextView recentWalkTime;
+    TextView nameDisplay;
+    TextView startPointDisplay;
+    TextView walkStarted;
     private int numSteps;
     private DistanceCalculator calculator = new DistanceCalculator();
 
@@ -85,6 +97,13 @@ public class MainActivity extends AppCompatActivity {
         recentWalkDist = (TextView) findViewById(R.id.recentWalkDist);
         recentWalkSteps = (TextView) findViewById(R.id.recentWalkSteps);
         recentWalkTime = (TextView) findViewById(R.id.recentWalkTime);
+
+        walkStarted = (TextView)findViewById(R.id.walkStarted);
+
+        nameDisplay = (TextView)findViewById(R.id.nameDisplay);
+        startPointDisplay = (TextView)findViewById(R.id.startPointDisplay);
+        nameDisplay.setText(getIntent().getStringExtra("name"));
+        startPointDisplay.setText(getIntent().getStringExtra("startPoint"));
 
         launchRoutesScreen.setOnClickListener(new View.OnClickListener() {
 
@@ -145,7 +164,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
+        fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+        fitnessService.setup();
 
+        if(!nameDisplay.getText().equals("")) {
+            startWalk();
+        }
+=======
+
+>>>>>>> 700ccfa39d91c0e79ec5aa81495a599d9f3c3f1f
         //runner.execute();
     }
 
@@ -154,12 +182,21 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+<<<<<<< HEAD
+
+=======
     public void setup(){
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
         fitnessService.setup();
     }
+>>>>>>> 700ccfa39d91c0e79ec5aa81495a599d9f3c3f1f
     public void launchRoutes() {
         Intent intent = new Intent(this, RoutesScreen.class);
+        startActivity(intent);
+    }
+
+    public void launchRoutesTest(){
+        Intent intent = new Intent(this, ViewRouteDetail.class);
         startActivity(intent);
     }
 
@@ -240,7 +277,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void startWalk() {
+<<<<<<< HEAD
+        if (currentWalk == null) {
+            walkStarted.setText("WALK IN PROGRESS");
+=======
         if (currentWalk == null && fitnessService != null) {
+>>>>>>> 700ccfa39d91c0e79ec5aa81495a599d9f3c3f1f
             currentWalk = new Walk();
             currentWalk.startWalk();
 
@@ -257,13 +299,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void endWalk() {
+<<<<<<< HEAD
+        if (currentWalk != null) {
+            walkStarted.setText("");
+=======
         if (currentWalk != null && fitnessService != null) {
             endingWalk = true;
+>>>>>>> 700ccfa39d91c0e79ec5aa81495a599d9f3c3f1f
             fitnessService.updateStepCount();
 
         }else if( currentWalk!= null && fitnessService == null){
             endingWalk = true;
+<<<<<<< HEAD
+
+
+=======
             walkCleanup();
+>>>>>>> 700ccfa39d91c0e79ec5aa81495a599d9f3c3f1f
         }
     }
 
@@ -286,6 +338,15 @@ public class MainActivity extends AppCompatActivity {
             recentWalkSteps.setVisibility(TextView.VISIBLE);
             currentWalk = null;
             endingWalk = false;
+
+            Intent intent = new Intent(this, NewRoute.class);
+            intent.putExtra("stepCount", Integer.parseInt(recentWalkSteps.getText().toString()));
+            System.out.println(recentWalkDist.getText().toString());
+            intent.putExtra("distance", recentWalkDist.getText().toString());
+            intent.putExtra("time", recentWalkTime.getText().toString());
+
+
+            startActivity(intent);
         }
     }
 }*/

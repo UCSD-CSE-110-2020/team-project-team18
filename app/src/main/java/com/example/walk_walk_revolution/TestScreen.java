@@ -19,6 +19,12 @@ public class TestScreen extends AppCompatActivity {
     private String fitnessServiceKey;
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
+    public static final String STEPS_KEY = "STEPS_KEY";
+    public static final String TEST_KEY = "TEST_KEY";
+    private int numSteps;
+    private int testSteps;
+
+
     public int fakeHeight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,11 @@ public class TestScreen extends AppCompatActivity {
         setContentView(R.layout.activity_test_screen);
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
+
+        numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
+        testSteps = getIntent().getIntExtra(TEST_KEY, 0);
+
+        System.out.println(numSteps);
         // Screen switching task
         Button launchHomeScreen = (Button)findViewById(R.id.home_but_test);
         Button launchRoutesScreen = (Button)findViewById(R.id.routes_but_test);
@@ -48,13 +59,18 @@ public class TestScreen extends AppCompatActivity {
 
         // Add step counter
         currSteps = findViewById(R.id.curr_step);
+        currSteps.setText(Integer.toString(numSteps + testSteps));
 
         Button addMockStep = (Button)findViewById(R.id.step_but);
         addMockStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int numSteps = Integer.parseInt(currSteps.getText().toString()) + STEP_500;
-                currSteps.setText(Integer.toString(numSteps));
+
+                testSteps += 500;
+
+                currSteps.setText(Integer.toString(testSteps + numSteps));
+
+
             }
         });
 
@@ -78,9 +94,11 @@ public class TestScreen extends AppCompatActivity {
     }
 
     public void launchHome(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, Home.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
         startActivity(intent);
     }
 
@@ -88,6 +106,8 @@ public class TestScreen extends AppCompatActivity {
         Intent intent = new Intent(this, RoutesScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
         startActivity(intent);
     }
 }

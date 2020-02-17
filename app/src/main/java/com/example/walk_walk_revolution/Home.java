@@ -24,14 +24,20 @@ import java.util.concurrent.TimeUnit;
 
 import android.view.View;
 
+import javax.xml.parsers.SAXParser;
+
 public class Home extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
+    public static final String STEPS_KEY = "STEPS_KEY";
     private static final String TAG = "HomeScreen";
+    public static final String TEST_KEY = "TEST_KEY";
+    private int stepCount;
     private FitnessService fitnessService;
     private TextView textSteps;
     private TextView distanceTraveled;
     private int start_steps;
+    private int test_start_steps;
     private boolean endingWalk;
     private int fakeHeight;
     Walk currentWalk = null;
@@ -39,8 +45,13 @@ public class Home extends AppCompatActivity {
     TextView recentWalkDist;
     TextView recentWalkSteps;
     TextView recentWalkTime;
+    TextView nameDisplay;
+    TextView startPointDisplay;
+    TextView walkStarted;
     private int numSteps;
+    private int testSteps;
     String fitnessServiceKey;
+    String fileName;
     private DistanceCalculator calculator = new DistanceCalculator();
 
     @Override
@@ -56,8 +67,6 @@ public class Home extends AppCompatActivity {
         }
 
 
-
-
         Button launchRoutesScreen = (Button) findViewById(R.id.routes_but_home);
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
         Button startWalkBut = (Button) findViewById(R.id.start_walk);
@@ -66,6 +75,15 @@ public class Home extends AppCompatActivity {
         recentWalkDist = (TextView) findViewById(R.id.recentWalkDist);
         recentWalkSteps = (TextView) findViewById(R.id.recentWalkSteps);
         recentWalkTime = (TextView) findViewById(R.id.recentWalkTime);
+
+        walkStarted = (TextView)findViewById(R.id.walkStarted);
+
+        nameDisplay = (TextView)findViewById(R.id.nameDisplay);
+        startPointDisplay = (TextView)findViewById(R.id.startPointDisplay);
+        fileName = getIntent().getStringExtra("fileName");
+
+        nameDisplay.setText(getIntent().getStringExtra("name"));
+        startPointDisplay.setText(getIntent().getStringExtra("startPoint"));
 
         launchRoutesScreen.setOnClickListener(new View.OnClickListener() {
 
@@ -98,6 +116,7 @@ public class Home extends AppCompatActivity {
 
 
         textSteps = findViewById(R.id.CurrentSteps);
+
         distanceTraveled = findViewById(R.id.distanceTraveled);
         fitnessService.setup();
         recentWalk = getRecentWalk();
@@ -110,14 +129,32 @@ public class Home extends AppCompatActivity {
             recentWalkSteps.setVisibility(TextView.VISIBLE);
         }
         currentWalk = getCurrentWalk();
+
+
         updateCounter();
+        fitnessService.updateStepCount();
+
+        numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
+        testSteps = getIntent().getIntExtra(TEST_KEY, 0);
+        System.out.println(numSteps);
+        System.out.println(testSteps);
+
+        setStepCount(numSteps);
+        if(fileName != null) {
+            startWalk();
+        }
+
+
+
 
     }
+
 
     public void launchHeight() {
         Intent intent = new Intent(this, HeightScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
         startActivity(intent);
     }
 
@@ -125,6 +162,9 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent(this, RoutesScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(Home.TEST_KEY, testSteps);
+
         if(currentWalk != null){
             saveCurrentWalk();
         }
@@ -135,6 +175,8 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent(this, TestScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(Home.TEST_KEY, testSteps);
             saveCurrentWalk();
         startActivity(intent);
     }
@@ -173,7 +215,10 @@ public class Home extends AppCompatActivity {
 
     public void setStepCount(long stepCount) {
         numSteps = (int) stepCount;
-        textSteps.setText(String.valueOf(stepCount));
+
+
+        textSteps.setText(String.valueOf(numSteps + testSteps));
+
         if (endingWalk) {
             walkCleanup();
             endingWalk = false;
@@ -191,16 +236,22 @@ public class Home extends AppCompatActivity {
 
     public void startWalk() {
         if (currentWalk == null && fitnessService != null) {
+            walkStarted.setText("WALK IN PROGRESS");
+
             currentWalk = new Walk();
             currentWalk.startWalk();
 
             fitnessService.updateStepCount();
             start_steps = numSteps;
+            test_start_steps = testSteps;
             endingWalk = false;
         } else if (currentWalk == null && fitnessService == null) {
+            walkStarted.setText("WALK IN PROGRESS");
+
             currentWalk = new Walk();
             currentWalk.startWalk();
             start_steps = numSteps;
+            test_start_steps = testSteps;
             endingWalk = false;
         }
     }
@@ -211,6 +262,7 @@ public class Home extends AppCompatActivity {
 
             if(currentWalk == null){
                 editor.putInt("current_walk_steps", -1);
+                editor.putInt("current_test_steps", 0);
                 editor.putLong("current_walk_time", 0L);
                 double distanceTraveled = calculator.calculateDistanceUsingSteps(-1, getHeight());
 
@@ -221,8 +273,9 @@ public class Home extends AppCompatActivity {
             }else {
 
                 editor.putInt("current_walk_steps", start_steps);
+                editor.putInt("current_test_steps", test_start_steps);
                 editor.putLong("current_walk_time", currentWalk.getStartTime());
-                double distanceTraveled = calculator.calculateDistanceUsingSteps(numSteps, getHeight());
+                double distanceTraveled = calculator.calculateDistanceUsingSteps(numSteps + testSteps, getHeight());
 
                 DecimalFormat df = new DecimalFormat("#.##");
                 double result = Double.valueOf(df.format(distanceTraveled));
@@ -237,7 +290,9 @@ public class Home extends AppCompatActivity {
             }
             else{
                  int steps = spfs.getInt("current_walk_steps", 0);
+                 int testSteps = spfs.getInt("current_test_steps", 0);
                  start_steps = steps;
+                 test_start_steps = testSteps;
                  long time = spfs.getLong("current_walk_time", 0L);
                  String dist = spfs.getString("current_walk_dist", null);
                  return new Walk(steps, dist, time);
@@ -267,10 +322,15 @@ public class Home extends AppCompatActivity {
         }
     public void endWalk() {
         if (currentWalk != null && fitnessService != null) {
+            walkStarted.setText("");
             endingWalk = true;
             fitnessService.updateStepCount();
-
+            if (endingWalk) {
+                walkCleanup();
+                endingWalk = false;
+            }
         } else if (currentWalk != null && fitnessService == null) {
+            walkStarted.setText("");
             endingWalk = true;
             walkCleanup();
         }
@@ -281,7 +341,7 @@ public class Home extends AppCompatActivity {
 
     public void walkCleanup() {
         if (endingWalk == true) {
-            int walkSteps = numSteps - start_steps;
+            int walkSteps = numSteps + testSteps - start_steps - test_start_steps;
             DistanceCalculator calculator = new DistanceCalculator();
             double distanceTraveled = calculator.calculateDistanceUsingSteps(walkSteps, getHeight());
 
@@ -296,9 +356,40 @@ public class Home extends AppCompatActivity {
             recentWalkDist.setVisibility(TextView.VISIBLE);
             recentWalkTime.setVisibility(TextView.VISIBLE);
             recentWalkSteps.setVisibility(TextView.VISIBLE);
+
+            System.out.println(fileName);
+            if(fileName != null) {
+                SharedPreferences pref = getSharedPreferences(fileName, MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+
+                editor.putInt("stepCount", walkSteps);
+                editor.putFloat("distance", Float.parseFloat(recentWalkDist.getText().toString()));
+                editor.putString("time", currentWalk.getTimeTaken());
+                editor.apply();
+
+                currentWalk = null;
+                saveRecentWalk();
+                endingWalk = false;
+                
+                launchRoutes();
+                return;
+            }
+
             currentWalk = null;
             saveRecentWalk();
+            saveCurrentWalk();
             endingWalk = false;
+
+            Intent intent = new Intent(this, NewRoute.class);
+            intent.putExtra("stepCount", Integer.parseInt(recentWalkSteps.getText().toString()));
+            System.out.println(recentWalkDist.getText().toString());
+            intent.putExtra("distance", recentWalkDist.getText().toString());
+            intent.putExtra("time", recentWalkTime.getText().toString());
+            intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+            intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+            intent.putExtra(Home.TEST_KEY, testSteps);
+
+            startActivity(intent);
         }
     }
 }

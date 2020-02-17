@@ -21,8 +21,8 @@ package com.example.walk_walk_revolution;
         @Override
         public void updateStepCount() {
             System.out.println(TAG + "updateStepCount");
-            mainActivity.currentWalk.setTime(0L);
-            mainActivity.walkCleanup();
+           // mainActivity.currentWalk.setTime(0L);
+       //     mainActivity.walkCleanup();
             // mainActivity.setStepCount(nextStepCount);
         }
     }

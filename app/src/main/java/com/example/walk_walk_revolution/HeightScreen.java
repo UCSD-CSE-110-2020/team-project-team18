@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class HeightScreen extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+
     private String fitnessServiceKey;
     private int heightNum;
     @Override
@@ -50,7 +51,6 @@ public class HeightScreen extends AppCompatActivity {
 
 
         editor.putInt("userHeight", heightNum);
-
         editor.apply();
     }
 

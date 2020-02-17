@@ -43,6 +43,7 @@ public class GoogleFitAdapter implements FitnessService{
             updateStepCount();
             startRecording();
         }
+
     }
 
     private void startRecording() {
@@ -76,6 +77,7 @@ public class GoogleFitAdapter implements FitnessService{
             return;
         }
 
+
         Fitness.getHistoryClient(activity, account)
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -87,6 +89,8 @@ public class GoogleFitAdapter implements FitnessService{
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+
+
 
                                 activity.setStepCount(total);
                                 activity.setDistanceTraveled();
@@ -100,6 +104,7 @@ public class GoogleFitAdapter implements FitnessService{
                                 Log.d(TAG, "There was a problem getting the step count.", e);
                             }
                         });
+
     }
 
 
