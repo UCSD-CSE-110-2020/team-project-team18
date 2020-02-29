@@ -12,13 +12,13 @@ public class RouteItem extends AppCompatActivity {
     private double distance;
     private String time;
     private String fileName;
-    private RoutesScreen routeScreen;
+    private RouteInterface routeScreen;
 
     public RouteItem(){
 
     }
 
-    public RouteItem(String filename, String name, String startPoint, int stepCount, double distance, String time, RoutesScreen routeScreen) {
+    public RouteItem(String filename, String name, String startPoint, int stepCount, double distance, String time, RouteInterface routeScreen) {
         this.routeScreen = routeScreen;
         this.name = name;
         this.startPoint = startPoint;

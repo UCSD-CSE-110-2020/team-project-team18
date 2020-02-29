@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import java.text.DecimalFormat;
 
-public class RoutesScreen extends AppCompatActivity {
+public class RoutesScreen extends AppCompatActivity implements RouteInterface {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String STEPS_KEY = "STEPS_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";

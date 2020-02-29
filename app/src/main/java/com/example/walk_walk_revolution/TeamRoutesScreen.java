@@ -1,7 +1,10 @@
 package com.example.walk_walk_revolution;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,8 +12,9 @@ import android.view.View;
 import android.widget.Button;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
-public class TeamRoutesScreen extends AppCompatActivity {
+public class TeamRoutesScreen extends AppCompatActivity implements RouteInterface {
 
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String STEPS_KEY = "STEPS_KEY";
@@ -43,6 +47,32 @@ public class TeamRoutesScreen extends AppCompatActivity {
                 launchRoutes();
             }
         });
+
+
+        // Lookup the recyclerview in activity layout
+        RecyclerView rvRoutes = (RecyclerView) findViewById(R.id.team_rvRoutes);
+
+        ArrayList<RouteItem> listItems = new ArrayList<RouteItem>();
+
+
+        //TODO: PULL DOWN ALL STORED ROUTE INFO FROM FIREBASE
+        /*
+        for( WALK FROM FIREBASE) {
+            // PULL INFO OUT
+            // CREATE ROUTE ITEM
+            RouteItem item = new RouteItem(fileName, name, startPoint, stepCount, distance, time, this);
+            listItems.add(item);
+        }
+        */
+
+        // Create adapter passing in the sample user data
+        RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);
+        // Attach the adapter to the recyclerview to populate items
+        rvRoutes.setAdapter(adapter);
+        // Set layout manager to position the items
+        rvRoutes.setLayoutManager(new LinearLayoutManager(this));
+        // That's all!
+
 
         currentWalk = getCurrentWalk();
 
@@ -110,6 +140,16 @@ public class TeamRoutesScreen extends AppCompatActivity {
         }
         return fakeHeight;
 
+    }
+
+    public void launchRouteDetails(String fileName) {
+        Intent intent = new Intent(this, Route.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
+        intent.putExtra("fileName", fileName);
+        startActivity(intent);
     }
 
 }

@@ -17,7 +17,7 @@
         app:layout_constraintTop_toBottomOf="@+id/team_routes_title">
 
         <TextView
-            android:id="@+id/email"
+            android:id="@+id/team_member_name"
             android:text="Route Taker"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/team_routes"
+        android:id="@+id/team_rvRoutes"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/my_routes"
