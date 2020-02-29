@@ -50,18 +50,17 @@ public class additionalRouteInfoTest {
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
         mActivityTestRule.getActivity().setHeight(60);
 
-        ViewInteraction textView = onView(
+        ViewInteraction textView0 = onView(
                 allOf(withId(R.id.loginButton), withText("Login"),
 
                         isDisplayed()));
 
-        textView.check(matches(withText("Login")));
+        textView0.check(matches(withText("Login")));
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.loginButton), withText("Login"),
 
                         isDisplayed()));
         appCompatButton.perform(click());
-
 
 
         ViewInteraction appCompatButton3 = onView(
@@ -102,7 +101,6 @@ public class additionalRouteInfoTest {
         appCompatEditText5.perform(replaceText("pepper canyon"), closeSoftKeyboard());
 
 
-
         ViewInteraction appCompatRadioButton2 = onView(
                 allOf(withId(R.id.flat), withText("Flat"),
 
@@ -133,57 +131,6 @@ public class additionalRouteInfoTest {
                         isDisplayed()));
         appCompatButton5.perform(click());
 
-        ViewInteraction appCompatButton6 = onView(
-                allOf(withId(R.id.viewDetailsButton), withText("View Route"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.rvRoutes),
-                                        0),
-                                5),
-                        isDisplayed()));
-        appCompatButton6.perform(click());
-
-        ViewInteraction radioButton = onView(
-                allOf(withId(R.id.loop),
-
-                        isDisplayed()));
-        radioButton.check(matches(isDisplayed()));
-
-        ViewInteraction radioButton2 = onView(
-                allOf(withId(R.id.street),
-
-                        isDisplayed()));
-        radioButton2.check(matches(isDisplayed()));
-
-        ViewInteraction radioButton3 = onView(
-                allOf(withId(R.id.moderate),
-
-                        isDisplayed()));
-        radioButton3.check(matches(isDisplayed()));
-
-        ViewInteraction radioButton4 = onView(
-                allOf(withId(R.id.flat),
-
-                        isDisplayed()));
-        radioButton4.check(matches(isDisplayed()));
     }
 
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
-    }
 }
