@@ -72,7 +72,7 @@ public class Route extends AppCompatActivity {
         int loop = sharedPreferences.getInt("loop", 0);
         int flat = sharedPreferences.getInt("flat", 0);
         int street = sharedPreferences.getInt("street", 0);
-        int evenSurface = sharedPreferences.getInt("evenSurface", 0);
+        int evenSurface = sharedPreferences.getInt("surface", 0);
         int difficulty = sharedPreferences.getInt("difficulty", 0);
         String note = sharedPreferences.getString("notes", "");
 
