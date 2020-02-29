@@ -149,6 +149,7 @@ public class TeamScreen extends AppCompatActivity {
     }
 
     //getter method for the names of the current team members
+    //post-condition: if name is empty, then nothing should appear on the screen.
     public void getTeamMemberNames()
     {
         member1Name = "Ariana G.";
@@ -160,7 +161,7 @@ public class TeamScreen extends AppCompatActivity {
     }
 
     //getter method for the name of the sender of an invitation.
-    public String getInvitation()
+    public static String getInvitation()
     {
         String inviter = "Bob";
 
