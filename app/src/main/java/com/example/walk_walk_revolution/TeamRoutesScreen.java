@@ -1,21 +1,17 @@
 package com.example.walk_walk_revolution;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import java.util.ArrayList;
 
 import java.text.DecimalFormat;
 
-public class RoutesScreen extends AppCompatActivity {
+public class TeamRoutesScreen extends AppCompatActivity {
+
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String STEPS_KEY = "STEPS_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
@@ -31,89 +27,60 @@ public class RoutesScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_routes_screen);
-        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
-        fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
-        Button launchHomeScreen = (Button)findViewById(R.id.home_but_routes);
-        Button launchTestScreen = (Button)findViewById(R.id.test_but_routes);
-        Button launchNewRouteScreen = (Button)findViewById(R.id.addNewWalk);
-        Button launchTeamRoutesScreen = (Button)findViewById(R.id.team_routes_but);
-
+        setContentView(R.layout.activity_team_routes_screen);
 
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
         testSteps = getIntent().getIntExtra(TEST_KEY, 0);
-        System.out.println("numSteps: " + numSteps);
-        System.out.println("testSteps: " + testSteps);
-        launchHomeScreen.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                launchHome();
-            }
-        });
+        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
+        Button launchHomeScreen = (Button)findViewById(R.id.home_but_team_routes);
+        Button launchTestScreen = (Button)findViewById(R.id.test_but_team_routes);
+        Button launchRoutesScreen= (Button)findViewById(R.id.routes_but_team_routes);
+        Button launchMyRoutesScreen = (Button)findViewById(R.id.my_routes);
+
+
         launchTestScreen.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 launchTest();
             }
         });
-        launchTeamRoutesScreen.setOnClickListener(new View.OnClickListener() {
+
+        launchRoutesScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchTeamWalkScreen();
+                launchRoutes();
             }
         });
 
-        launchNewRouteScreen.setOnClickListener(new View.OnClickListener() {
+        launchMyRoutesScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchNewRouteScreen();
+                launchRoutes();
             }
         });
 
-        // Lookup the recyclerview in activity layout
-        RecyclerView rvRoutes = (RecyclerView) findViewById(R.id.rvRoutes);
-
-        ArrayList<RouteItem> listItems = new ArrayList<RouteItem>();
-
-        SharedPreferences routeData = getSharedPreferences("numWalks", Context.MODE_PRIVATE);
-        int totalNumWalks = routeData.getInt("totalWalks", 0);
-        System.out.println(totalNumWalks);
-
-
-
-
-        for(int i = 1; i <= totalNumWalks; i++) {
-            String fileName = "walk_" + i;
-            SharedPreferences routeInfo = getSharedPreferences(fileName, MODE_PRIVATE);
-            String name = routeInfo.getString("name", "ERROR");
-            String startPoint = routeInfo.getString("startPoint", "ERROR");
-            int stepCount = routeInfo.getInt("stepCount", 0);
-            float distance = routeInfo.getFloat("distance", 0.0f);
-            String time = routeInfo.getString("time", "00:00:00");
-
-            System.out.println(fileName);
-            System.out.println(name);
-            System.out.println(startPoint);
-            System.out.println(stepCount);
-            System.out.println(distance);
-
-            RouteItem item = new RouteItem(fileName, name, startPoint, stepCount, distance, time, this);
-            listItems.add(item);
-        }
-
-
-        // Create adapter passing in the sample user data
-        RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);
-        // Attach the adapter to the recyclerview to populate items
-        rvRoutes.setAdapter(adapter);
-        // Set layout manager to position the items
-        rvRoutes.setLayoutManager(new LinearLayoutManager(this));
-        // That's all!
+        launchHomeScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchHome();
+            }
+        });
 
         currentWalk = getCurrentWalk();
 
+    }
+
+    public void launchTest(){
+        Intent intent = new Intent(this, TestScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
+
+        saveCurrentWalk();
+        startActivity(intent);
     }
 
     public void launchHome(){
@@ -128,39 +95,8 @@ public class RoutesScreen extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void launchTest(){
-        Intent intent = new Intent(this, TestScreen.class);
-        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
-        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
-        intent.putExtra(Home.STEPS_KEY, numSteps);
-        intent.putExtra(TEST_KEY, testSteps);
-
-        saveCurrentWalk();
-        startActivity(intent);
-    }
-
-    public void launchNewRouteScreen(){
-        Intent intent = new Intent(this, NewRoute.class);
-        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
-        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
-        intent.putExtra(Home.STEPS_KEY, numSteps);
-        intent.putExtra(TEST_KEY, testSteps);
-
-        startActivity(intent);
-    }
-
-    public void launchRouteDetails(String fileName) {
-        Intent intent = new Intent(this, Route.class);
-        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
-        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
-        intent.putExtra(Home.STEPS_KEY, numSteps);
-        intent.putExtra(TEST_KEY, testSteps);
-        intent.putExtra("fileName", fileName);
-        startActivity(intent);
-    }
-
-    public void launchTeamWalkScreen(){
-        Intent intent = new Intent(this, TeamRoutesScreen.class);
+    public void launchRoutes(){
+        Intent intent = new Intent(this, RoutesScreen.class);
 
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
@@ -199,6 +135,7 @@ public class RoutesScreen extends AppCompatActivity {
             editor.apply();
         }
     }
+
     public Walk getCurrentWalk(){
         SharedPreferences spfs = getSharedPreferences("current_walk", MODE_PRIVATE);
         if(spfs.getInt("current_walk_steps", -1) == -1){
@@ -220,4 +157,5 @@ public class RoutesScreen extends AppCompatActivity {
         return fakeHeight;
 
     }
+
 }
