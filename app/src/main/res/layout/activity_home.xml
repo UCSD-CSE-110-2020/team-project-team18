@@ -36,6 +36,22 @@
         app:layout_constraintLeft_toRightOf="@+id/routes_but_home"
         app:layout_constraintRight_toRightOf="parent" />
 
+    <Button
+        android:id="@+id/team_but_home"
+        android:layout_width="175dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="361dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginBottom="16dp"
+        android:text="Team"
+        app:layout_constraintBottom_toTopOf="@+id/end_walk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recentWalkDist"
+        app:layout_constraintTop_toBottomOf="@+id/distanceTraveled" />
+
     <TextView
 
         android:id="@+id/home_title"
@@ -256,5 +272,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_title"
         app:layout_constraintVertical_bias="0.947" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

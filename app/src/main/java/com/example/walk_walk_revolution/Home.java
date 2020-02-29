@@ -69,6 +69,7 @@ public class Home extends AppCompatActivity {
 
         Button launchRoutesScreen = (Button) findViewById(R.id.routes_but_home);
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
+        final Button launchTeamScreen = (Button) findViewById(R.id.team_but_home);
         Button startWalkBut = (Button) findViewById(R.id.start_walk);
         Button endWalkBut = (Button) findViewById(R.id.end_walk);
 
@@ -92,6 +93,14 @@ public class Home extends AppCompatActivity {
                 launchRoutes();
             }
         });
+
+        launchTeamScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchTeamScreen();
+            }
+        });
+
         startWalkBut.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -168,6 +177,12 @@ public class Home extends AppCompatActivity {
         if(currentWalk != null){
             saveCurrentWalk();
         }
+        startActivity(intent);
+    }
+
+    public void launchTeamScreen()
+    {
+        Intent intent = new Intent(this, TeamScreen.class);
         startActivity(intent);
     }
 

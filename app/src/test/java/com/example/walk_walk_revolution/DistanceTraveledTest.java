@@ -7,14 +7,17 @@ import static org.junit.Assert.*;
 
 public class DistanceTraveledTest {
 
+    private int stepsPerMile;
+    private final int heightInInches = 60;
+    private final int stepsTaken = 2000;
+
     @Test
     public void testStepsPerMile()
     {
         //initializing a new DistanceCalculator class and height.
         DistanceCalculator calc = new DistanceCalculator();
-        int heightInInches = 60;
 
-        int stepsPerMile = calc.calculateStepsPerMile(heightInInches);
+        stepsPerMile = calc.calculateStepsPerMile(heightInInches);
         assertEquals(stepsPerMile, 2556);
     }
 
@@ -23,15 +26,10 @@ public class DistanceTraveledTest {
     {
         //initializing a new DistanceCalculator class, height, and steps taken.
         DistanceCalculator calc = new DistanceCalculator();
-        int heightInInches = 60;
-        int stepsTaken = 2000;
 
-        //double distanceTraveled = calc.calculateDistanceTraveled(heightInInches, );
+        stepsPerMile = calc.calculateStepsPerMile(heightInInches);
+        double distanceTraveled = (double) stepsTaken / stepsPerMile;
 
-        //Truncating the distance (in miles) to two numbers after the decimal.
-        DecimalFormat df = new DecimalFormat("#.##");
-        //double result = Double.valueOf(df.format(distanceTraveled));
-
-        //assertEquals(result, 0.78, 0.01);
+        assertEquals(distanceTraveled, 0.78, 0.01);
     }
 }

@@ -33,7 +33,7 @@ public class HeightScreen extends AppCompatActivity {
     public void submitHeight(){
         EditText userHeight = findViewById(R.id.userHeight);
 
-         heightNum = Integer.parseInt(userHeight.getText().toString());
+        heightNum = Integer.parseInt(userHeight.getText().toString());
         if(heightNum <= 0) {
             Toast.makeText(HeightScreen.this, "Must Enter Height", Toast.LENGTH_SHORT).show();
             return;
