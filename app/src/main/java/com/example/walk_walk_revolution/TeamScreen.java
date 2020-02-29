@@ -54,7 +54,7 @@ public class TeamScreen extends AppCompatActivity {
         setContentView(R.layout.team_screen);
 
         invitation = findViewById(R.id.invitation);
-        invitation.setVisibility(View.GONE);
+        invitation.setVisibility(View.GONE); //when the app is first loaded, no invitation should appear.
 
         layoutMember1 = findViewById(R.id.linearLayout1);
         layoutMember2 = findViewById(R.id.linearLayout2);
@@ -87,7 +87,6 @@ public class TeamScreen extends AppCompatActivity {
                 acceptInvite();
             }
         });
-
         declineButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -100,6 +99,7 @@ public class TeamScreen extends AppCompatActivity {
         loadInvitation();
     }
 
+    //this method is called in order to display an invitation on the screen
     public void loadInvitation() {
         String name = getInvitation();
         TextView inviter = findViewById(R.id.name_of_inviter);
@@ -113,6 +113,7 @@ public class TeamScreen extends AppCompatActivity {
         invitation.setVisibility(View.VISIBLE);
     }
 
+    //this method is called in order to display the current team's members on the screen.
     public void loadTeamMembers() {
         getTeamMemberNames();
         LinearLayout[] layouts = new LinearLayout[] {layoutMember1, layoutMember2, layoutMember3, layoutMember4, layoutMember5, layoutMember6};
@@ -147,6 +148,7 @@ public class TeamScreen extends AppCompatActivity {
 
     }
 
+    //getter method for the names of the current team members
     public void getTeamMemberNames()
     {
         member1Name = "Ariana G.";
@@ -157,6 +159,7 @@ public class TeamScreen extends AppCompatActivity {
         member6Name = "";
     }
 
+    //getter method for the name of the sender of an invitation.
     public String getInvitation()
     {
         String inviter = "Bob";
@@ -164,6 +167,7 @@ public class TeamScreen extends AppCompatActivity {
         return inviter;
     }
 
+    //getter method to return the initials of the name that is passed in.
     public static String getTeamMemberInitials(String name)
     {
         String initials = "";
@@ -182,15 +186,17 @@ public class TeamScreen extends AppCompatActivity {
         return initials;
     }
 
+    //called when you accept an invite and reloads the current team members on the screen.
     private void acceptInvite()
     {
         invitation.setVisibility(View.GONE);
         loadTeamMembers();
     }
 
+    //called when you decline an invite (doesn't need to reload the current team members on the screen).
     private void declineInvite()
     {
         invitation.setVisibility(View.GONE);
-        loadTeamMembers();
+        //loadTeamMembers();
     }
 }
