@@ -65,6 +65,19 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
         }
         */
 
+        ////////////////////////////////////////////////////
+        //TODO: EXAMPLE REMOVE ONCE FIREBASE IN PLACE
+        String fileName = "walk_7";
+        SharedPreferences routeInfo = getSharedPreferences(fileName, MODE_PRIVATE);
+        String name = routeInfo.getString("name", "ERROR");
+        String startPoint = routeInfo.getString("startPoint", "ERROR");
+        int stepCount = routeInfo.getInt("stepCount", 0);
+        float distance = routeInfo.getFloat("distance", 0.0f);
+        String time = routeInfo.getString("time", "00:00:00");
+        RouteItem item = new RouteItem(fileName, name, startPoint, stepCount, distance, time, this);
+        listItems.add(item);
+        ///////////////////////////////////////////////////
+
         // Create adapter passing in the sample user data
         RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);
         // Attach the adapter to the recyclerview to populate items
