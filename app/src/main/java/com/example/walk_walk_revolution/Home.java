@@ -71,6 +71,7 @@ public class Home extends AppCompatActivity {
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
         Button startWalkBut = (Button) findViewById(R.id.start_walk);
         Button endWalkBut = (Button) findViewById(R.id.end_walk);
+        Button inviteTeamBut = (Button)findViewById(R.id.invite_team_but);
 
         recentWalkDist = (TextView) findViewById(R.id.recentWalkDist);
         recentWalkSteps = (TextView) findViewById(R.id.recentWalkSteps);
@@ -111,6 +112,12 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 launchTest();
+            }
+        });
+        inviteTeamBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchInviteScreen();
             }
         });
 
@@ -179,6 +186,17 @@ public class Home extends AppCompatActivity {
         intent.putExtra(Home.TEST_KEY, testSteps);
             saveCurrentWalk();
         startActivity(intent);
+    }
+
+    public void launchInviteScreen(){
+        Intent intent = new Intent(this, InvitationScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(Home.TEST_KEY, testSteps);
+        startActivity(intent);
+
+
     }
 
     public void updateCounter(){

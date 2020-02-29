@@ -34,25 +34,8 @@ public class TeamRoutesScreen extends AppCompatActivity {
 
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
-        Button launchHomeScreen = (Button)findViewById(R.id.home_but_team_routes);
-        Button launchTestScreen = (Button)findViewById(R.id.test_but_team_routes);
-        Button launchRoutesScreen= (Button)findViewById(R.id.routes_but_team_routes);
         Button launchMyRoutesScreen = (Button)findViewById(R.id.my_routes);
 
-
-        launchTestScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchTest();
-            }
-        });
-
-        launchRoutesScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchRoutes();
-            }
-        });
 
         launchMyRoutesScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,38 +44,8 @@ public class TeamRoutesScreen extends AppCompatActivity {
             }
         });
 
-        launchHomeScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchHome();
-            }
-        });
-
         currentWalk = getCurrentWalk();
 
-    }
-
-    public void launchTest(){
-        Intent intent = new Intent(this, TestScreen.class);
-        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
-        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
-        intent.putExtra(Home.STEPS_KEY, numSteps);
-        intent.putExtra(TEST_KEY, testSteps);
-
-        saveCurrentWalk();
-        startActivity(intent);
-    }
-
-    public void launchHome(){
-        System.out.println("numSteps: " + numSteps);
-        System.out.println("testSteps: " + testSteps);
-        Intent intent = new Intent(this, Home.class);
-        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
-        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
-        intent.putExtra(Home.STEPS_KEY, numSteps);
-        intent.putExtra(TEST_KEY, testSteps);
-        saveCurrentWalk();
-        startActivity(intent);
     }
 
     public void launchRoutes(){
@@ -103,6 +56,7 @@ public class TeamRoutesScreen extends AppCompatActivity {
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(TEST_KEY, testSteps);
 
+        saveCurrentWalk();
         startActivity(intent);
 
 
