@@ -148,6 +148,7 @@ public class Route extends AppCompatActivity {
 
         Button btnCancel = (Button) findViewById(R.id.cancel);
         Button btnStartWalk = (Button) findViewById(R.id.startWalk);
+        Button btnProposeWalk = (Button) findViewById(R.id.propose_walk);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
 
@@ -165,6 +166,14 @@ public class Route extends AppCompatActivity {
             }
         });
 
+        btnProposeWalk.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                launchWalkInvite(name, startPoint);
+            }
+        });
+
     }
 
     public void launchRoutes() {
@@ -179,6 +188,18 @@ public class Route extends AppCompatActivity {
 
     public void launchWalk(String name, String startPoint) {
         Intent intent = new Intent(this, Home.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(Home.TEST_KEY, testSteps);
+        intent.putExtra("name", name);
+        intent.putExtra("startPoint", startPoint);
+        intent.putExtra("fileName", fileName);
+        startActivity(intent);
+    }
+
+    public void launchWalkInvite(String name, String startPoint) {
+        Intent intent = new Intent(this, WalkInvite.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
