@@ -1,6 +1,8 @@
 package com.example.walk_walk_revolution;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,34 +16,12 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class TeamScreen extends AppCompatActivity {
-    private LinearLayout layoutMember1;
-    private LinearLayout layoutMember2;
-    private LinearLayout layoutMember3;
-    private LinearLayout layoutMember4;
-    private LinearLayout layoutMember5;
-    private LinearLayout layoutMember6;
-
-    private TextView initialView1;
-    private TextView initialView2;
-    private TextView initialView3;
-    private TextView initialView4;
-    private TextView initialView5;
-    private TextView initialView6;
-
-    private TextView nameView1;
-    private TextView nameView2;
-    private TextView nameView3;
-    private TextView nameView4;
-    private TextView nameView5;
-    private TextView nameView6;
-
-    private String member1Name;
-    private String member2Name;
-    private String member3Name;
-    private String member4Name;
-    private String member5Name;
-    private String member6Name;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter teamAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     private Button acceptButton;
     private Button declineButton;
@@ -55,27 +35,6 @@ public class TeamScreen extends AppCompatActivity {
 
         invitation = findViewById(R.id.invitation);
         invitation.setVisibility(View.GONE); //when the app is first loaded, no invitation should appear.
-
-        layoutMember1 = findViewById(R.id.linearLayout1);
-        layoutMember2 = findViewById(R.id.linearLayout2);
-        layoutMember3 = findViewById(R.id.linearLayout3);
-        layoutMember4 = findViewById(R.id.linearLayout4);
-        layoutMember5 = findViewById(R.id.linearLayout5);
-        layoutMember6 = findViewById(R.id.linearLayout6);
-
-        initialView1 = findViewById(R.id.initials_1);
-        initialView2 = findViewById(R.id.initials_2);
-        initialView3 = findViewById(R.id.initials_3);
-        initialView4 = findViewById(R.id.initials_4);
-        initialView5 = findViewById(R.id.initials_5);
-        initialView6 = findViewById(R.id.initials_6);
-
-        nameView1 = findViewById(R.id.team_member_1);
-        nameView2 = findViewById(R.id.team_member_2);
-        nameView3 = findViewById(R.id.team_member_3);
-        nameView4 = findViewById(R.id.team_member_4);
-        nameView5 = findViewById(R.id.team_member_5);
-        nameView6 = findViewById(R.id.team_member_6);
 
         acceptButton = findViewById(R.id.accept_button);
         declineButton = findViewById(R.id.decline_button);
@@ -97,6 +56,22 @@ public class TeamScreen extends AppCompatActivity {
 
         loadTeamMembers();
         loadInvitation();
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.team_screen);
+        recyclerView = (RecyclerView) findViewById(R.id.team_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        ArrayList<String> teamNames = getTeamMemberNames();
+        // specify an adapter (see also next example)
+        teamAdapter = new TeamItemAdapter(teamNames);
+        recyclerView.setAdapter(teamAdapter);
     }
 
     //this method is called in order to display an invitation on the screen
@@ -115,49 +90,30 @@ public class TeamScreen extends AppCompatActivity {
 
     //this method is called in order to display the current team's members on the screen.
     public void loadTeamMembers() {
-        getTeamMemberNames();
-        LinearLayout[] layouts = new LinearLayout[] {layoutMember1, layoutMember2, layoutMember3, layoutMember4, layoutMember5, layoutMember6};
-        String[] names = new String[] {member1Name, member2Name, member3Name, member4Name, member5Name, member6Name};
-        TextView[] initialViews = new TextView[] {initialView1, initialView2, initialView3, initialView4, initialView5, initialView6};
-        TextView[] nameViews = new TextView[] {nameView1, nameView2, nameView3, nameView4, nameView5, nameView6};
-
-        for(int i = 0; i < 6; i++)
-        {
-            if(names[i].length() > 0)
-            {
-                String initials = getTeamMemberInitials(names[i]);
-                initialViews[i].setText(initials);
-                nameViews[i].setText("Name: " + names[i]);
-                layouts[i].setVisibility(View.VISIBLE);
-            }
-            else
-            {
-                initialViews[i].setText("");
-                nameViews[i].setText("Name: ");
-                layouts[i].setVisibility(View.GONE);
-            }
-        }
-
-        TextView member1 = findViewById(R.id.team_member_1);
-        TextView member2 = findViewById(R.id.team_member_2);
-        TextView member3 = findViewById(R.id.team_member_3);
-        TextView member4 = findViewById(R.id.team_member_4);
-        TextView member5 = findViewById(R.id.team_member_5);
-        TextView member6 = findViewById(R.id.team_member_6);
-
+        ArrayList<String> teamNames = getTeamMemberNames();
 
     }
 
     //getter method for the names of the current team members
     //post-condition: if name is empty, then nothing should appear on the screen.
-    public void getTeamMemberNames()
+    public ArrayList<String> getTeamMemberNames()
     {
-        member1Name = "Ariana G.";
-        member2Name = "Ellen D.";
-        member3Name = "Richard N.";
-        member4Name = "Sarah S.";
-        member5Name = "";
-        member6Name = "";
+        ArrayList<String> teamNames = new ArrayList<String>();
+        teamNames.add("Ariana Grande");
+        teamNames.add("Ellen Degeneres");
+        teamNames.add("Richard Milhous Nixon");
+        teamNames.add("Sarah Silverman");
+        teamNames.add("Michael Gary Scott");
+        teamNames.add("David Graham");
+        teamNames.add("Eliot Lastname");
+        teamNames.add("Ross Boss");
+        teamNames.add("Kanye West");
+        teamNames.add("Kanye East");
+        teamNames.add("Oscar");
+        teamNames.add("Larold");
+        teamNames.add("Kimothy");
+        teamNames.add("Timberly");
+        return teamNames;
     }
 
     //getter method for the name of the sender of an invitation.
