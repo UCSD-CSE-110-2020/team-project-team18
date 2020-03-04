@@ -45,6 +45,7 @@ public class FirebaseAdapter {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        //user has already been added to database
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         Map<String, Object> user = new HashMap<>();
