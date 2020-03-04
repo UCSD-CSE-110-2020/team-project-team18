@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.DecimalFormat;
 
 public class NewRoute extends AppCompatActivity {
@@ -23,6 +30,9 @@ public class NewRoute extends AppCompatActivity {
     public static final String PREF_FILE_NAME = "PrefFile";
     public static final String STEPS_KEY = "STEPS_KEY";
     public static final String TEST_KEY = "TEST_KEY";
+
+    private static final String TAG = "NewRoutes";
+
     private int numSteps;
     private int test_start_steps;
     private int testSteps;
@@ -40,6 +50,10 @@ public class NewRoute extends AppCompatActivity {
     private DistanceCalculator calculator = new DistanceCalculator();
     private EditText displayName;
     private EditText displayStartPoint;
+
+    private FirebaseFirestore db;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -361,27 +375,41 @@ public class NewRoute extends AppCompatActivity {
 
         String newWalkFile = "walk_" + totalWalks;
         System.out.println(newWalkFile);
+        int step = getIntent().getIntExtra("stepCount", 0);
 
+        String name = displayName.getText().toString();
+        String startPoint = displayStartPoint.getText().toString();
         SharedPreferences preferences = getSharedPreferences(newWalkFile, Context.MODE_PRIVATE);
         editor = preferences.edit();
-        editor.putString("name", displayName.getText().toString());
-        editor.putString("startPoint", displayStartPoint.getText().toString());
+        editor.putString("name", name);
+        editor.putString("startPoint", startPoint);
         editor.putInt("loop", loop);
         editor.putInt("flat", flat);
         editor.putInt("street", street);
         editor.putInt("surface", surface);
         editor.putInt("difficulty", difficulty);
-        editor.putInt("stepCount", getIntent().getIntExtra("stepCount", 0));
+        editor.putInt("stepCount", step);
         String distance = getIntent().getStringExtra("distance");
+        double distance_double = 0.0f;
         if(distance == null) {
             editor.putFloat("distance", 0.0f);
         } else {
+            distance_double = Float.parseFloat(distance);
             editor.putFloat("distance", Float.parseFloat(distance));
 
         }
-        editor.putString("time", getIntent().getStringExtra("time"));
+        String time = getIntent().getStringExtra("time");
+        editor.putString("time", time);
         editor.putString("notes", note);
         editor.apply();
+
+
+        db = FirebaseFirestore.getInstance();
+
+        //TODO: Create RouteItem from data
+        RouteItem item = new RouteItem(name, startPoint, loop, flat, street, surface, difficulty, step, distance_double, time, note);
+        storeRoute(item);
+
         launchRoutes();
     }
     public int getHeight() {
@@ -390,6 +418,27 @@ public class NewRoute extends AppCompatActivity {
             return spfs.getInt("userHeight", 0);
         }
         return fakeHeight;
+
+    }
+
+    public void storeRoute(RouteItem item) {
+        SharedPreferences pref = getSharedPreferences("user_email", MODE_PRIVATE);
+        String email = pref.getString("userEmail", "");
+
+        db.collection("users").document(email).collection("routes")
+                .add(item)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
 
     }
 }

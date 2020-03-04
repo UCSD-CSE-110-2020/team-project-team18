@@ -1,5 +1,6 @@
 package com.example.walk_walk_revolution;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,11 +9,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.api.core.ApiFunction;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.FirestoreOptions;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class TeamRoutesScreen extends AppCompatActivity implements RouteInterface {
 
@@ -20,6 +38,9 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
     public static final String STEPS_KEY = "STEPS_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String TEST_KEY = "TEST_KEY";
+
+    private static final String TAG = "TeamRouteScreen";
+
     private int numSteps;
     private int testSteps;
     public int fakeHeight;
@@ -27,6 +48,13 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
     private Walk currentWalk;
     private String fitnessServiceKey;
     private DistanceCalculator calculator = new DistanceCalculator();
+
+    private FirebaseFirestore db;
+    private List<QueryDocumentSnapshot> team_walk_list;
+
+    private ArrayList<RouteItem> listItems;
+    private String teamMemebers[];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +66,7 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
 
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
-        Button launchMyRoutesScreen = (Button)findViewById(R.id.my_routes);
+        Button launchMyRoutesScreen = (Button) findViewById(R.id.my_routes);
 
 
         launchMyRoutesScreen.setOnClickListener(new View.OnClickListener() {
@@ -52,31 +80,36 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
         // Lookup the recyclerview in activity layout
         RecyclerView rvRoutes = (RecyclerView) findViewById(R.id.team_rvRoutes);
 
-        ArrayList<RouteItem> listItems = new ArrayList<RouteItem>();
-
+        listItems = new ArrayList<RouteItem>();
 
         //TODO: PULL DOWN ALL STORED ROUTE INFO FROM FIREBASE
-        /*
-        for( WALK FROM FIREBASE) {
-            // PULL INFO OUT
-            // CREATE ROUTE ITEM
-            RouteItem item = new RouteItem(fileName, name, startPoint, stepCount, distance, time, this);
-            listItems.add(item);
-        }
-        */
 
-        ////////////////////////////////////////////////////
-        //TODO: EXAMPLE REMOVE ONCE FIREBASE IN PLACE
-        String fileName = "walk_7";
-        SharedPreferences routeInfo = getSharedPreferences(fileName, MODE_PRIVATE);
-        String name = routeInfo.getString("name", "ERROR");
-        String startPoint = routeInfo.getString("startPoint", "ERROR");
-        int stepCount = routeInfo.getInt("stepCount", 0);
-        float distance = routeInfo.getFloat("distance", 0.0f);
-        String time = routeInfo.getString("time", "00:00:00");
-        RouteItem item = new RouteItem(fileName, name, startPoint, stepCount, distance, time, this);
-        listItems.add(item);
-        ///////////////////////////////////////////////////
+        db = FirebaseFirestore.getInstance();
+
+        //TODO: change email
+        db.collection("users").document("vhploc@gmail.com")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+
+                                getTeamWalks( (String[]) document.get("teamMembers"));
+
+                                Log.d(TAG, "DocumentSnapshot data: " + document.get("teamMembers"));
+
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+
+                    }
+                });
+
 
         // Create adapter passing in the sample user data
         RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);
@@ -102,7 +135,26 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
         saveCurrentWalk();
         startActivity(intent);
 
+    }
 
+    public void getTeamWalks(String[] memberList) {
+        for(String memeber: memberList) {
+            //TODO: change email
+            db.collection("users").document("vhploc@gmail.com").collection("routes")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    listItems.add(document.toObject(RouteItem.class));
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
     }
 
     public void saveCurrentWalk(){

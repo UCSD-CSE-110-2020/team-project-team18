@@ -11,6 +11,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -55,11 +60,23 @@ public class RouteItemsAdapter extends
     }
     // Store a member variable for the contacts
     private List<RouteItem> routeItemsList;
+    private DatabaseReference mDatabaseReference;
+    private ChildEventListener mChildEventListener;
+
 
     // Pass in the contact array into the constructor
     public RouteItemsAdapter(List<RouteItem> routeItemList) {
         this.routeItemsList = routeItemList;
     }
+
+    public RouteItemsAdapter(List<RouteItem> routeItemList, DatabaseReference ref) {
+        this.routeItemsList = routeItemList;
+        this.mDatabaseReference = ref;
+
+
+
+    }
+
 
     // Usually involves inflating a layout from XML and returning the holder
     @Override
