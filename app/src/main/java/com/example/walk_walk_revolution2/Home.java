@@ -191,7 +191,7 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent(this, TestScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
-        
+
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(Home.TEST_KEY, testSteps);
             saveCurrentWalk();

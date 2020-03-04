@@ -27,7 +27,7 @@ import java.util.Map;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class FirebaseAdapter {
+public class FirebaseAdapter implements FirebaseService{
     FirebaseFirestore db;
     String userEmail;
 

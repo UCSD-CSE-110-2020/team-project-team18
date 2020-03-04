@@ -1,22 +1,22 @@
 language: android
 dist: trusty
 
-before_cache:
+#before_cache:
   # Do not cache a few Gradle files/directories (see https://docs.travis-ci.com/user/languages/java/#Caching)
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-cache:
-  directories:
+ # - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+ # - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+#cache:
+ #directories:
     # Android SDK
-    - $HOME/android-sdk-dl
-    - $HOME/android-sdk
+    # $HOME/android-sdk-dl
+    # $HOME/android-sdk
 
     # Gradle dependencies
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+   # - $HOME/.gradle/caches/
+   # - $HOME/.gradle/wrapper/
 
     # Android build cache (see http://tools.android.com/tech-docs/build-cache)
-    - $HOME/.android/build-cache
+   # - $HOME/.android/build-cache
 
 android:
   components:
