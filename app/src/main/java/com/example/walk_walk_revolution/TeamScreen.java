@@ -19,14 +19,14 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class TeamScreen extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter teamAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     private Button acceptButton;
     private Button declineButton;
-
+    private static int num = 0;
     private LinearLayout invitation;
+    private static int[] colorList = {0xff66ff66, 0xff88ddbb, 0xffff6666, 0xff6666ff, 0xffffff66,
+                                      0xffff4dd2, 0xffcc6600, 0xff00ffff, 0xffffcccc, 0xffff9900};
+    ArrayList<TeamMemberItem> teamMemberItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,21 +57,7 @@ public class TeamScreen extends AppCompatActivity {
         loadTeamMembers();
         loadInvitation();
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.team_screen);
-        recyclerView = (RecyclerView) findViewById(R.id.team_recycler_view);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        ArrayList<String> teamNames = getTeamMemberNames();
-        // specify an adapter (see also next example)
-        teamAdapter = new TeamItemAdapter(teamNames);
-        recyclerView.setAdapter(teamAdapter);
     }
 
     //this method is called in order to display an invitation on the screen
@@ -90,29 +76,56 @@ public class TeamScreen extends AppCompatActivity {
 
     //this method is called in order to display the current team's members on the screen.
     public void loadTeamMembers() {
-        ArrayList<String> teamNames = getTeamMemberNames();
 
+        getTeamMemberItems();
+
+        // Lookup the recyclerview in activity layout
+        RecyclerView rvTeamMemberItems = (RecyclerView) findViewById(R.id.team_recycler_view);
+        rvTeamMemberItems.removeAllViews();
+        // Initialize contacts
+        teamMemberItems = getTeamMemberItems();
+        // Create adapter passing in the sample user data
+        TeamMemberItemAdapter adapter = new TeamMemberItemAdapter(teamMemberItems);
+        // Attach the adapter to the recyclerview to populate items
+        rvTeamMemberItems.setAdapter(adapter);
+        // Set layout manager to position the items
+        rvTeamMemberItems.setLayoutManager(new LinearLayoutManager(this));
+        // That's all!
     }
 
     //getter method for the names of the current team members
     //post-condition: if name is empty, then nothing should appear on the screen.
-    public ArrayList<String> getTeamMemberNames()
+    public static ArrayList<String> getTeamMemberNames()
     {
+        System.out.println("GetTeamMemberNames");
         ArrayList<String> teamNames = new ArrayList<String>();
-        teamNames.add("Ariana Grande");
-        teamNames.add("Ellen Degeneres");
-        teamNames.add("Richard Milhous Nixon");
-        teamNames.add("Sarah Silverman");
-        teamNames.add("Michael Gary Scott");
-        teamNames.add("David Graham");
-        teamNames.add("Eliot Lastname");
-        teamNames.add("Ross Boss");
-        teamNames.add("Kanye West");
-        teamNames.add("Kanye East");
-        teamNames.add("Oscar");
-        teamNames.add("Larold");
-        teamNames.add("Kimothy");
-        teamNames.add("Timberly");
+
+        if(num == 0) {
+            teamNames.add("Ariana Grande");
+            teamNames.add("Ellen Degeneres");
+            teamNames.add("Richard Milhous Nixon");
+            teamNames.add("Sarah Silverman");
+            teamNames.add("Michael Gary Scott");
+            teamNames.add("David Graham");
+            teamNames.add("Eliot Lastname");
+            teamNames.add("Ross Boss");
+            teamNames.add("Kanye West");
+            teamNames.add("Kanye East");
+            teamNames.add("Oscar");
+            teamNames.add("Larold");
+            teamNames.add("Kimothy");
+            teamNames.add("Timberly");
+        } else {
+            teamNames.add("Rob Boss");
+            teamNames.add("Kyle Boss");
+            teamNames.add("Bob Ross");
+            teamNames.add("Easter Dude");
+            teamNames.add("Carl");
+            teamNames.add("Carrol");
+            teamNames.add("Kimothy");
+            teamNames.add("Nelson");
+        }
+        num++;
         return teamNames;
     }
 
@@ -141,6 +154,25 @@ public class TeamScreen extends AppCompatActivity {
         }
 
         return initials;
+    }
+
+    public static ArrayList<TeamMemberItem> getTeamMemberItems(){
+        ArrayList<String> names = getTeamMemberNames();
+        ArrayList<TeamMemberItem> teamMemberItems = new ArrayList<TeamMemberItem>();
+        for(int i = 0; i < names.size(); i++){
+            String initials = getTeamMemberInitials(names.get(i));
+            int color = getBackgroundColor(i);
+            TeamMemberItem item = new TeamMemberItem(names.get(i), initials, color);
+            teamMemberItems.add(item);
+        }
+        return teamMemberItems;
+
+    }
+    public static int getBackgroundColor(int offset){
+
+        offset = offset % colorList.length;
+        return colorList[offset];
+
     }
 
     //called when you accept an invite and reloads the current team members on the screen.
