@@ -1,5 +1,5 @@
 //TODO we used https://guides.codepath.com/android/using-the-recyclerview for a tutorial
-package com.example.walk_walk_revolution;
+package com.example.walk_walk_revolution2;
 
 import android.content.Context;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.example.walk_walk_revolution;
+package com.example.walk_walk_revolution2;
 
 import android.os.Bundle;
 
@@ -23,6 +23,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import android.view.View;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
 import javax.xml.parsers.SAXParser;
 
@@ -52,6 +56,7 @@ public class Home extends AppCompatActivity {
     private int testSteps;
     String fitnessServiceKey;
     String fileName;
+    private FirebaseAdapter firebase;
     private DistanceCalculator calculator = new DistanceCalculator();
 
     @Override
@@ -63,10 +68,16 @@ public class Home extends AppCompatActivity {
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         int heightNum = getHeight();
         if (heightNum <= 0 && fakeHeight == 0) {
-            launchHeight();
+            launchHeightAndEmailScreen();
         }
 
-
+        String email = getEmail();
+        String firstName = getFirstName();
+        String lastName = getLastName();
+        FirebaseAdapter fbA = new FirebaseAdapter(email);
+        if(email != null){
+            fbA.addUserToDatabaseIfFirstUse(email, firstName, lastName);
+        }
         Button launchRoutesScreen = (Button) findViewById(R.id.routes_but_home);
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
         Button startWalkBut = (Button) findViewById(R.id.start_walk);
@@ -138,7 +149,6 @@ public class Home extends AppCompatActivity {
         testSteps = getIntent().getIntExtra(TEST_KEY, 0);
         System.out.println(numSteps);
         System.out.println(testSteps);
-
         setStepCount(numSteps);
         if(fileName != null) {
             startWalk();
@@ -148,15 +158,20 @@ public class Home extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+    }
 
-
-    public void launchHeight() {
+    public void launchHeightAndEmailScreen() {
         Intent intent = new Intent(this, HeightScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         startActivity(intent);
     }
+
 
     public void launchRoutes() {
         Intent intent = new Intent(this, RoutesScreen.class);
@@ -198,7 +213,18 @@ public class Home extends AppCompatActivity {
         }
        return fakeHeight;
     }
-
+    public String getEmail(){
+        SharedPreferences spfs = getSharedPreferences("user_email", MODE_PRIVATE);
+        return spfs.getString("userEmail", null);
+    }
+    public String getFirstName(){
+        SharedPreferences spfs = getSharedPreferences("first_Name", MODE_PRIVATE);
+        return spfs.getString("firstName", null);
+    }
+    public String getLastName(){
+        SharedPreferences spfs = getSharedPreferences("last_Name", MODE_PRIVATE);
+        return spfs.getString("lastName", null);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

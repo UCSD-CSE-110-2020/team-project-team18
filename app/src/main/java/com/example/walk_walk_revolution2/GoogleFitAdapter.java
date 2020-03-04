@@ -1,10 +1,11 @@
-package com.example.walk_walk_revolution;
+package com.example.walk_walk_revolution2;
 
 import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataSet;
@@ -19,7 +20,7 @@ public class GoogleFitAdapter implements FitnessService{
     private GoogleSignInAccount account;
 
     private Home activity;
-
+    private FirebaseAdapter firebase;
     public GoogleFitAdapter(Home activity) {
         this.activity = activity;
     }
@@ -29,10 +30,12 @@ public class GoogleFitAdapter implements FitnessService{
         FitnessOptions fitnessOptions = FitnessOptions.builder()
                 .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+
                 .build();
 
 
         account = GoogleSignIn.getAccountForExtension(activity, fitnessOptions);
+
         if (!GoogleSignIn.hasPermissions(account, fitnessOptions)) {
             GoogleSignIn.requestPermissions(
                     activity, // your activity
@@ -40,6 +43,9 @@ public class GoogleFitAdapter implements FitnessService{
                     account,
                     fitnessOptions);
         } else {
+           // firebase = new FirebaseAdapter();
+           // String huh = account.getEmail();
+            //rebase.addUserToDatabaseIfFirstUse(huh);
             updateStepCount();
             startRecording();
         }

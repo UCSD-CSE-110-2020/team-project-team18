@@ -1,4 +1,4 @@
-package com.example.walk_walk_revolution;
+package com.example.walk_walk_revolution2;
 
     public class TestFitnessService implements FitnessService {
         private static final String TAG = "[TestFitnessService]: ";
