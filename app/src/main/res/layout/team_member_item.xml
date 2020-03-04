@@ -16,8 +16,8 @@
         android:autoSizeTextType="uniform"
         android:maxLines="2"
         android:singleLine="false"
-        android:text="BH"
-        android:background="#77AAEA"
+        android:text="N"
+        android:background="#555555"
         android:textSize="24sp"/>
     <TextView
         android:id="@+id/name_view"
@@ -27,6 +27,6 @@
         android:layout_marginLeft="20dp"
         android:maxLines="2"
         android:singleLine="false"
-        android:text="Name: blahblah"/>
+        android:text="Name"/>
 
 </LinearLayout>
