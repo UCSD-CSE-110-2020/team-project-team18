@@ -66,7 +66,7 @@ public class TestRoutesScreenUI {
                         isDisplayed()));
         //appCompatEditText2.perform(replaceText("5"), closeSoftKeyboard());
 
-        ViewInteraction appCompatButton2 = onView(
+      /**  ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.heightSubmitButton), withText("Submit Height"),
 
                         isDisplayed()));
@@ -150,7 +150,7 @@ public class TestRoutesScreenUI {
                 allOf(withId(R.id.test_but_routes),
 
                         isDisplayed()));
-        button5.check(matches(isDisplayed()));
+        button5.check(matches(isDisplayed()));*/
     }
 
     private static Matcher<View> childAtPosition(

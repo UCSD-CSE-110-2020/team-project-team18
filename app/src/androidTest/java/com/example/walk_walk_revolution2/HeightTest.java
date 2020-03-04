@@ -48,7 +48,7 @@ public class HeightTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
+      /**  ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.userHeight),
 
                         isDisplayed()));
@@ -58,7 +58,7 @@ public class HeightTest {
                 allOf(withId(R.id.heightSubmitButton), withText("Submit Height"),
 
                         isDisplayed()));
-        appCompatButton2.perform(click());
+        appCompatButton2.perform(click());*/
 
     }
 }
