@@ -1,4 +1,4 @@
-package com.example.walk_walk_revolution;
+package com.example.walk_walk_revolution2;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
