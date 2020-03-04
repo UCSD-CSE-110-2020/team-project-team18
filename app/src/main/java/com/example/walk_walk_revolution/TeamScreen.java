@@ -22,7 +22,6 @@ public class TeamScreen extends AppCompatActivity {
 
     private Button acceptButton;
     private Button declineButton;
-    private static int num = 0;
     private LinearLayout invitation;
     private static int[] colorList = {0xff66ff66, 0xff88ddbb, 0xffff6666, 0xff6666ff, 0xffffff66,
                                       0xffff4dd2, 0xffcc6600, 0xff00ffff, 0xffffcccc, 0xffff9900};
@@ -53,7 +52,7 @@ public class TeamScreen extends AppCompatActivity {
                 declineInvite();
             }
         });
-
+        System.out.println("GetTeamMemberNames");
         loadTeamMembers();
         loadInvitation();
 
@@ -77,7 +76,6 @@ public class TeamScreen extends AppCompatActivity {
     //this method is called in order to display the current team's members on the screen.
     public void loadTeamMembers() {
 
-        getTeamMemberItems();
 
         // Lookup the recyclerview in activity layout
         RecyclerView rvTeamMemberItems = (RecyclerView) findViewById(R.id.team_recycler_view);
@@ -97,35 +95,32 @@ public class TeamScreen extends AppCompatActivity {
     //post-condition: if name is empty, then nothing should appear on the screen.
     public static ArrayList<String> getTeamMemberNames()
     {
-        System.out.println("GetTeamMemberNames");
+
         ArrayList<String> teamNames = new ArrayList<String>();
 
-        if(num == 0) {
-            teamNames.add("Ariana Grande");
-            teamNames.add("Ellen Degeneres");
-            teamNames.add("Richard Milhous Nixon");
-            teamNames.add("Sarah Silverman");
-            teamNames.add("Michael Gary Scott");
-            teamNames.add("David Graham");
-            teamNames.add("Eliot Lastname");
-            teamNames.add("Ross Boss");
-            teamNames.add("Kanye West");
-            teamNames.add("Kanye East");
-            teamNames.add("Oscar");
-            teamNames.add("Larold");
-            teamNames.add("Kimothy");
-            teamNames.add("Timberly");
-        } else {
-            teamNames.add("Rob Boss");
-            teamNames.add("Kyle Boss");
-            teamNames.add("Bob Ross");
-            teamNames.add("Easter Dude");
-            teamNames.add("Carl");
-            teamNames.add("Carrol");
-            teamNames.add("Kimothy");
-            teamNames.add("Nelson");
-        }
-        num++;
+        teamNames.add("Ariana Grande");
+        teamNames.add("Ellen Degeneres");
+        teamNames.add("Richard Milhous Nixon");
+        teamNames.add("Sarah Silverman");
+        teamNames.add("Michael Gary Scott");
+        teamNames.add("David Graham");
+        teamNames.add("Eliot Lastname");
+        teamNames.add("Ross Boss");
+        teamNames.add("Kanye West");
+        teamNames.add("Kanye East");
+        teamNames.add("Oscar");
+        teamNames.add("Larold");
+        teamNames.add("Kimothy");
+        teamNames.add("Timberly");
+        teamNames.add("Rob Boss");
+        teamNames.add("Kyle Boss");
+        teamNames.add("Bob Ross");
+        teamNames.add("Easter Dude");
+        teamNames.add("Carl");
+        teamNames.add("Carrol");
+        teamNames.add("Kimothy");
+        teamNames.add("Nelson");
+
         return teamNames;
     }
 
