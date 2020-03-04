@@ -187,6 +187,7 @@ public class Home extends AppCompatActivity {
     }
 
     public void launchTest() {
+        
         Intent intent = new Intent(this, TestScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
@@ -214,6 +215,7 @@ public class Home extends AppCompatActivity {
        return fakeHeight;
     }
     public String getEmail(){
+
         SharedPreferences spfs = getSharedPreferences("user_email", MODE_PRIVATE);
         return spfs.getString("userEmail", null);
     }
