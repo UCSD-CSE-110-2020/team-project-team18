@@ -3,6 +3,7 @@ package com.example.walk_walk_revolution2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,9 @@ public class InvitationScreen extends AppCompatActivity {
     private String fitnessServiceKey;
 
     EditText gmailInput;
+    private String user_email;
+
+    private FirebaseService firebaseService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +34,14 @@ public class InvitationScreen extends AppCompatActivity {
 
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
+        firebaseService = FirebaseServiceFactory.create(firebaseServiceKey, this);
+
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
         testSteps = getIntent().getIntExtra(TEST_KEY, 0);
 
+        SharedPreferences spfs = getSharedPreferences("user_email", MODE_PRIVATE);
+        firebaseService.setup(user_email);
 
         gmailInput = (EditText)findViewById(R.id.gmail_input);
 
