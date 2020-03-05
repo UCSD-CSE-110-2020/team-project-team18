@@ -1,6 +1,7 @@
 package com.example.walk_walk_revolution2;
 
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -49,7 +50,7 @@ public class BasicWalkUITest {
         });
         FirebaseServiceFactory.put(FIREBASE_TEST_SERVICE, new FirebaseServiceFactory.BluePrint() {
             @Override
-            public FirebaseService create(Home home) {
+            public FirebaseService create(Activity home) {
                 return new TestFirebaseService(home);
             }
         });

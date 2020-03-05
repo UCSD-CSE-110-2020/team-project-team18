@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseServiceFactory.put(firebaseServiceKey, new FirebaseServiceFactory.BluePrint() {
             @Override
-            public FirebaseService create(Home home) {
+            public FirebaseService create(Activity home) {
                 return new FirebaseAdapter(home);
             }
         });

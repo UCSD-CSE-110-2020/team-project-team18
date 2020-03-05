@@ -36,15 +36,15 @@ public class TeamRoutesFunctionalTest {
 
     @Test
     public void teamRoutesFunctionalTest() {
-//        FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
-//            @Override
-//            public FitnessService create(Home home) {
-//                return new TestFitnessService(home);
-//            }
-//        });
-//
-//        mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
-//        mActivityTestRule.getActivity().setHeight(60);
+    //    FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
+    //        @Override
+  //          public FitnessService create(Home home) {
+ //               return new TestFitnessService(home);
+   //         }
+ //       });
+///
+ //       mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
+ //       mActivityTestRule.getActivity().setHeight(60);
 //        ViewInteraction appCompatButton = onView(
 //                allOf(withId(R.id.loginButton), withText("Login"),
 //
