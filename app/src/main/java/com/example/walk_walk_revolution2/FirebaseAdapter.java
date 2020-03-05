@@ -19,6 +19,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,11 +49,14 @@ public class FirebaseAdapter implements FirebaseService{
                         //user has already been added to database
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
+                        ArrayList<String> teamMembers = new ArrayList<String>();
+
                         Map<String, Object> user = new HashMap<>();
                         user.put("email", userEmail);
                         user.put("firstName", firstName);
                         user.put("lastName", lastName);
                         user.put("onTeam", false);
+                        user.put("teamMembers", teamMembers);
                         db.collection("users").document(userEmail)
                                 .set(user)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
