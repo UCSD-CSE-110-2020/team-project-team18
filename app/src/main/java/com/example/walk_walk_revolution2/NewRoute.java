@@ -27,6 +27,7 @@ import java.text.DecimalFormat;
 
 public class NewRoute extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String FIREBASE_SERVICE_KEY = "FIREBASE_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String PREF_FILE_NAME = "PrefFile";
     public static final String STEPS_KEY = "STEPS_KEY";
@@ -47,6 +48,7 @@ public class NewRoute extends AppCompatActivity {
     private EditText notes;
     private Walk currentWalk;
     private String fitnessServiceKey;
+    private String firebaseServiceKey;
     public int fakeHeight;
     private DistanceCalculator calculator = new DistanceCalculator();
     private EditText displayName;
@@ -60,6 +62,7 @@ public class NewRoute extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_route);
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         displayName = (EditText) findViewById(R.id.inputName);
         displayStartPoint = (EditText) findViewById(R.id.inputStartPoint);
@@ -209,6 +212,7 @@ public class NewRoute extends AppCompatActivity {
     public void launchRoutes() {
         Intent intent = new Intent(this, RoutesScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(TEST_KEY, testSteps);
@@ -257,6 +261,7 @@ public class NewRoute extends AppCompatActivity {
         saveCurrentWalk();
         Intent intent = new Intent(this, Home.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(Home.TEST_KEY, testSteps);

@@ -32,12 +32,15 @@ import javax.xml.parsers.SAXParser;
 
 public class Home extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String FIREBASE_SERVICE_KEY = "FIREBASE_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String STEPS_KEY = "STEPS_KEY";
     private static final String TAG = "HomeScreen";
     public static final String TEST_KEY = "TEST_KEY";
     private int stepCount;
     private FitnessService fitnessService;
+    String firebaseServiceKey;
+    private FirebaseService firebaseService;
     private TextView textSteps;
     private TextView distanceTraveled;
     private int start_steps;
@@ -65,7 +68,10 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+        firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
+        firebaseService = FirebaseServiceFactory.create(firebaseServiceKey, this);
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
+
         int heightNum = getHeight();
         if (heightNum <= 0 && fakeHeight == 0) {
             launchHeightAndEmailScreen();
@@ -74,9 +80,9 @@ public class Home extends AppCompatActivity {
         String email = getEmail();
         String firstName = getFirstName();
         String lastName = getLastName();
-        FirebaseAdapter fbA = new FirebaseAdapter(email);
+       firebaseService.setup(email);
         if(email != null){
-            fbA.addUserToDatabaseIfFirstUse(email, firstName, lastName);
+            firebaseService.addUserToDatabaseIfFirstUse(email, firstName, lastName);
         }
         Button launchRoutesScreen = (Button) findViewById(R.id.routes_but_home);
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
@@ -176,6 +182,7 @@ public class Home extends AppCompatActivity {
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         startActivity(intent);
     }
 
@@ -186,6 +193,7 @@ public class Home extends AppCompatActivity {
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(Home.TEST_KEY, testSteps);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
 
         if(currentWalk != null){
             saveCurrentWalk();
@@ -201,6 +209,7 @@ public class Home extends AppCompatActivity {
 
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(Home.TEST_KEY, testSteps);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
             saveCurrentWalk();
         startActivity(intent);
     }
@@ -211,6 +220,7 @@ public class Home extends AppCompatActivity {
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(Home.TEST_KEY, testSteps);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         startActivity(intent);
 
 
@@ -433,6 +443,7 @@ public class Home extends AppCompatActivity {
             intent.putExtra("distance", recentWalkDist.getText().toString());
             intent.putExtra("time", recentWalkTime.getText().toString());
             intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+            intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
             intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
             intent.putExtra(Home.TEST_KEY, testSteps);
 
