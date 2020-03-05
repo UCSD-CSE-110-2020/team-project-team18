@@ -1,5 +1,6 @@
 package com.example.walk_walk_revolution2;
 
+import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ public class FirebaseAdapter implements FirebaseService{
     FirebaseFirestore db;
     String userEmail;
 
-    public FirebaseAdapter(Home activity){
+    public FirebaseAdapter(Activity activity){
     }
 
     public void setup(String userEmail){

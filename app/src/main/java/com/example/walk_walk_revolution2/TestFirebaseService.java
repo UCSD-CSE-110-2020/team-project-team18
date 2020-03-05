@@ -1,5 +1,7 @@
 package com.example.walk_walk_revolution2;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 
 public class TestFirebaseService implements FirebaseService{
@@ -8,7 +10,7 @@ public class TestFirebaseService implements FirebaseService{
         private String firstName;
         private String lastName;
         private ArrayList<String> friends;
-        public TestFirebaseService(Home mainActivity) {}
+        public TestFirebaseService(Activity mainActivity) {}
 
 
         @Override

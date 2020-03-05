@@ -52,7 +52,7 @@ public class SwitchScreensTest {
         });
         FirebaseServiceFactory.put(FIREBASE_TEST_SERVICE, new FirebaseServiceFactory.BluePrint() {
             @Override
-            public FirebaseService create(Home home) {
+            public FirebaseService create(Activity home) {
                 return new TestFirebaseService(home);
             }
         });
