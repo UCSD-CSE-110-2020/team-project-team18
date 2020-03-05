@@ -1,6 +1,7 @@
 package com.example.walk_walk_revolution2;
 
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -33,6 +34,7 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class TestNewRouteUI {
     private static final String TEST_SERVICE = "TEST_SERVICE";
+    private static final String FIREBASE_TEST_SERVICE = "FIREBASE_TEST";
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -44,9 +46,16 @@ public class TestNewRouteUI {
                 return new TestFitnessService(home);
             }
         });
+        FirebaseServiceFactory.put(FIREBASE_TEST_SERVICE, new FirebaseServiceFactory.BluePrint() {
+            @Override
+            public FirebaseService create(Activity home) {
+                return new TestFirebaseService(home);
+            }
+        });
 
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
         mActivityTestRule.getActivity().setHeight(60);
+        mActivityTestRule.getActivity().setFirebaseServiceKey(FIREBASE_TEST_SERVICE);
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.loginButton), withText("Login"),
 
@@ -66,9 +75,9 @@ public class TestNewRouteUI {
         //appCompatEditText2.perform(replaceText("5"), closeSoftKeyboard());
 
    //     ViewInteraction appCompatButton2 = onView(
-   //             allOf(withId(R.id.heightSubmitButton), withText("Submit Height"),
+          //     allOf(withId(R.id.heightSubmitButton), withText("Submit Height"),
 
-   //                     isDisplayed()));
+          //              isDisplayed()));
         //appCompatButton2.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
