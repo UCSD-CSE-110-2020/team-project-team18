@@ -1,6 +1,7 @@
 package com.example.walk_walk_revolution2;
 
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -34,6 +35,7 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class TestRoutesScreenUI {
     private static final String TEST_SERVICE = "TEST_SERVICE";
+    private static final String FIREBASE_TEST_SERVICE = "FIREBASE_TEST";
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -45,8 +47,14 @@ public class TestRoutesScreenUI {
                 return new TestFitnessService(home);
             }
         });
-
+        FirebaseServiceFactory.put(FIREBASE_TEST_SERVICE, new FirebaseServiceFactory.BluePrint() {
+            @Override
+            public FirebaseService create(Activity home) {
+                return new TestFirebaseService(home);
+            }
+        });
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
+        mActivityTestRule.getActivity().setFirebaseServiceKey(FIREBASE_TEST_SERVICE);
         mActivityTestRule.getActivity().setHeight(60);
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.loginButton), withText("Login"),
@@ -66,10 +74,10 @@ public class TestRoutesScreenUI {
                         isDisplayed()));
         //appCompatEditText2.perform(replaceText("5"), closeSoftKeyboard());
 
-      /**  ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.heightSubmitButton), withText("Submit Height"),
+     //   ViewInteraction appCompatButton2 = onView(
+         //       allOf(withId(R.id.heightSubmitButton), withText("Submit Height"),
 
-                        isDisplayed()));
+          //              isDisplayed()));
         //appCompatButton2.perform(click());
 
 
@@ -150,7 +158,7 @@ public class TestRoutesScreenUI {
                 allOf(withId(R.id.test_but_routes),
 
                         isDisplayed()));
-        button5.check(matches(isDisplayed()));*/
+        button5.check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(

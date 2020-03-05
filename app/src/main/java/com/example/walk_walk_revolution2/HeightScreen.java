@@ -12,8 +12,9 @@ import android.widget.Toast;
 
 public class HeightScreen extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
-
+    public static final String FIREBASE_SERVICE_KEY = "FIREBASE_SERVICE_KEY";
     private String fitnessServiceKey;
+    private String firebaseServiceKey;
     private int heightNum;
     private String email;
     private boolean heightDone = false;
@@ -26,7 +27,7 @@ public class HeightScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.height_prompt);
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
-
+        firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
        final Button submitButton = findViewById(R.id.submitButton);
       submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +138,7 @@ public class HeightScreen extends AppCompatActivity {
         if(heightDone && emailDone && firstNameDone && lastNameDone) {
             Intent intent = new Intent(this, Home.class);
             intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+            intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
             startActivity(intent);
         }
     }

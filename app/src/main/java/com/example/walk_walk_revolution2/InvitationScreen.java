@@ -11,12 +11,14 @@ import android.widget.TextView;
 
 public class InvitationScreen extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String FIREBASE_SERVICE_KEY = "FIREBASE_SERVICE_KEY";
     public static final String STEPS_KEY = "STEPS_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String TEST_KEY = "TEST_KEY";
     private int numSteps;
     private int testSteps;
     public int fakeHeight;
+    private String firebaseServiceKey;
     private String fitnessServiceKey;
 
     EditText gmailInput;
@@ -27,6 +29,7 @@ public class InvitationScreen extends AppCompatActivity {
         setContentView(R.layout.activity_invitation_screen);
 
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
         testSteps = getIntent().getIntExtra(TEST_KEY, 0);
@@ -64,6 +67,7 @@ public class InvitationScreen extends AppCompatActivity {
     public void launchHome(){
         Intent intent = new Intent(this, Home.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(Home.TEST_KEY, testSteps);

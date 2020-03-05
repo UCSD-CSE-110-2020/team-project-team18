@@ -17,6 +17,7 @@ import java.text.DecimalFormat;
 
 public class RoutesScreen extends AppCompatActivity implements RouteInterface {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String FIREBASE_SERVICE_KEY = "FIREBASE_SERVICE_KEY";
     public static final String STEPS_KEY = "STEPS_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String TEST_KEY = "TEST_KEY";
@@ -26,6 +27,7 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
     private int steps;
     private Walk currentWalk;
     private String fitnessServiceKey;
+    private String firebaseServiceKey;
     private DistanceCalculator calculator = new DistanceCalculator();
 
     @Override
@@ -33,6 +35,7 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routes_screen);
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         Button launchHomeScreen = (Button)findViewById(R.id.home_but_routes);
         Button launchTestScreen = (Button)findViewById(R.id.test_but_routes);
@@ -121,6 +124,7 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
         System.out.println("testSteps: " + testSteps);
         Intent intent = new Intent(this, Home.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(TEST_KEY, testSteps);
@@ -131,6 +135,7 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
     public void launchTest(){
         Intent intent = new Intent(this, TestScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(TEST_KEY, testSteps);
@@ -142,6 +147,7 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
     public void launchNewRouteScreen(){
         Intent intent = new Intent(this, NewRoute.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(TEST_KEY, testSteps);
@@ -152,6 +158,7 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
     public void launchRouteDetails(String fileName) {
         Intent intent = new Intent(this, Route.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(TEST_KEY, testSteps);
@@ -163,6 +170,7 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
         Intent intent = new Intent(this, TeamRoutesScreen.class);
 
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(TEST_KEY, testSteps);
