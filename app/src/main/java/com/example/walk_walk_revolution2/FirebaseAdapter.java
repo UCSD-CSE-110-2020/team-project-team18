@@ -33,6 +33,8 @@ public class FirebaseAdapter implements FirebaseService{
     FirebaseFirestore db;
     String userEmail;
 
+
+    DocumentSnapshot inviteDoc;
     public FirebaseAdapter(Activity activity){
     }
 
@@ -118,5 +120,25 @@ public class FirebaseAdapter implements FirebaseService{
             }
         }
     });
+    }
+
+    public DocumentSnapshot getInvitation(){
+        DocumentReference invite = db.collection("user").document(userEmail).collection("invites").document();
+
+        invite
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            inviteDoc = task.getResult();
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+        return inviteDoc;
     }
 }

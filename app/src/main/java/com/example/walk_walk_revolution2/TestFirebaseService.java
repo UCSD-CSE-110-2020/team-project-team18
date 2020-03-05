@@ -2,6 +2,8 @@ package com.example.walk_walk_revolution2;
 
 import android.app.Activity;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.util.ArrayList;
 
 public class TestFirebaseService implements FirebaseService{
@@ -29,5 +31,10 @@ public class TestFirebaseService implements FirebaseService{
         public void addFriendToTeam(String friendEmail){
             friends.add(friendEmail);
         }
+
+        @Override
+        public DocumentSnapshot getInvitation(){ return null;}
+
+
 
 }

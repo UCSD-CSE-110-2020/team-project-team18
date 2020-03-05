@@ -121,7 +121,6 @@ public class Route extends AppCompatActivity {
             radioButtonSelected.setChecked(true);
         }
 
-
         if (evenSurface == 1) {
             checkedId = R.id.evensurface;
             radioButtonSelected = (RadioButton)surfaceGroup.findViewById(checkedId);
