@@ -19,6 +19,7 @@ import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
     private String fitnessServiceKey = "GOOGLE_FIT";
+    private String firebaseServiceKey = "FIREBASE";
     private int height;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        FirebaseServiceFactory.put(firebaseServiceKey, new FirebaseServiceFactory.BluePrint() {
+            @Override
+            public FirebaseService create(Home home) {
+                return new FirebaseAdapter(home);
+            }
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
@@ -46,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Home.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
         intent.putExtra(Home.HEIGHT_KEY, height);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         startActivity(intent);
     }
     public void setFitnessServiceKey(String fitnessServiceKey){
@@ -60,9 +68,21 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+    public void setFirebaseServiceKey(String firebaseServiceKey){
+        this.firebaseServiceKey = firebaseServiceKey;
+        if(firebaseServiceKey == "FIREBASE_TEST"){
+            SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
+            SharedPreferences.Editor editor = spfs.edit();
+
+
+            editor.putInt("userHeight", -1);
+            editor.apply();
+        }
+    }
     public void setHeight(int height){
         this.height = height;
     }
+
 }
 /**private String fitnessServiceKey = "GOOGLE_FIT";
     public static final String TAG = "MainActivity";

@@ -22,6 +22,7 @@ import org.junit.Test;
 
 public class HeightTest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
+    private static final String FIREBASE_TEST_SERVICE = "FIREBASE_TEST";
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
@@ -33,8 +34,15 @@ public class HeightTest {
                 return new TestFitnessService(home);
             }
         });
+        FirebaseServiceFactory.put(FIREBASE_TEST_SERVICE, new FirebaseServiceFactory.BluePrint() {
+            @Override
+            public FirebaseService create(Home home) {
+                return new TestFirebaseService(home);
+            }
+        });
 
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
+        mActivityTestRule.getActivity().setFirebaseServiceKey(FIREBASE_TEST_SERVICE);
 
         ViewInteraction textView = onView(
                 allOf(withId(R.id.loginButton), withText("Login"),
@@ -48,17 +56,33 @@ public class HeightTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-      /**  ViewInteraction appCompatEditText = onView(
+        ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.userHeight),
 
                         isDisplayed()));
         appCompatEditText.perform(replaceText("60"), closeSoftKeyboard());
 
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.heightSubmitButton), withText("Submit Height"),
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.userEmail),
 
                         isDisplayed()));
-        appCompatButton2.perform(click());*/
+        appCompatEditText2.perform(replaceText("hello@yeet.com"), closeSoftKeyboard());
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.firstname),
+
+                        isDisplayed()));
+        appCompatEditText3.perform(replaceText("john"), closeSoftKeyboard());
+        ViewInteraction appCompatEditText4 = onView(
+                allOf(withId(R.id.lastname),
+
+                        isDisplayed()));
+        appCompatEditText4.perform(replaceText("apple"), closeSoftKeyboard());
+
+        ViewInteraction appCompatButton2 = onView(
+                allOf(withId(R.id.submitButton), withText("Submit All"),
+
+                        isDisplayed()));
+        appCompatButton2.perform(click());
 
     }
 }

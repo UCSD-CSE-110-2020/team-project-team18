@@ -31,11 +31,13 @@ public class FirebaseAdapter implements FirebaseService{
     FirebaseFirestore db;
     String userEmail;
 
-    public FirebaseAdapter(String userEmail) {
+    public FirebaseAdapter(Home activity){
+    }
+
+    public void setup(String userEmail){
         this.db = FirebaseFirestore.getInstance();
         this.userEmail = userEmail;
     }
-
     public void addUserToDatabaseIfFirstUse(final String userEmail, final String firstName, final String lastName) {
 
         DocumentReference docRef = db.collection("users").document(userEmail);

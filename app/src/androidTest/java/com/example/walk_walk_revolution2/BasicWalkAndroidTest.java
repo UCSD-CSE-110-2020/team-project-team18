@@ -11,6 +11,7 @@ import static org.junit.Assert.assertEquals;
 public class BasicWalkAndroidTest {
    private Walk walk;
     private static final String TEST_SERVICE = "TEST_SERVICE";
+    private static final String FIREBASE_TEST_SERVICE = "FIREBASE_TEST";
     @Rule
     public ActivityTestRule<MainActivity> home = new ActivityTestRule<MainActivity>(MainActivity.class);
 
@@ -28,8 +29,15 @@ public class BasicWalkAndroidTest {
                 return new TestFitnessService(home);
             }
         });
+        FirebaseServiceFactory.put(FIREBASE_TEST_SERVICE, new FirebaseServiceFactory.BluePrint() {
+            @Override
+            public FirebaseService create(Home home) {
+                return new TestFirebaseService(home);
+            }
+        });
 
         home.getActivity().setFitnessServiceKey(TEST_SERVICE);
+        home.getActivity().setFirebaseServiceKey(FIREBASE_TEST_SERVICE);
         home.getActivity().setHeight(60);
         walk.setTime(7200000L);
         walk.setDistance(1.5);
