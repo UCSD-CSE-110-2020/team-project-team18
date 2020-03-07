@@ -1,6 +1,7 @@
 package com.example.walk_walk_revolution2;
 
 import android.app.Activity;
+import android.app.Service;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -15,13 +16,13 @@ public class FirebaseServiceFactory {
         blueprints.put(key, bluePrint);
     }
 
-    public static FirebaseService create(String key, Activity activity) {
+    public static FirebaseService create(String key, Service service) {
         Log.i(TAG, String.format("creating FitnessService with key %s", key));
-        return blueprints.get(key).create(activity);
+        return blueprints.get(key).create(service);
     }
 
     public interface BluePrint {
-        FirebaseService create(Activity activity);
+        FirebaseService create(Service service);
     }
 }
 

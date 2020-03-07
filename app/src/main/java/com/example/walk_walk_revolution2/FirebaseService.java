@@ -7,5 +7,6 @@ public interface FirebaseService {
     public void addFriendToTeam(final String teamEmail);
     public void setup(String userEmail);
     public DocumentSnapshot getInvitation();
+    public void sendInvite(String toEmail);
 
     }

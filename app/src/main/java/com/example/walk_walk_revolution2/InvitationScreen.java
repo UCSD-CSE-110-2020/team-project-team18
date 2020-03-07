@@ -2,9 +2,13 @@ package com.example.walk_walk_revolution2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +25,8 @@ public class InvitationScreen extends AppCompatActivity {
     public int fakeHeight;
     private String firebaseServiceKey;
     private String fitnessServiceKey;
-
+    private FirebaseBoundService firebaseBoundService;
+    private boolean isBound;
     EditText gmailInput;
     private String user_email;
 
@@ -34,14 +39,14 @@ public class InvitationScreen extends AppCompatActivity {
 
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
-        firebaseService = FirebaseServiceFactory.create(firebaseServiceKey, this);
 
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
         testSteps = getIntent().getIntExtra(TEST_KEY, 0);
 
-        SharedPreferences spfs = getSharedPreferences("user_email", MODE_PRIVATE);
-        firebaseService.setup(user_email);
+        Intent intent = new Intent(this, FirebaseBoundService.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
         gmailInput = (EditText)findViewById(R.id.gmail_input);
 
@@ -62,12 +67,34 @@ public class InvitationScreen extends AppCompatActivity {
                 launchHome();
             }
         });
-    }
 
+
+    }
+    private ServiceConnection serviceConnection = new ServiceConnection(){
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service){
+            FirebaseBoundService.LocalService localService = (FirebaseBoundService.LocalService)service;
+            firebaseBoundService = localService.getService();
+            isBound = true;
+
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name){
+            isBound = false;
+        }
+    };
+    @Override
+    protected void onDestroy(){
+        if(isBound){
+            unbindService(serviceConnection);
+            isBound = false;
+        }
+        super.onDestroy();
+    }
     public void inviteMember(){
         String gmailAddress = gmailInput.getText().toString();
 
-        // TODO: SEND TO FIREBASE STORAGE
+        firebaseBoundService.firebaseService.sendInvite(gmailAddress);
 
         gmailInput.setText("");
     }

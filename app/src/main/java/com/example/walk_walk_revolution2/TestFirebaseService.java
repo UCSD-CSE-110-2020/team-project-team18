@@ -37,4 +37,6 @@ public class TestFirebaseService implements FirebaseService{
 
 
 
+        @Override
+        public void sendInvite(String toEmail){}
 }

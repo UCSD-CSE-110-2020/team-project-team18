@@ -4,10 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,7 +23,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.ArrayList;
 
 public class TeamScreen extends AppCompatActivity {
-
+    public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    public static final String FIREBASE_SERVICE_KEY = "FIREBASE_SERVICE_KEY";
+    public static final String STEPS_KEY = "STEPS_KEY";
+    public static final String HEIGHT_KEY = "HEIGHT_KEY";
+    public static final String TEST_KEY = "TEST_KEY";
+    private int numSteps;
+    private int testSteps;
+    public int fakeHeight;
     private Button acceptButton;
     private Button declineButton;
     private LinearLayout invitation;
@@ -25,9 +38,14 @@ public class TeamScreen extends AppCompatActivity {
                                       0xffff4dd2, 0xffcc6600, 0xff00ffff, 0xffffcccc, 0xffff9900};
     ArrayList<TeamMemberItem> teamMemberItems;
 
-    public static final String FIREBASE_SERVICE_KEY = "FIREBASE_SERVICE_KEY";
 
-    String firebaseServiceKey;
+    private String firebaseServiceKey;
+    private String fitnessServiceKey;
+    private FirebaseBoundService firebaseBoundService;
+    private boolean isBound;
+    EditText gmailInput;
+    private String user_email;
+
     private FirebaseService firebaseService;
     private DocumentSnapshot documentSnapshot;
 
@@ -36,10 +54,16 @@ public class TeamScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.team_screen);
 
+        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
-        firebaseService = FirebaseServiceFactory.create(firebaseServiceKey, this);
 
-        firebaseService.setup(getEmail());
+        fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
+        numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
+        testSteps = getIntent().getIntExtra(TEST_KEY, 0);
+
+        Intent intent = new Intent(this, FirebaseBoundService.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
         invitation = findViewById(R.id.invitation);
         invitation.setVisibility(View.GONE); //when the app is first loaded, no invitation should appear.
@@ -66,6 +90,28 @@ public class TeamScreen extends AppCompatActivity {
         loadInvitation();
 
 
+    }
+
+    private ServiceConnection serviceConnection = new ServiceConnection(){
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service){
+            FirebaseBoundService.LocalService localService = (FirebaseBoundService.LocalService)service;
+            firebaseBoundService = localService.getService();
+            isBound = true;
+
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name){
+            isBound = false;
+        }
+    };
+    @Override
+    protected void onDestroy(){
+        if(isBound){
+            unbindService(serviceConnection);
+            isBound = false;
+        }
+        super.onDestroy();
     }
 
     //this method is called in order to display an invitation on the screen
@@ -136,7 +182,7 @@ public class TeamScreen extends AppCompatActivity {
     //getter method for the name of the sender of an invitation.
     public String getInvitation()
     {
-        documentSnapshot = firebaseService.getInvitation();
+        documentSnapshot = firebaseBoundService.firebaseService.getInvitation();
 
         //TODO: NULL REFERENCE PUT BREAK POINT TO SEE
         // Problem: Async, tries to access snapshot before async complets

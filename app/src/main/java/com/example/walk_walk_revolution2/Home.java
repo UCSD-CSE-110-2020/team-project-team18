@@ -1,5 +1,8 @@
 package com.example.walk_walk_revolution2;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,6 +63,8 @@ public class Home extends AppCompatActivity {
     private int testSteps;
     String fitnessServiceKey;
     String fileName;
+    FirebaseBoundService firebaseBoundService;
+    boolean isBound;
     private FirebaseAdapter firebase;
     private DistanceCalculator calculator = new DistanceCalculator();
 
@@ -69,21 +75,18 @@ public class Home extends AppCompatActivity {
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
         firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
-        firebaseService = FirebaseServiceFactory.create(firebaseServiceKey, this);
+        //firebaseService = FirebaseServiceFactory.create(firebaseServiceKey, this);
+
+        //firebaseBoundService.setup();
         fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
 
-        int heightNum = getHeight();
-        if (heightNum <= 0 && fakeHeight == 0) {
-            launchHeightAndEmailScreen();
-        }
+        //int heightNum = getHeight();
+       // if (heightNum <= 0 && fakeHeight == 0) {
+         //   launchHeightAndEmailScreen();
+        //}
 
-        String email = getEmail();
-        String firstName = getFirstName();
-        String lastName = getLastName();
-        firebaseService.setup(email);
-        if(email != null){
-            firebaseService.addUserToDatabaseIfFirstUse(email, firstName, lastName);
-        }
+
+
         Button launchRoutesScreen = (Button) findViewById(R.id.routes_but_home);
         Button launchTestScreen = (Button) findViewById(R.id.test_but_home);
         final Button launchTeamScreen = (Button) findViewById(R.id.team_but_home);
@@ -184,8 +187,37 @@ public class Home extends AppCompatActivity {
     public void onStart(){
         super.onStart();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        String email = getEmail();
+        String firstName = getFirstName();
+        String lastName = getLastName();
+        Intent intent = new Intent(this, FirebaseBoundService.class);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
+        intent.putExtra("email", email);
+        intent.putExtra("firstName", firstName);
+        intent.putExtra("lastName", lastName);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
+    private ServiceConnection serviceConnection = new ServiceConnection(){
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service){
+            FirebaseBoundService.LocalService localService = (FirebaseBoundService.LocalService)service;
+            firebaseBoundService = localService.getService();
+            isBound = true;
 
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name){
+            isBound = false;
+        }
+    };
+    @Override
+    protected void onDestroy(){
+        if(isBound){
+            unbindService(serviceConnection);
+            isBound = false;
+        }
+        super.onDestroy();
+    }
     public void launchHeightAndEmailScreen() {
         Intent intent = new Intent(this, HeightScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
