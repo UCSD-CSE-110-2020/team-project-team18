@@ -86,8 +86,6 @@ public class TeamScreen extends AppCompatActivity {
             }
         });
         System.out.println("GetTeamMemberNames");
-        loadTeamMembers();
-        loadInvitation();
 
 
     }
@@ -98,6 +96,8 @@ public class TeamScreen extends AppCompatActivity {
             FirebaseBoundService.LocalService localService = (FirebaseBoundService.LocalService)service;
             firebaseBoundService = localService.getService();
             isBound = true;
+            loadTeamMembers();
+            loadInvitation();
 
         }
         @Override
@@ -190,7 +190,7 @@ public class TeamScreen extends AppCompatActivity {
     //getter method for the name of the sender of an invitation.
     public String getInvitation()
     {
-        documentSnapshot = firebaseBoundService.firebaseService.getInvitation();
+       // documentSnapshot = firebaseBoundService.firebaseService.getInvitation();
 
         //TODO: NULL REFERENCE PUT BREAK POINT TO SEE
         // Problem: Async, tries to access snapshot before async complets
