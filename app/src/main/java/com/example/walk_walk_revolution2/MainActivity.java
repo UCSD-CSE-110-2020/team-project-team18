@@ -3,10 +3,15 @@ package com.example.walk_walk_revolution2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.Service;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private String fitnessServiceKey = "GOOGLE_FIT";
     private String firebaseServiceKey = "FIREBASE";
     private int height;
+    private FirebaseBoundService firebaseBoundService;
+    private boolean isBound;
+    private int fakeHeight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseServiceFactory.put(firebaseServiceKey, new FirebaseServiceFactory.BluePrint() {
             @Override
-            public FirebaseService create(Activity home) {
-                return new FirebaseAdapter(home);
+            public FirebaseService create(Service service) {
+                return new FirebaseAdapter(service);
             }
         });
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -50,33 +57,45 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void launchHomeScreen(){
-        Intent intent = new Intent(this, Home.class);
-        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
-        intent.putExtra(Home.HEIGHT_KEY, height);
-        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
-        startActivity(intent);
+        int heightNum = getHeight();
+        if (0 <= heightNum && fakeHeight == 0) {
+            launchHeightAndEmailScreen();
+        }
+  //      Intent intent = new Intent(this, Home.class);
+    //    intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+      //  intent.putExtra(Home.HEIGHT_KEY, height);
+       // intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
+
+       // startActivity(intent);
+    }
+    public int getHeight() {
+        SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
+        if(fakeHeight == 0){
+            return spfs.getInt("userHeight", 0);
+        }
+        return fakeHeight;
     }
     public void setFitnessServiceKey(String fitnessServiceKey){
         this.fitnessServiceKey = fitnessServiceKey;
         if(fitnessServiceKey == "TEST_SERVICE"){
-            SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
-            SharedPreferences.Editor editor = spfs.edit();
 
+            fakeHeight = -1;
 
-            editor.putInt("userHeight", -1);
-            editor.apply();
 
         }
+    }
+    public void launchHeightAndEmailScreen() {
+        Intent intent = new Intent(this, HeightScreen.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+       // intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
+        startActivity(intent);
     }
     public void setFirebaseServiceKey(String firebaseServiceKey){
         this.firebaseServiceKey = firebaseServiceKey;
         if(firebaseServiceKey == "FIREBASE_TEST"){
-            SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
-            SharedPreferences.Editor editor = spfs.edit();
-
-
-            editor.putInt("userHeight", -1);
-            editor.apply();
+            fakeHeight = -1;
         }
     }
     public void setHeight(int height){

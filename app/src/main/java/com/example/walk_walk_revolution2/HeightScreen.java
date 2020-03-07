@@ -28,6 +28,13 @@ public class HeightScreen extends AppCompatActivity {
         setContentView(R.layout.height_prompt);
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
+        if(getHeight() > 0){
+            heightDone = true;
+            emailDone = true;
+            firstNameDone = true;
+            lastNameDone = true;
+            launchHome();
+        }
        final Button submitButton = findViewById(R.id.submitButton);
       submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +140,11 @@ public class HeightScreen extends AppCompatActivity {
 
         editor.putString("lastName", lastName);
         editor.apply();
+    }
+    public int getHeight() {
+        SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
+
+            return spfs.getInt("userHeight", 0);
     }
     public void launchHome(){
         if(heightDone && emailDone && firstNameDone && lastNameDone) {

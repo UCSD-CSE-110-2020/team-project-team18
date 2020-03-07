@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InvitationScreen"></activity>
+        <service
+            android:name=".FirebaseBoundService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".InvitationScreen" />
         <activity android:name=".TeamRoutesScreen" />
         <activity
             android:name=".Home"
