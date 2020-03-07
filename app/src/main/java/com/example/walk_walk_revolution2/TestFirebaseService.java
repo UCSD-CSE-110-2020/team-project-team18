@@ -12,6 +12,7 @@ public class TestFirebaseService implements FirebaseService{
         private String firstName;
         private String lastName;
         private ArrayList<String> friends;
+        private DocumentSnapshot documentSnapshot;
         public TestFirebaseService(Activity mainActivity) {}
 
 
@@ -33,9 +34,10 @@ public class TestFirebaseService implements FirebaseService{
         }
 
         @Override
-        public DocumentSnapshot getInvitation(){ return null;}
+        public void getInvitation(){}
 
-
+        @Override
+        public DocumentSnapshot getInviteDoc(){return documentSnapshot;}
 
         @Override
         public void sendInvite(String toEmail){}

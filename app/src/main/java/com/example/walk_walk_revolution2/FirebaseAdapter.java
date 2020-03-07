@@ -187,7 +187,7 @@ public class FirebaseAdapter implements FirebaseService{
     }
 
 
-    public DocumentSnapshot getInvitation(){
+    public void getInvitation(){
         CollectionReference invite = db.collection("users").document(userEmail).collection("invites");
         invite
                 .get()
@@ -199,6 +199,8 @@ public class FirebaseAdapter implements FirebaseService{
 
                     }
                 });
+
+
 
 //                .get()
 //                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -215,6 +217,9 @@ public class FirebaseAdapter implements FirebaseService{
 //                    }
 //                });
 
+    }
+
+    public DocumentSnapshot getInviteDoc(){
         return inviteDoc;
     }
 }

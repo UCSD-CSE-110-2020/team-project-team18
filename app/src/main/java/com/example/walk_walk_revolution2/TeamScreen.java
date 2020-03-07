@@ -116,14 +116,6 @@ public class TeamScreen extends AppCompatActivity {
 
     //this method is called in order to display an invitation on the screen
     public void loadInvitation() {
-        firebaseService.getInvitation(new FirestoreCallBack() {
-            @Override
-            public void onCallBack(String name)
-        });
-
-
-
-
         String name = getInvitation();
         TextView inviter = findViewById(R.id.name_of_inviter);
         if(name.length() == 0)
@@ -190,7 +182,8 @@ public class TeamScreen extends AppCompatActivity {
     //getter method for the name of the sender of an invitation.
     public String getInvitation()
     {
-       // documentSnapshot = firebaseBoundService.firebaseService.getInvitation();
+        firebaseBoundService.firebaseService.getInvitation();
+        documentSnapshot = firebaseBoundService.firebaseService.getInviteDoc();
 
         //TODO: NULL REFERENCE PUT BREAK POINT TO SEE
         // Problem: Async, tries to access snapshot before async complets
