@@ -116,6 +116,14 @@ public class TeamScreen extends AppCompatActivity {
 
     //this method is called in order to display an invitation on the screen
     public void loadInvitation() {
+        firebaseService.getInvitation(new FirestoreCallBack() {
+            @Override
+            public void onCallBack(String name)
+        });
+
+
+
+
         String name = getInvitation();
         TextView inviter = findViewById(R.id.name_of_inviter);
         if(name.length() == 0)
@@ -257,5 +265,9 @@ public class TeamScreen extends AppCompatActivity {
 
         SharedPreferences spfs = getSharedPreferences("user_email", MODE_PRIVATE);
         return spfs.getString("userEmail", null);
+    }
+
+    private interface FirestoreCallBack {
+        void onCallback(String name);
     }
 }
