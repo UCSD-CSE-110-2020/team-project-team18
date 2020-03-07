@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.w3c.dom.Text;
 
@@ -20,6 +23,7 @@ import java.text.DecimalFormat;
 public class MainActivity extends AppCompatActivity {
     private String fitnessServiceKey = "GOOGLE_FIT";
     private int height;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 launchHomeScreen();
             }
         });
+
     }
     public void launchHomeScreen(){
         Intent intent = new Intent(this, Home.class);
@@ -63,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     public void setHeight(int height){
         this.height = height;
     }
+
 }
 /**private String fitnessServiceKey = "GOOGLE_FIT";
     public static final String TAG = "MainActivity";

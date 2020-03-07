@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProposedWalk">
+
+    <TextView
+        android:id="@+id/proposedWalk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/proposedWalk"
+        android:textSize="20sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.04" />
+
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp"
+        app:layout_constraintTop_toBottomOf="@+id/proposedWalk">
+
+        <TextView
+            android:id="@+id/walkName"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/walkName"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nameWalk"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="@string/nameWalk"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ownerName"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/ownerName"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nameOwner"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="@string/nameOwner"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/date"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textDate"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="@string/textDate"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/time"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textTime"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="@string/textTime"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/acceptPropose"
+        android:layout_width="110sp"
+        android:layout_height="70sp"
+        android:layout_marginBottom="20sp"
+        android:text="@string/acceptPropose"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/declineProposeBadTime" />
+
+    <Button
+        android:id="@+id/declineProposeBadTime"
+        android:layout_width="120sp"
+        android:layout_height="70sp"
+        android:layout_marginBottom="20sp"
+        android:text="@string/declineProposeBadTime"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/acceptPropose"
+        app:layout_constraintRight_toLeftOf="@id/declineProposeRoute" />
+
+
+    <Button
+        android:id="@+id/declineProposeRoute"
+        android:layout_width="140sp"
+        android:layout_height="70sp"
+        android:layout_marginBottom="20sp"
+        android:text="@string/declineProposeRoute"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/declineProposeBadTime"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0sp"
+        android:layout_height="0sp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/acceptPropose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
