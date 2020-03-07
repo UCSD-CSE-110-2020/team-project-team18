@@ -98,7 +98,7 @@ public class TeamScreen extends AppCompatActivity {
             isBound = true;
             loadTeamMembers();
             loadInvitation();
-
+            getInvitation();
         }
         @Override
         public void onServiceDisconnected(ComponentName name){
@@ -116,9 +116,13 @@ public class TeamScreen extends AppCompatActivity {
 
     //this method is called in order to display an invitation on the screen
     public void loadInvitation() {
+        boolean onTeam = firebaseBoundService.firebaseService.retrieveTeamStatus();
+        if(onTeam)
+            return;
+
         String name = getInvitation();
         TextView inviter = findViewById(R.id.name_of_inviter);
-        if(name.length() == 0)
+        if(name == null)
         {
             invitation.setVisibility(View.GONE);
             return;
@@ -182,15 +186,18 @@ public class TeamScreen extends AppCompatActivity {
     //getter method for the name of the sender of an invitation.
     public String getInvitation()
     {
-        firebaseBoundService.firebaseService.getInvitation();
-        documentSnapshot = firebaseBoundService.firebaseService.getInviteDoc();
 
+       // documentSnapshot = firebaseBoundService.firebaseService.getInvitation();
+        documentSnapshot = firebaseBoundService.firebaseService.retrieveInvitation();
+        if(documentSnapshot == null){
+            return null;
+        }
         //TODO: NULL REFERENCE PUT BREAK POINT TO SEE
         // Problem: Async, tries to access snapshot before async complets
-//        return documentSnapshot.getString("FIRST_NAME") + " " + documentSnapshot.getString("LAST_NAME");
+       return documentSnapshot.getString("FIRST_NAME") + " " + documentSnapshot.getString("LAST_NAME");
 
-        System.out.println("SECOND");
-        return "";
+        //System.out.println("SECOND");
+      //  return "";
     }
 
     //getter method to return the initials of the name that is passed in.
@@ -241,8 +248,9 @@ public class TeamScreen extends AppCompatActivity {
           2. Add the inviter email to our list of teammates
           3. Change our onTeam to true
           4. Delete invitation collection
-
          */
+        firebaseBoundService.firebaseService.acceptInvite(documentSnapshot.getString("FROM"));
+
         invitation.setVisibility(View.GONE);
         loadTeamMembers();
     }
@@ -254,13 +262,4 @@ public class TeamScreen extends AppCompatActivity {
         //loadTeamMembers();
     }
 
-    public String getEmail(){
-
-        SharedPreferences spfs = getSharedPreferences("user_email", MODE_PRIVATE);
-        return spfs.getString("userEmail", null);
-    }
-
-    private interface FirestoreCallBack {
-        void onCallback(String name);
-    }
 }

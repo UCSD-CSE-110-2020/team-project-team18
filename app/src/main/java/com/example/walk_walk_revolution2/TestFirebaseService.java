@@ -2,9 +2,12 @@ package com.example.walk_walk_revolution2;
 
 import android.app.Activity;
 
+import androidx.lifecycle.OnLifecycleEvent;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TestFirebaseService implements FirebaseService{
         private static final String TAG = "[TestFitnessService]: ";
@@ -34,11 +37,29 @@ public class TestFirebaseService implements FirebaseService{
         }
 
         @Override
-        public void getInvitation(){}
+
+        public void getInvitation(){ }
 
         @Override
-        public DocumentSnapshot getInviteDoc(){return documentSnapshot;}
+        public DocumentSnapshot retrieveInvitation(){
+            return null;
+        }
 
         @Override
         public void sendInvite(String toEmail){}
+
+        @Override
+        public void updateList(String email, List<String> teamList){}
+
+        @Override
+        public void acceptInvite(String senderEmail){}
+
+        @Override
+        public void getOnTeamStatus(){}
+
+        @Override
+        public boolean retrieveTeamStatus() {return false;};
+
+
+
 }

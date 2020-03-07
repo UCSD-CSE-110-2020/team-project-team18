@@ -36,10 +36,13 @@ public class FirebaseAdapter implements FirebaseService{
     String FIRST_NAME_KEY = "FIRST_NAME";
     String LAST_NAME_KEY = "LAST_NAME";
     String userEmail;
+    boolean onTeam;
 
     String firstName;
     String lastName;
     DocumentSnapshot inviteDoc;
+
+
     public FirebaseAdapter(Service service){
     }
 
@@ -50,6 +53,10 @@ public class FirebaseAdapter implements FirebaseService{
             getOurFirstName(userEmail);
             getOurLastName(userEmail);
         }
+    }
+    public DocumentSnapshot retrieveInvitation(){
+        getInvitation();
+        return inviteDoc;
     }
     public void addUserToDatabaseIfFirstUse(final String userEmail, final String firstName, final String lastName) {
         DocumentReference docRef = db.collection("users").document(userEmail);
@@ -62,14 +69,12 @@ public class FirebaseAdapter implements FirebaseService{
                         //user has already been added to database
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
-                        ArrayList<String> teamMembers = new ArrayList<String>();
-
                         Map<String, Object> user = new HashMap<>();
                         user.put("email", userEmail);
                         user.put("firstName", firstName);
                         user.put("lastName", lastName);
                         user.put("onTeam", false);
-                        user.put("teamMembers", teamMembers);
+                        user.put("teamMembers", Arrays.asList());
                         db.collection("users").document(userEmail)
                                 .set(user)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -194,9 +199,12 @@ public class FirebaseAdapter implements FirebaseService{
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        inviteDoc = task.getResult().getDocuments().get(0);
-                        System.out.println(inviteDoc);
-
+                        if(task.isSuccessful()) {
+                            if (task.getResult().getDocuments().size() != 0) {
+                                inviteDoc = task.getResult().getDocuments().get(0);
+                                System.out.println(inviteDoc);
+                            }
+                        }
                     }
                 });
 
@@ -217,9 +225,83 @@ public class FirebaseAdapter implements FirebaseService{
 //                    }
 //                });
 
+
     }
 
-    public DocumentSnapshot getInviteDoc(){
-        return inviteDoc;
+    public void acceptInvite(final String senderEmail) {
+        DocumentReference docRef = db.collection("users").document(userEmail);
+
+        docRef.update("onTeam", true);
+        docRef
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            List<String> teamList;
+                            DocumentSnapshot snap = task.getResult();
+
+                            teamList = (ArrayList<String>) snap.get("teammates");
+                            System.out.println("myList: " + teamList);
+
+                            teamList.add(senderEmail);
+                            updateList(userEmail, teamList);
+
+                        }
+
+                    }
+
+                });
+
+
+        DocumentReference senderDoc = db.collection("users").document(senderEmail);
+
+        senderDoc.update("onTeam", true);
+        senderDoc
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            List<String> teamList;
+                            DocumentSnapshot snap = task.getResult();
+
+                            teamList = (ArrayList<String>) snap.get("teammates");
+                            System.out.println("myList: " + teamList);
+
+                            teamList.add(userEmail);
+                            updateList(senderEmail, teamList);
+                        }
+
+                    }
+
+                });
+    }
+
+    public void updateList(String email, List<String> teamList) {
+        DocumentReference docRef = db.collection("users").document(email);
+
+        docRef.update("teammates", teamList);
+    }
+
+    public void getOnTeamStatus(){
+        DocumentReference docRef = db.collection("users").document(userEmail);
+        docRef
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            onTeam = task.getResult().getBoolean("onTeam");
+                        }
+
+                    }
+
+                });
+
+    }
+
+    public boolean retrieveTeamStatus(){
+        return onTeam;
     }
 }
