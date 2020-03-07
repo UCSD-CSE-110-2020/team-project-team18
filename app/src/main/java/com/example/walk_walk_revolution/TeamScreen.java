@@ -76,7 +76,6 @@ public class TeamScreen extends AppCompatActivity {
     //this method is called in order to display the current team's members on the screen.
     public void loadTeamMembers() {
 
-
         // Lookup the recyclerview in activity layout
         RecyclerView rvTeamMemberItems = (RecyclerView) findViewById(R.id.team_recycler_view);
         rvTeamMemberItems.removeAllViews();

@@ -153,9 +153,6 @@ public class Home extends AppCompatActivity {
             startWalk();
         }
 
-
-
-
     }
 
 
@@ -335,7 +332,30 @@ public class Home extends AppCompatActivity {
                 return new Walk(steps, dist, time);
             }
         }
-    public void endWalk() {
+    public void endWalk()
+    {
+        if(fileName != null) {
+            SharedPreferences pref = getSharedPreferences(fileName, MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+
+            editor.putBoolean("hasWalked", true);
+            editor.apply();
+        } else {
+            SharedPreferences.Editor editor;
+
+            SharedPreferences numWalkFile = getSharedPreferences("numWalks", MODE_PRIVATE);
+            int totalWalks = numWalkFile.getInt("totalWalks", 0);
+            totalWalks++;
+
+            String newWalkFile = "walk_" + totalWalks;
+            System.out.println(newWalkFile);
+
+            SharedPreferences preferences = getSharedPreferences(newWalkFile, MODE_PRIVATE);
+            editor = preferences.edit();
+            editor.putBoolean("hasWalked", true);
+            editor.apply();
+        }
+
         if (currentWalk != null && fitnessService != null) {
             walkStarted.setText("");
             endingWalk = true;
@@ -349,6 +369,7 @@ public class Home extends AppCompatActivity {
             endingWalk = true;
             walkCleanup();
         }
+
     }
     public void setFakeHeight(int fakeHeight){
         this.fakeHeight = fakeHeight;

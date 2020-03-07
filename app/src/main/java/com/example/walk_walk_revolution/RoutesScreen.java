@@ -9,8 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ToggleButton;
+
 import java.util.ArrayList;
 
 import java.text.DecimalFormat;
@@ -37,6 +40,7 @@ public class RoutesScreen extends AppCompatActivity {
         Button launchHomeScreen = (Button)findViewById(R.id.home_but_routes);
         Button launchTestScreen = (Button)findViewById(R.id.test_but_routes);
         Button launchNewRouteScreen = (Button)findViewById(R.id.addNewWalk);
+        ToggleButton favoriteButton = (ToggleButton)findViewById(R.id.favoriteButton);
 
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
         testSteps = getIntent().getIntExtra(TEST_KEY, 0);
@@ -84,6 +88,8 @@ public class RoutesScreen extends AppCompatActivity {
             int stepCount = routeInfo.getInt("stepCount", 0);
             float distance = routeInfo.getFloat("distance", 0.0f);
             String time = routeInfo.getString("time", "00:00:00");
+            boolean isFavorite = routeInfo.getBoolean("isFavorite", false);
+            boolean hasWalked = routeInfo.getBoolean("hasWalked", false);
 
             System.out.println(fileName);
             System.out.println(name);
@@ -91,7 +97,8 @@ public class RoutesScreen extends AppCompatActivity {
             System.out.println(stepCount);
             System.out.println(distance);
 
-            RouteItem item = new RouteItem(fileName, name, startPoint, stepCount, distance, time, this);
+            RouteItem item = new RouteItem(fileName, name, startPoint, stepCount, distance,
+                                           time, this, isFavorite, hasWalked);
             listItems.add(item);
         }
 
@@ -150,6 +157,16 @@ public class RoutesScreen extends AppCompatActivity {
         intent.putExtra("fileName", fileName);
         startActivity(intent);
     }
+
+    public void saveIsFavorite(String fileName, boolean isFavorite)
+    {
+        SharedPreferences spfs = getSharedPreferences(fileName, MODE_PRIVATE);
+        SharedPreferences.Editor editor = spfs.edit();
+
+        editor.putBoolean("isFavorite", isFavorite);
+        editor.apply();
+    }
+
     public void saveCurrentWalk(){
         SharedPreferences spfs = getSharedPreferences("current_walk", MODE_PRIVATE);
         SharedPreferences.Editor editor = spfs.edit();

@@ -3,21 +3,29 @@ package com.example.walk_walk_revolution;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class RouteItemsAdapter extends
         RecyclerView.Adapter<RouteItemsAdapter.ViewHolder> {
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView nameTextView;
@@ -25,6 +33,8 @@ public class RouteItemsAdapter extends
         public TextView stepCountTextView;
         public TextView distanceTextView;
         public TextView timeTextView;
+        public TextView hasWalkedTextView;
+        public ToggleButton favoriteButton;
         public Button viewRouteButton;
 
         // We also create a constructor that accepts the entire item row
@@ -39,18 +49,33 @@ public class RouteItemsAdapter extends
             this.stepCountTextView = (TextView) itemView.findViewById(R.id.stepCount);
             this.distanceTextView = (TextView) itemView.findViewById(R.id.distance);
             this.timeTextView = (TextView)itemView.findViewById(R.id.timeDisplay);
+            this.hasWalkedTextView = (TextView)itemView.findViewById(R.id.hasWalked);
             this.viewRouteButton = (Button) itemView.findViewById(R.id.viewDetailsButton);
+            this.favoriteButton = (ToggleButton) itemView.findViewById(R.id.favoriteButton);
 
+            favoriteButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    int position = getAdapterPosition();
+                    RouteItem routeItem = routeItemsList.get(position);
+                    routeItem.changeFavorite();
+                    boolean isFavorite = routeItem.getIsFavorite();
+                    favoriteButton.setChecked(isFavorite);
+                }
+            });
 
-
-            this.viewRouteButton.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            int position = getAdapterPosition();
-            RouteItem routeItem = routeItemsList.get(position);
-            routeItem.launchRouteDetails();
+            this.viewRouteButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    int position = getAdapterPosition();
+                    RouteItem routeItem = routeItemsList.get(position);
+                    routeItem.launchRouteDetails();
+                }
+            });
         }
     }
     // Store a member variable for the contacts
@@ -102,6 +127,15 @@ public class RouteItemsAdapter extends
 
         TextView textViewTime = viewHolder.timeTextView;
         textViewTime.setText(routeItem.getTime());
+
+        ToggleButton favoriteButton = viewHolder.favoriteButton;
+        favoriteButton.setChecked(routeItem.getIsFavorite());
+
+        TextView textViewHasWalked = viewHolder.hasWalkedTextView;
+        if(routeItem.getHasWalked())
+        {
+            textViewHasWalked.setVisibility(View.VISIBLE);
+        }
     }
 
     // Returns the total count of items in the list
