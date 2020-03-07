@@ -1,21 +1,40 @@
 package com.example.walk_walk_revolution;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WalkInvite extends AppCompatActivity {
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
     public static final String HEIGHT_KEY = "HEIGHT_KEY";
     public static final String STEPS_KEY = "STEPS_KEY";
     public static final String TEST_KEY = "TEST_KEY";
+    public String TAG = WalkInvite.class.getSimpleName();
     private String fitnessServiceKey;
     public int fakeHeight;
     private String walkName;
@@ -25,24 +44,32 @@ public class WalkInvite extends AppCompatActivity {
     private int testSteps;
     private TimePicker time;
     private DatePicker date;
-    private TextView textDate;
-    private TextView textTime;
+    private Toast sentInvite;
+    private int currentMonth;
+    private int currentDay;
+    private int currentYear;
+    private int month;
+    private int day;
+    private int year;
+    private int currentHour;
+    private int currentMinute;
+    private int hour;
+    private int minutes;
+    private ArrayList<String> team;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk_invite);
         setVariables();
-        setupInvite();
-
-        textDate = findViewById(R.id.walk_date);
-        textTime = findViewById(R.id.walk_time);
 
         Button btnSendInvite = findViewById(R.id.send_invite);
         Button btnCancel = findViewById(R.id.cancel);
 
         time = findViewById(R.id.pick_time);
         date = findViewById(R.id.pick_date);
+
+        setupInvite();
 
         btnSendInvite.setOnClickListener(new View.OnClickListener() {
 
@@ -51,7 +78,6 @@ public class WalkInvite extends AppCompatActivity {
                 sendInvite();
             }
         });
-
         btnCancel.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -79,23 +105,102 @@ public class WalkInvite extends AppCompatActivity {
         TextView startPoint = findViewById(R.id.starting_point);
         startPoint.setText(startingPoint);
         startPoint.setGravity(Gravity.CENTER);
+
+        currentMonth = date.getMonth() + 1;
+        currentDay = date.getDayOfMonth();
+        currentYear = date.getYear();
+
+        currentHour = time.getCurrentHour();
+        currentMinute = time.getCurrentMinute();
     }
 
     private void sendInvite(){
-        if(validDate()){
-            int hour = time.getCurrentHour();
-            int minutes = time.getCurrentMinute();
-            String meetupTime = "Time: " + hour + ":" + minutes;
-            textTime.setText(meetupTime);
-            textTime.setGravity(Gravity.CENTER);
+        SharedPreferences sharedPreferences = getSharedPreferences("user_email", MODE_PRIVATE);
+        String email = sharedPreferences.getString("userEmail", "");
 
-            int month = date.getMonth() + 1;
-            int day = date.getDayOfMonth();
-            int year = date.getYear();
-            String meetupDay = month + "/" + day + "/" + year;
-            textDate.setText(meetupDay);
-            textDate.setGravity(Gravity.CENTER);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("users").document(email);
+
+        if(validDate() && validTime()){
+            String walkTime = getTime();
+            String walkDate = getDate();
+
+            ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            team = (ArrayList<String>)document.get("teammates");
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+
+            team.add(email);
+
+            for(String teamEmail: team){
+                Map<String, String> walkProposal = new HashMap<>();
+                walkProposal.put("proposer", email);
+                walkProposal.put("walkName", walkName);
+                walkProposal.put("startingPoint", startingPoint);
+                walkProposal.put("walkDate", walkDate);
+                walkProposal.put("walkTime", walkTime);
+
+                db.collection("users").document(teamEmail).collection("invites")
+                        .document("proposal").set(walkProposal)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+            }
+
+            sentInvite = Toast.makeText(getApplicationContext(), "Sent Invite", Toast.LENGTH_LONG);
+            sentInvite.show();
         }
+        else if(!validDate()) {
+            sentInvite = Toast.makeText(getApplicationContext(), "Enter Valid Date", Toast.LENGTH_LONG);
+            sentInvite.show();
+        }
+        else {
+            sentInvite = Toast.makeText(getApplicationContext(), "Enter Valid Time", Toast.LENGTH_LONG);
+            sentInvite.show();
+        }
+    }
+
+    private String getTime(){
+        int hour12;
+        String am_pm;
+        String min;
+
+        if( hour == 12 || hour == 0 ) { hour12 = 12; }
+        else if(  hour < 12 ) { hour12 = hour; }
+        else { hour12 = hour%12; }
+
+        if(minutes < 10) { min = "0" + minutes; }
+        else { min = "" + minutes; }
+
+        if(hour < 12) { am_pm = " AM"; }
+        else { am_pm = " PM"; }
+
+        return hour12 + ":" + min + am_pm;
+    }
+
+    private String getDate(){
+        return month + "/" + day + "/" + year;
     }
 
     private void launchRouteDetails(String fileName){
@@ -109,6 +214,23 @@ public class WalkInvite extends AppCompatActivity {
     }
 
     private boolean validDate(){
+        month = date.getMonth() + 1;
+        day = date.getDayOfMonth();
+        year = date.getYear();
+        if(currentYear > year)  return  false;
+        if(currentYear == year && currentMonth > month) return false;
+        if(currentYear == year && currentMonth == month && currentDay > day) return false;
+        return true;
+    }
+
+    private boolean validTime(){
+        hour = time.getCurrentHour();
+        minutes = time.getCurrentMinute();
+        if(currentYear == year && currentMonth == month && currentDay == day){
+            if((currentHour > hour) || (currentHour == hour && currentMinute > minutes)){
+                return false;
+            }
+        }
         return true;
     }
 }
