@@ -122,22 +122,34 @@ public class FirebaseAdapter implements FirebaseService{
     });
     }
 
-    public DocumentSnapshot getInvitation(){
-        DocumentReference invite = db.collection("user").document(userEmail).collection("invites").document();
 
+    public DocumentSnapshot getInvitation(){
+        CollectionReference invite = db.collection("users").document(userEmail).collection("invites");
         invite
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        inviteDoc = task.getResult().getDocuments().get(0);
+                        System.out.println(inviteDoc);
 
-                            inviteDoc = task.getResult();
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
                     }
                 });
+
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//
+//                            inviteDoc = task.getResult();
+//                            System.out.println(inviteDoc);
+//
+//                        } else {
+//                            Log.d(TAG, "get failed with ", task.getException());
+//                        }
+//                    }
+//                });
 
         return inviteDoc;
     }

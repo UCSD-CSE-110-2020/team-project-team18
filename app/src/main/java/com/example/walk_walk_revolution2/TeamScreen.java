@@ -138,7 +138,12 @@ public class TeamScreen extends AppCompatActivity {
     {
         documentSnapshot = firebaseService.getInvitation();
 
-        return documentSnapshot.getString("FIRST_NAME") + " " + documentSnapshot.getString("LAST_NAME");
+        //TODO: NULL REFERENCE PUT BREAK POINT TO SEE
+        // Problem: Async, tries to access snapshot before async complets
+//        return documentSnapshot.getString("FIRST_NAME") + " " + documentSnapshot.getString("LAST_NAME");
+
+        System.out.println("SECOND");
+        return "";
     }
 
     //getter method to return the initials of the name that is passed in.

@@ -213,6 +213,7 @@ public class Home extends AppCompatActivity {
     public void launchTeamScreen()
     {
         Intent intent = new Intent(this, TeamScreen.class);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         startActivity(intent);
     }
 
