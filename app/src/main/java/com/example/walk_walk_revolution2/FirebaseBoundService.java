@@ -40,6 +40,7 @@ public class FirebaseBoundService extends Service{
             firebaseService.setup(email);
             firebaseService.addUserToDatabaseIfFirstUse(intent.getStringExtra("email"), intent.getStringExtra("firstName"), intent.getStringExtra("lastName"));
         }
+        firebaseService.getInvitation();
         return iBinder;
     }
     class LocalService extends Binder {

@@ -98,7 +98,7 @@ public class TeamScreen extends AppCompatActivity {
             isBound = true;
             loadTeamMembers();
             loadInvitation();
-
+            getInvitation();
         }
         @Override
         public void onServiceDisconnected(ComponentName name){
@@ -118,7 +118,7 @@ public class TeamScreen extends AppCompatActivity {
     public void loadInvitation() {
         String name = getInvitation();
         TextView inviter = findViewById(R.id.name_of_inviter);
-        if(name.length() == 0)
+        if(name == null)
         {
             invitation.setVisibility(View.GONE);
             return;
@@ -183,13 +183,16 @@ public class TeamScreen extends AppCompatActivity {
     public String getInvitation()
     {
        // documentSnapshot = firebaseBoundService.firebaseService.getInvitation();
-
+        documentSnapshot = firebaseBoundService.firebaseService.retrieveInvitation();
+        if(documentSnapshot == null){
+            return null;
+        }
         //TODO: NULL REFERENCE PUT BREAK POINT TO SEE
         // Problem: Async, tries to access snapshot before async complets
-//        return documentSnapshot.getString("FIRST_NAME") + " " + documentSnapshot.getString("LAST_NAME");
+       return documentSnapshot.getString("FIRST_NAME") + " " + documentSnapshot.getString("LAST_NAME");
 
-        System.out.println("SECOND");
-        return "";
+        //System.out.println("SECOND");
+      //  return "";
     }
 
     //getter method to return the initials of the name that is passed in.

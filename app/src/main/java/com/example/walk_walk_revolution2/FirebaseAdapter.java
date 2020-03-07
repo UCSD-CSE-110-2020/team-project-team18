@@ -51,6 +51,10 @@ public class FirebaseAdapter implements FirebaseService{
             getOurLastName(userEmail);
         }
     }
+    public DocumentSnapshot retrieveInvitation(){
+        getInvitation();
+        return inviteDoc;
+    }
     public void addUserToDatabaseIfFirstUse(final String userEmail, final String firstName, final String lastName) {
         DocumentReference docRef = db.collection("users").document(userEmail);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -187,16 +191,19 @@ public class FirebaseAdapter implements FirebaseService{
     }
 
 
-    public DocumentSnapshot getInvitation(){
+    public void getInvitation(){
         CollectionReference invite = db.collection("users").document(userEmail).collection("invites");
         invite
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        inviteDoc = task.getResult().getDocuments().get(0);
-                        System.out.println(inviteDoc);
-
+                        if(task.isSuccessful()) {
+                            if (task.getResult().getDocuments().size() != 0) {
+                                inviteDoc = task.getResult().getDocuments().get(0);
+                                System.out.println(inviteDoc);
+                            }
+                        }
                     }
                 });
 
@@ -215,6 +222,6 @@ public class FirebaseAdapter implements FirebaseService{
 //                    }
 //                });
 
-        return inviteDoc;
+      //  return inviteDoc;
     }
 }

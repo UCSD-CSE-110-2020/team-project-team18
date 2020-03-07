@@ -33,7 +33,12 @@ public class TestFirebaseService implements FirebaseService{
         }
 
         @Override
-        public DocumentSnapshot getInvitation(){ return null;}
+        public void getInvitation(){ }
+
+        @Override
+        public DocumentSnapshot retrieveInvitation(){
+            return null;
+        }
 
 
 
