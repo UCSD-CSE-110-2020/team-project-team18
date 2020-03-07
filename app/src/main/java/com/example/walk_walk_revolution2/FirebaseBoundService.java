@@ -19,6 +19,7 @@ public class FirebaseBoundService extends Service{
     public static final String FIREBASE_SERVICE_KEY = "FIREBASE_SERVICE_KEY";
     FirebaseService firebaseService;
     String firebaseServiceKey;
+    String email;
     public FirebaseBoundService(Activity activity) {
     }
     public FirebaseBoundService() {
@@ -26,18 +27,19 @@ public class FirebaseBoundService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
-        if(firebaseService==null) {
             firebaseServiceKey = intent.getStringExtra(FIREBASE_SERVICE_KEY);
             firebaseService = FirebaseServiceFactory.create(firebaseServiceKey, this);
-            firebaseService.setup(intent.getStringExtra("email"));
-            firebaseService.addUserToDatabaseIfFirstUse(intent.getStringExtra("email"), intent.getStringExtra("firstName"), intent.getStringExtra("lastName"));
-        }
+           // firebaseService.setup(intent.getStringExtra("email"));
+          //  firebaseService.addUserToDatabaseIfFirstUse(intent.getStringExtra("email"), intent.getStringExtra("firstName"), intent.getStringExtra("lastName"));
         return super.onStartCommand(intent, flags, startId);
     }
     @Override
     public IBinder onBind(Intent intent) {
-
-
+        if (email == null) {
+            email = intent.getStringExtra("email");
+            firebaseService.setup(email);
+            firebaseService.addUserToDatabaseIfFirstUse(intent.getStringExtra("email"), intent.getStringExtra("firstName"), intent.getStringExtra("lastName"));
+        }
         return iBinder;
     }
     class LocalService extends Binder {

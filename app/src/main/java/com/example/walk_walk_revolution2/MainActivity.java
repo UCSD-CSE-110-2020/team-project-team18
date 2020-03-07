@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void launchHeightAndEmailScreen() {
         Intent intent1 = new Intent(MainActivity.this, FirebaseBoundService.class);
+        intent1.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
         startService(intent1);
         Intent intent = new Intent(this, HeightScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);

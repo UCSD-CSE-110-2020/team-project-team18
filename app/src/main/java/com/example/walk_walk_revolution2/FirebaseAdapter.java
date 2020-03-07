@@ -52,7 +52,6 @@ public class FirebaseAdapter implements FirebaseService{
         }
     }
     public void addUserToDatabaseIfFirstUse(final String userEmail, final String firstName, final String lastName) {
-
         DocumentReference docRef = db.collection("users").document(userEmail);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
