@@ -1,6 +1,7 @@
 package com.example.walk_walk_revolution2;
 
 import android.app.Activity;
+import android.app.Service;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -12,7 +13,8 @@ public class TestFirebaseService implements FirebaseService{
         private String firstName;
         private String lastName;
         private ArrayList<String> friends;
-        public TestFirebaseService(Activity mainActivity) {}
+        private DocumentSnapshot documentSnapshot;
+        public TestFirebaseService(Service service) {}
 
 
         @Override
@@ -39,9 +41,8 @@ public class TestFirebaseService implements FirebaseService{
         public DocumentSnapshot retrieveInvitation(){
             return null;
         }
-
-
-
+@Override
+public void removeInvite(String fromEmail){}
         @Override
         public void sendInvite(String toEmail){}
 }

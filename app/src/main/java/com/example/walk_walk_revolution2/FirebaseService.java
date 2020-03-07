@@ -9,5 +9,7 @@ public interface FirebaseService {
     public void getInvitation();
     public void sendInvite(String toEmail);
     public DocumentSnapshot retrieveInvitation();
+    public void removeInvite(String fromEmail);
+
 
     }

@@ -99,6 +99,7 @@ public class TeamScreen extends AppCompatActivity {
             loadTeamMembers();
             loadInvitation();
             getInvitation();
+
         }
         @Override
         public void onServiceDisconnected(ComponentName name){
@@ -187,6 +188,7 @@ public class TeamScreen extends AppCompatActivity {
         if(documentSnapshot == null){
             return null;
         }
+
         //TODO: NULL REFERENCE PUT BREAK POINT TO SEE
         // Problem: Async, tries to access snapshot before async complets
        return documentSnapshot.getString("FIRST_NAME") + " " + documentSnapshot.getString("LAST_NAME");
@@ -253,6 +255,9 @@ public class TeamScreen extends AppCompatActivity {
     private void declineInvite()
     {
         invitation.setVisibility(View.GONE);
+        String fromEmail = documentSnapshot.getString("FROM");
+        firebaseBoundService.firebaseService.removeInvite(fromEmail);
+        getInvitation();
         //loadTeamMembers();
     }
 
@@ -260,5 +265,9 @@ public class TeamScreen extends AppCompatActivity {
 
         SharedPreferences spfs = getSharedPreferences("user_email", MODE_PRIVATE);
         return spfs.getString("userEmail", null);
+    }
+
+    private interface FirestoreCallBack {
+        void onCallback(String name);
     }
 }
