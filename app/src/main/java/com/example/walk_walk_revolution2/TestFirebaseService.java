@@ -1,6 +1,7 @@
 package com.example.walk_walk_revolution2;
 
 import android.app.Activity;
+import android.app.Service;
 
 import androidx.lifecycle.OnLifecycleEvent;
 
@@ -16,7 +17,7 @@ public class TestFirebaseService implements FirebaseService{
         private String lastName;
         private ArrayList<String> friends;
         private DocumentSnapshot documentSnapshot;
-        public TestFirebaseService(Activity mainActivity) {}
+        public TestFirebaseService(Service service) {}
 
 
         @Override
@@ -51,6 +52,8 @@ public class TestFirebaseService implements FirebaseService{
         @Override
         public void updateList(String email, List<String> teamList){}
 
+        @Override
+        public void removeInvite(String fromEmail){}
         @Override
         public void acceptInvite(String senderEmail){}
 

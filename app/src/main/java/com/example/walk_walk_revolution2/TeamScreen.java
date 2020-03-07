@@ -99,6 +99,7 @@ public class TeamScreen extends AppCompatActivity {
             loadTeamMembers();
             loadInvitation();
             getInvitation();
+
         }
         @Override
         public void onServiceDisconnected(ComponentName name){
@@ -259,6 +260,9 @@ public class TeamScreen extends AppCompatActivity {
     private void declineInvite()
     {
         invitation.setVisibility(View.GONE);
+        String fromEmail = documentSnapshot.getString("FROM");
+        firebaseBoundService.firebaseService.removeInvite(fromEmail);
+        getInvitation();
         //loadTeamMembers();
     }
 

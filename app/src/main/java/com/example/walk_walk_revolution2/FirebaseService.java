@@ -12,9 +12,11 @@ public interface FirebaseService {
     public void getInvitation();
     public void sendInvite(String toEmail);
     public DocumentSnapshot retrieveInvitation();
+
     public void acceptInvite(String senderEmail);
     public void updateList(String email, List<String> teamList);
     public void getOnTeamStatus();
     public boolean retrieveTeamStatus();
+    public void removeInvite(String fromEmail);
 
     }

@@ -20,6 +20,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Document;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,8 +38,9 @@ public class FirebaseAdapter implements FirebaseService{
     String FIRST_NAME_KEY = "FIRST_NAME";
     String LAST_NAME_KEY = "LAST_NAME";
     String userEmail;
-    boolean onTeam;
 
+    boolean onTeam;
+    int currentInvite;
     String firstName;
     String lastName;
     DocumentSnapshot inviteDoc;
@@ -52,6 +55,7 @@ public class FirebaseAdapter implements FirebaseService{
             this.userEmail = userEmail;
             getOurFirstName(userEmail);
             getOurLastName(userEmail);
+            currentInvite = 0;
         }
     }
     public DocumentSnapshot retrieveInvitation(){
@@ -125,7 +129,7 @@ public class FirebaseAdapter implements FirebaseService{
                             newInvite.put(FROM_KEY, userEmail);
                             newInvite.put(FIRST_NAME_KEY, firstName);
                             newInvite.put(LAST_NAME_KEY, lastName);
-                            addInvite(newInvite, holdEmail);
+                            addInvite(newInvite, holdEmail, userEmail);
                         }
                     }
                 }
@@ -158,8 +162,8 @@ public class FirebaseAdapter implements FirebaseService{
             }
         });
     }
-    public Task<?> addInvite(Map<String, String> message, String toEmail) {
-        return db.collection("users").document(toEmail).collection("invites").add(message);
+    public Task<?> addInvite(Map<String, String> message, String toEmail, String fromEmail) {
+        return db.collection("users").document(toEmail).collection("invites").document(fromEmail).set(message);
     }
     public void addFriendToTeam(final String teamEmail){
        //check to see if teamEmail is on a team or not
@@ -200,7 +204,7 @@ public class FirebaseAdapter implements FirebaseService{
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
-                            if (task.getResult().getDocuments().size() != 0) {
+                            if (task.getResult().getDocuments().size() != 0 ) {
                                 inviteDoc = task.getResult().getDocuments().get(0);
                                 System.out.println(inviteDoc);
                             }
@@ -303,5 +307,27 @@ public class FirebaseAdapter implements FirebaseService{
 
     public boolean retrieveTeamStatus(){
         return onTeam;
+
     }
-}
+    public void removeInvite(String fromEmail) {
+        DocumentReference invite = db.collection("users").document(userEmail).collection("invites").document(
+fromEmail
+        );
+                invite.delete()
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully deleted!");
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
+        inviteDoc = null;
+    }
+
+    }
+
