@@ -78,7 +78,7 @@ public class FirebaseAdapter implements FirebaseService{
                         user.put("firstName", firstName);
                         user.put("lastName", lastName);
                         user.put("onTeam", false);
-                        user.put("teamMembers", Arrays.asList());
+                        user.put("teammates", Arrays.asList());
                         db.collection("users").document(userEmail)
                                 .set(user)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -250,6 +250,7 @@ public class FirebaseAdapter implements FirebaseService{
 
                             teamList.add(senderEmail);
                             updateList(userEmail, teamList);
+                            removeInvite(senderEmail);
 
                         }
 
