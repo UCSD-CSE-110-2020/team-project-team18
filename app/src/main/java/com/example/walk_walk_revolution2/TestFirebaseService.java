@@ -47,6 +47,13 @@ public class TestFirebaseService implements FirebaseService{
         }
 
         @Override
+        public void getTeammates(){}
+
+        @Override
+        public ArrayList<String> retrieveTeammates(){
+            return null;
+        }
+        @Override
         public void sendInvite(String toEmail){}
 
         @Override
@@ -62,6 +69,12 @@ public class TestFirebaseService implements FirebaseService{
 
         @Override
         public boolean retrieveTeamStatus() {return false;};
+
+        @Override
+        public void getTeamRouteList() {}
+
+        @Override
+        public ArrayList<RouteItem> retrieveTeamRouteList(){return null;}
 
 
 

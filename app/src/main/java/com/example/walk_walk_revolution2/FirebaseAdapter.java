@@ -40,11 +40,13 @@ public class FirebaseAdapter implements FirebaseService{
     String userEmail;
 
     boolean onTeam;
-    int currentInvite;
     String firstName;
     String lastName;
     DocumentSnapshot inviteDoc;
     ArrayList<RouteItem> teamRoutes;
+
+    List<String> teammates;
+
 
     public FirebaseAdapter(Service service){
     }
@@ -53,9 +55,10 @@ public class FirebaseAdapter implements FirebaseService{
         if(db == null) {
             this.db = FirebaseFirestore.getInstance();
             this.userEmail = userEmail;
+            this.teammates = new ArrayList<>();
             getOurFirstName(userEmail);
             getOurLastName(userEmail);
-            currentInvite = 0;
+            getOnTeamStatus();
         }
     }
     public DocumentSnapshot retrieveInvitation(){
@@ -138,6 +141,9 @@ public class FirebaseAdapter implements FirebaseService{
 
     }
 
+    public ArrayList<String> retrieveTeammates(){
+        return (ArrayList<String>)this.teammates;
+    }
     public void getOurLastName(String email){
         DocumentReference docRef = db.collection("users").document(email);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -162,6 +168,25 @@ public class FirebaseAdapter implements FirebaseService{
             }
         });
     }
+    public void getTeammates(){
+       DocumentReference docRef = db.collection("users").document(userEmail);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                   if(document.exists()){
+                       List<String> teamList;
+                       DocumentSnapshot snap = task.getResult();
+                       teammates = (ArrayList<String>) snap.get("teammates");
+                   }
+                }
+            }
+        });
+
+
+    }
+
     public Task<?> addInvite(Map<String, String> message, String toEmail, String fromEmail) {
         return db.collection("users").document(toEmail).collection("invites").document(fromEmail).set(message);
     }
@@ -233,13 +258,9 @@ public class FirebaseAdapter implements FirebaseService{
                             teamList.add(senderEmail);
                             updateList(userEmail, teamList);
                             removeInvite(senderEmail);
-
                         }
-
                     }
-
                 });
-
 
         DocumentReference senderDoc = db.collection("users").document(senderEmail);
 
@@ -313,6 +334,23 @@ fromEmail
     }
 
     public void getTeamRouteList(){
+        for(String memeber: teammates) {
+            //TODO: change email
+            db.collection("users").document(memeber).collection("routes")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    teamRoutes.add(document.toObject(RouteItem.class));
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
 
     }
 

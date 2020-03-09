@@ -19,5 +19,7 @@ public interface FirebaseService {
     public boolean retrieveTeamStatus();
     public void removeInvite(String fromEmail);
     public void getTeamRouteList();
+    public void getTeammates();
+    public ArrayList<String> retrieveTeammates();
 
     }
