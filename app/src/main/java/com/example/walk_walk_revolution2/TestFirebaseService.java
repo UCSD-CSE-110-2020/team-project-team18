@@ -47,6 +47,13 @@ public class TestFirebaseService implements FirebaseService{
         }
 
         @Override
+        public void getTeammates(){}
+
+        @Override
+        public ArrayList<String> retrieveTeammates(){
+            return null;
+        }
+        @Override
         public void sendInvite(String toEmail){}
 
         @Override

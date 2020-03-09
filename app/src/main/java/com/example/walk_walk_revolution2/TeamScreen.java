@@ -153,33 +153,34 @@ public class TeamScreen extends AppCompatActivity {
 
     //getter method for the names of the current team members
     //post-condition: if name is empty, then nothing should appear on the screen.
-    public static ArrayList<String> getTeamMemberNames()
+    public ArrayList<String> getTeamMemberNames()
     {
 
-        ArrayList<String> teamNames = new ArrayList<String>();
 
-        teamNames.add("Ariana Grande");
-        teamNames.add("Ellen Degeneres");
-        teamNames.add("Richard Milhous Nixon");
-        teamNames.add("Sarah Silverman");
-        teamNames.add("Michael Gary Scott");
-        teamNames.add("David Graham");
-        teamNames.add("Eliot Lastname");
-        teamNames.add("Ross Boss");
-        teamNames.add("Kanye West");
-        teamNames.add("Kanye East");
-        teamNames.add("Oscar");
-        teamNames.add("Larold");
-        teamNames.add("Kimothy");
-        teamNames.add("Timberly");
-        teamNames.add("Rob Boss");
-        teamNames.add("Kyle Boss");
-        teamNames.add("Bob Ross");
-        teamNames.add("Easter Dude");
-        teamNames.add("Carl");
-        teamNames.add("Carrol");
-        teamNames.add("Kimothy");
-        teamNames.add("Nelson");
+        ArrayList<String> teamNames = firebaseBoundService.firebaseService.retrieveTeammates();
+
+//        teamNames.add("Ariana Grande");
+//        teamNames.add("Ellen Degeneres");
+//        teamNames.add("Richard Milhous Nixon");
+//        teamNames.add("Sarah Silverman");
+//        teamNames.add("Michael Gary Scott");
+//        teamNames.add("David Graham");
+//        teamNames.add("Eliot Lastname");
+//        teamNames.add("Ross Boss");
+//        teamNames.add("Kanye West");
+//        teamNames.add("Kanye East");
+//        teamNames.add("Oscar");
+//        teamNames.add("Larold");
+//        teamNames.add("Kimothy");
+//        teamNames.add("Timberly");
+//        teamNames.add("Rob Boss");
+//        teamNames.add("Kyle Boss");
+//        teamNames.add("Bob Ross");
+//        teamNames.add("Easter Dude");
+//        teamNames.add("Carl");
+//        teamNames.add("Carrol");
+//        teamNames.add("Kimothy");
+//        teamNames.add("Nelson");
 
         return teamNames;
     }
@@ -243,13 +244,6 @@ public class TeamScreen extends AppCompatActivity {
     private void acceptInvite()
     {
 
-        /*
-        TODO:
-          1. Get inviter email, access their document and append our email to their teammates list, set their onTeam to true
-          2. Add the inviter email to our list of teammates
-          3. Change our onTeam to true
-          4. Delete invitation collection
-         */
         firebaseBoundService.firebaseService.acceptInvite(documentSnapshot.getString("FROM"));
 
         invitation.setVisibility(View.GONE);
@@ -263,7 +257,6 @@ public class TeamScreen extends AppCompatActivity {
         String fromEmail = documentSnapshot.getString("FROM");
         firebaseBoundService.firebaseService.removeInvite(fromEmail);
         getInvitation();
-        //loadTeamMembers();
     }
 
 }

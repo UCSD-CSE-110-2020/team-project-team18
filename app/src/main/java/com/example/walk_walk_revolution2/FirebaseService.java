@@ -18,5 +18,7 @@ public interface FirebaseService {
     public void getOnTeamStatus();
     public boolean retrieveTeamStatus();
     public void removeInvite(String fromEmail);
+    public void getTeammates();
+    public ArrayList<String> retrieveTeammates();
 
     }
