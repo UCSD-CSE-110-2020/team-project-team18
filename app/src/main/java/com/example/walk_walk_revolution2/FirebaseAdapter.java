@@ -44,7 +44,7 @@ public class FirebaseAdapter implements FirebaseService{
     String firstName;
     String lastName;
     DocumentSnapshot inviteDoc;
-
+    ArrayList<RouteItem> teamRoutes;
 
     public FirebaseAdapter(Service service){
     }
@@ -100,17 +100,17 @@ public class FirebaseAdapter implements FirebaseService{
                 }
             }
         });
-        addUserToOwnTeam(userEmail);
+//        addUserToOwnTeam(userEmail);
         this.firstName = firstName;
         this.lastName = lastName;
     }
-
-    public void addUserToOwnTeam(String userEmail){
-        DocumentReference docRef = db.collection("teams").document(userEmail);
-        Map<String,Object> data = new HashMap<>();
-        data.put("teammates", Arrays.asList(userEmail));
-        docRef.set(data);
-    }
+//
+//    public void addUserToOwnTeam(String userEmail){
+//        DocumentReference docRef = db.collection("teams").document(userEmail);
+//        Map<String,Object> data = new HashMap<>();
+//        data.put("teammates", Arrays.asList(userEmail));
+//        docRef.set(data);
+//    }
 
     public void sendInvite(String toEmail) {
         final String holdEmail = toEmail;
@@ -212,24 +212,6 @@ public class FirebaseAdapter implements FirebaseService{
                     }
                 });
 
-
-
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//
-//                            inviteDoc = task.getResult();
-//                            System.out.println(inviteDoc);
-//
-//                        } else {
-//                            Log.d(TAG, "get failed with ", task.getException());
-//                        }
-//                    }
-//                });
-
-
     }
 
     public void acceptInvite(final String senderEmail) {
@@ -328,6 +310,15 @@ fromEmail
                     }
                 });
         inviteDoc = null;
+    }
+
+    public void getTeamRouteList(){
+
+    }
+
+
+    public ArrayList<RouteItem> retrieveTeamRouteList(){
+        return teamRoutes;
     }
 
     }

@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.okhttp.internal.http.RetryableSink;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -39,6 +43,7 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
     public int fakeHeight;
     private int steps;
     private Walk currentWalk;
+    private RecyclerView rvRoutes;
     private String fitnessServiceKey;
     private String firebaseServiceKey;
     private DistanceCalculator calculator = new DistanceCalculator();
@@ -48,17 +53,26 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
     private ArrayList<RouteItem> listItems;
     private String teamMemebers[];
 
+    private FirebaseBoundService firebaseBoundService;
+    private boolean isBound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_routes_screen);
 
+        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
+
+        fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
         numSteps = getIntent().getIntExtra(STEPS_KEY, 0);
         testSteps = getIntent().getIntExtra(TEST_KEY, 0);
 
-        fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
-        firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
-        fakeHeight = getIntent().getIntExtra(HEIGHT_KEY, 0);
+        Intent intent = new Intent(this, FirebaseBoundService.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+
         Button launchMyRoutesScreen = (Button)findViewById(R.id.my_routes);
 
 
@@ -71,39 +85,90 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
 
 
         // Lookup the recyclerview in activity layout
-        RecyclerView rvRoutes = (RecyclerView) findViewById(R.id.team_rvRoutes);
+        rvRoutes = (RecyclerView) findViewById(R.id.team_rvRoutes);
 
         listItems = new ArrayList<RouteItem>();
 
 
-        //TODO: PULL DOWN ALL STORED ROUTE INFO FROM FIREBASE
 
-        db = FirebaseFirestore.getInstance();
+//        //TODO: PULL DOWN ALL STORED ROUTE INFO FROM FIREBASE
+//
+//        db = FirebaseFirestore.getInstance();
+//
+//        //TODO: change email
+//        db.collection("users").document("vhploc@gmail.com")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            DocumentSnapshot document = task.getResult();
+//                            if (document.exists()) {
+//
+//                                getTeamWalks( (String[]) document.get("teamMembers"));
+//
+//                                Log.d(TAG, "DocumentSnapshot data: " + document.get("teamMembers"));
+//
+//                            } else {
+//                                Log.d(TAG, "No such document");
+//                            }
+//                        } else {
+//                            Log.d(TAG, "get failed with ", task.getException());
+//                        }
+//
+//                    }
+//                });
 
-        //TODO: change email
-        db.collection("users").document("vhploc@gmail.com")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
 
-                                getTeamWalks( (String[]) document.get("teamMembers"));
+        currentWalk = getCurrentWalk();
 
-                                Log.d(TAG, "DocumentSnapshot data: " + document.get("teamMembers"));
+    }
 
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
+    private ServiceConnection serviceConnection = new ServiceConnection(){
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service){
+            FirebaseBoundService.LocalService localService = (FirebaseBoundService.LocalService)service;
+            firebaseBoundService = localService.getService();
+            isBound = true;
+            loadTeamRouteList();
 
-                    }
-                });
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name){
+            isBound = false;
+        }
+    };
+    @Override
+    protected void onDestroy(){
+        if(isBound){
+            unbindService(serviceConnection);
+            isBound = false;
+        }
+        super.onDestroy();
+    }
 
+//    public void getTeamWalks(String[] memberList) {
+//        for(String memeber: memberList) {
+//            //TODO: change email
+//            db.collection("users").document(memeber).collection("routes")
+//                    .get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                            if (task.isSuccessful()) {
+//                                for (QueryDocumentSnapshot document : task.getResult()) {
+//                                    listItems.add(document.toObject(RouteItem.class));
+//                                }
+//                            } else {
+//                                Log.d(TAG, "Error getting documents: ", task.getException());
+//                            }
+//                        }
+//                    });
+//        }
+//    }
+
+    public void loadTeamRouteList(){
+        listItems = firebaseBoundService.firebaseService.retrieveTeamRouteList();
 
         // Create adapter passing in the sample user data
         RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);
@@ -112,30 +177,6 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
         // Set layout manager to position the items
         rvRoutes.setLayoutManager(new LinearLayoutManager(this));
         // That's all!
-
-
-        currentWalk = getCurrentWalk();
-
-    }
-
-    public void getTeamWalks(String[] memberList) {
-        for(String memeber: memberList) {
-            //TODO: change email
-            db.collection("users").document(memeber).collection("routes")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    listItems.add(document.toObject(RouteItem.class));
-                                }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
-        }
     }
 
     public void launchRoutes(){

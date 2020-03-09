@@ -22,7 +22,7 @@ public class RouteItem {
     }
 
     public RouteItem(String filename, String name, String startPoint, int stepCount, double distance, String time, RouteInterface routeScreen) {
-        this.routeScreen = routeScreen;
+        this.setRouteScreen(routeScreen);
         this.name = name;
         this.startPoint = startPoint;
         this.stepCount = stepCount;
@@ -38,18 +38,18 @@ public class RouteItem {
         this.distance = distance;
         this.time = time;
 
-        this.loop = loop;
-        this.flat = flat;
-        this.street = street;
-        this.surface = surface;
-        this.difficult = difficulty;
+        this.setLoop(loop);
+        this.setFlat(flat);
+        this.setStreet(street);
+        this.setSurface(surface);
+        this.setDifficult(difficulty);
         this.time = time;
         this.note = note;
     }
 
 
     public void launchRouteDetails(){
-        this.routeScreen.launchRouteDetails(this.fileName);
+        this.getRouteScreen().launchRouteDetails(this.fileName);
     }
 
     public String getName() {
@@ -71,5 +71,53 @@ public class RouteItem {
 
     public String getFileName() {
         return this.fileName;
+    }
+
+    public RouteInterface getRouteScreen() {
+        return routeScreen;
+    }
+
+    public void setRouteScreen(RouteInterface routeScreen) {
+        this.routeScreen = routeScreen;
+    }
+
+    public int getLoop() {
+        return loop;
+    }
+
+    public void setLoop(int loop) {
+        this.loop = loop;
+    }
+
+    public int getFlat() {
+        return flat;
+    }
+
+    public void setFlat(int flat) {
+        this.flat = flat;
+    }
+
+    public int getStreet() {
+        return street;
+    }
+
+    public void setStreet(int street) {
+        this.street = street;
+    }
+
+    public int getSurface() {
+        return surface;
+    }
+
+    public void setSurface(int surface) {
+        this.surface = surface;
+    }
+
+    public int getDifficult() {
+        return difficult;
+    }
+
+    public void setDifficult(int difficult) {
+        this.difficult = difficult;
     }
 }

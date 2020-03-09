@@ -32,10 +32,10 @@ public class TestFirebaseService implements FirebaseService{
            this.lastName = lastName;
         }
 
-        @Override
-        public void addFriendToTeam(String friendEmail){
-            friends.add(friendEmail);
-        }
+//        @Override
+//        public void addFriendToTeam(String friendEmail){
+//            friends.add(friendEmail);
+//        }
 
         @Override
 

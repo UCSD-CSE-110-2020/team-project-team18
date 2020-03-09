@@ -43,6 +43,7 @@ public class FirebaseBoundService extends Service{
 
         firebaseService.getInvitation();
         firebaseService.getOnTeamStatus();
+        firebaseService.getTeamRouteList();
 
         return iBinder;
     }
