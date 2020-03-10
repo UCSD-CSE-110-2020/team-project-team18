@@ -43,10 +43,21 @@ public class FirebaseBoundService extends Service{
 
         firebaseService.getInvitation();
         firebaseService.getOnTeamStatus();
-        firebaseService.getTeamRouteList();
         firebaseService.getTeammates();
+        if(!firebaseService.retrieveTeammates().isEmpty()) {
+            firebaseService.getTeamRouteList();
+        }
 
         return iBinder;
+    }
+
+    public void setup(){
+        firebaseService.getInvitation();
+        firebaseService.getOnTeamStatus();
+        firebaseService.getTeammates();
+        if(!firebaseService.retrieveTeammates().isEmpty()) {
+            firebaseService.getTeamRouteList();
+        }
     }
     class LocalService extends Binder {
         public FirebaseBoundService getService(){

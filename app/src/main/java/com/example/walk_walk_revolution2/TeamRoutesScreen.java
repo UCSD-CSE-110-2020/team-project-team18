@@ -129,6 +129,7 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
         public void onServiceConnected(ComponentName name, IBinder service){
             FirebaseBoundService.LocalService localService = (FirebaseBoundService.LocalService)service;
             firebaseBoundService = localService.getService();
+            firebaseBoundService.setup();
             isBound = true;
             loadTeamRouteList();
 
@@ -170,6 +171,8 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
     public void loadTeamRouteList(){
         listItems = firebaseBoundService.firebaseService.retrieveTeamRouteList();
 
+
+        System.out.println("TeamRoutesScreen " + listItems);
         // Create adapter passing in the sample user data
         RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);
         // Attach the adapter to the recyclerview to populate items

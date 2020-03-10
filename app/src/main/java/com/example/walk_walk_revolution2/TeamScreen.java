@@ -95,6 +95,7 @@ public class TeamScreen extends AppCompatActivity {
         public void onServiceConnected(ComponentName name, IBinder service){
             FirebaseBoundService.LocalService localService = (FirebaseBoundService.LocalService)service;
             firebaseBoundService = localService.getService();
+            firebaseBoundService.setup();
             isBound = true;
             loadTeamMembers();
             loadInvitation();

@@ -56,6 +56,7 @@ public class FirebaseAdapter implements FirebaseService{
             this.db = FirebaseFirestore.getInstance();
             this.userEmail = userEmail;
             this.teammates = new ArrayList<>();
+            this.teamRoutes = new ArrayList<>();
             getOurFirstName(userEmail);
             getOurLastName(userEmail);
             getOnTeamStatus();
@@ -334,6 +335,7 @@ fromEmail
     }
 
     public void getTeamRouteList(){
+        System.out.println(teammates);
         for(String memeber: teammates) {
             //TODO: change email
             db.collection("users").document(memeber).collection("routes")
@@ -343,6 +345,7 @@ fromEmail
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
+                                    System.out.println(document);
                                     teamRoutes.add(document.toObject(RouteItem.class));
                                 }
                             } else {
