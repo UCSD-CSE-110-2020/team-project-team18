@@ -89,37 +89,6 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
 
         listItems = new ArrayList<RouteItem>();
 
-
-
-//        //TODO: PULL DOWN ALL STORED ROUTE INFO FROM FIREBASE
-//
-//        db = FirebaseFirestore.getInstance();
-//
-//        //TODO: change email
-//        db.collection("users").document("vhploc@gmail.com")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot document = task.getResult();
-//                            if (document.exists()) {
-//
-//                                getTeamWalks( (String[]) document.get("teamMembers"));
-//
-//                                Log.d(TAG, "DocumentSnapshot data: " + document.get("teamMembers"));
-//
-//                            } else {
-//                                Log.d(TAG, "No such document");
-//                            }
-//                        } else {
-//                            Log.d(TAG, "get failed with ", task.getException());
-//                        }
-//
-//                    }
-//                });
-
-
         currentWalk = getCurrentWalk();
 
     }
@@ -147,30 +116,11 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
         }
         super.onDestroy();
     }
-
-//    public void getTeamWalks(String[] memberList) {
-//        for(String memeber: memberList) {
-//            //TODO: change email
-//            db.collection("users").document(memeber).collection("routes")
-//                    .get()
-//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                            if (task.isSuccessful()) {
-//                                for (QueryDocumentSnapshot document : task.getResult()) {
-//                                    listItems.add(document.toObject(RouteItem.class));
-//                                }
-//                            } else {
-//                                Log.d(TAG, "Error getting documents: ", task.getException());
-//                            }
-//                        }
-//                    });
-//        }
-//    }
+    
 
     public void loadTeamRouteList(){
         listItems = firebaseBoundService.firebaseService.retrieveTeamRouteList();
-
+        firebaseBoundService.firebaseService.clearTeamRouteList();
 
         System.out.println("TeamRoutesScreen " + listItems);
         // Create adapter passing in the sample user data

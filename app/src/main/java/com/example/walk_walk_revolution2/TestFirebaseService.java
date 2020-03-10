@@ -76,6 +76,10 @@ public class TestFirebaseService implements FirebaseService{
         @Override
         public ArrayList<RouteItem> retrieveTeamRouteList(){return null;}
 
+        @Override
+        public void clearTeamRouteList(){}
+
+
 
 
 }

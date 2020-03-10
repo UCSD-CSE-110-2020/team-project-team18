@@ -21,5 +21,7 @@ public interface FirebaseService {
     public void getTeamRouteList();
     public void getTeammates();
     public ArrayList<String> retrieveTeammates();
+    public void clearTeamRouteList();
+
 
     }

@@ -411,10 +411,12 @@ public class NewRoute extends AppCompatActivity {
 
 
         db = FirebaseFirestore.getInstance();
+        SharedPreferences pref = getSharedPreferences("user_email", MODE_PRIVATE);
+        String email = pref.getString("userEmail", "");
 
         //TODO: Create RouteItem from data
-        RouteItem item = new RouteItem(name, startPoint, loop, flat, street, surface, difficulty, step, distance_double, time, note);
-        storeRoute(item);
+        RouteItem item = new RouteItem(email, name, startPoint, loop, flat, street, surface, difficulty, step, distance_double, time, note);
+        storeRoute(email, item);
 
         launchRoutes();
     }
@@ -427,9 +429,8 @@ public class NewRoute extends AppCompatActivity {
 
     }
 
-    public void storeRoute(RouteItem item) {
-        SharedPreferences pref = getSharedPreferences("user_email", MODE_PRIVATE);
-        String email = pref.getString("userEmail", "");
+    public void storeRoute(String email, RouteItem item) {
+
 
         db.collection("users").document(email).collection("routes")
                 .add(item)

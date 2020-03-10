@@ -17,6 +17,16 @@ public class RouteItem {
     private int difficult;
     private String note;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private String email;
+
     public RouteItem(){
 
     }
@@ -31,7 +41,8 @@ public class RouteItem {
         this.fileName = filename;
     }
 
-    public RouteItem(String name, String startPoint, int loop, int flat, int street, int surface, int difficulty, int stepCount, double distance, String time, String note) {
+    public RouteItem(String email, String name, String startPoint, int loop, int flat, int street, int surface, int difficulty, int stepCount, double distance, String time, String note) {
+        this.email = email;
         this.name = name;
         this.startPoint = startPoint;
         this.stepCount = stepCount;

@@ -106,6 +106,8 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
             listItems.add(item);
         }
 
+        //TODO:
+        // Error: Button functionality no work --> Launching routeItem requires filename field(?)
 
         // Create adapter passing in the sample user data
         RouteItemsAdapter adapter = new RouteItemsAdapter(listItems);

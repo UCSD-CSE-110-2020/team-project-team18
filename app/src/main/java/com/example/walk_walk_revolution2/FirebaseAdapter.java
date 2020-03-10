@@ -179,6 +179,7 @@ public class FirebaseAdapter implements FirebaseService{
                    if(document.exists()){
                        List<String> teamList;
                        DocumentSnapshot snap = task.getResult();
+                       teammates = new ArrayList<>();
                        teammates = (ArrayList<String>) snap.get("teammates");
                    }
                 }
@@ -334,10 +335,18 @@ fromEmail
         inviteDoc = null;
     }
 
+    /*TODO:
+        Current issues:
+        1. First load into teamRouteScreen gives blank screen
+        2. TeamRoutesList does not clear when exiting and entering screen -> appends to list
+
+        Solution:
+        1. OnGoing
+        2. Clearing list after retrieve is called in TeamRouteScreen
+    */
     public void getTeamRouteList(){
         System.out.println(teammates);
         for(String memeber: teammates) {
-            //TODO: change email
             db.collection("users").document(memeber).collection("routes")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -359,7 +368,12 @@ fromEmail
 
 
     public ArrayList<RouteItem> retrieveTeamRouteList(){
+        System.out.println("FirebaseAdapter" + teamRoutes);
         return teamRoutes;
+    }
+
+    public void clearTeamRouteList(){
+        teamRoutes = new ArrayList<>();
     }
 
     }
