@@ -122,13 +122,13 @@ public class TestWalkInviteUI {
 
                         isDisplayed()));
         appCompatButton2.perform(click());
-
+*/
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.routes_but_home), withText("Routes"),
 
                         isDisplayed()));
         appCompatButton3.perform(click());
-
+/*
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.addNewWalk), withText("+"),
 
@@ -153,8 +153,8 @@ public class TestWalkInviteUI {
                 allOf(withId(R.id.save), withText("Save"),
 
                         isDisplayed()));
-        appCompatButton5.perform(click());
-
+        //appCompatButton5.perform(click());
+*/
         ViewInteraction appCompatButton6 = onView(
                 allOf(withId(R.id.viewDetailsButton), withText("View Route"),
 
@@ -168,16 +168,16 @@ public class TestWalkInviteUI {
         appCompatButton7.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.walk_name), withText("Geisel"),
+                allOf(withId(R.id.walk_name), withText("new walk"),
 
                         isDisplayed()));
-        textView.check(matches(withText("Geisel")));
+        textView.check(matches(withText("new walk")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.starting_point), withText("UCSD"),
+                allOf(withId(R.id.starting_point), withText("pepper canyon"),
 
                         isDisplayed()));
-        textView2.check(matches(withText("UCSD")));
+        textView2.check(matches(withText("pepper canyon")));
 
         ViewInteraction textView3 = onView(
                 allOf(withId(R.id.walk_date), withText("Date:"),
@@ -201,7 +201,7 @@ public class TestWalkInviteUI {
                 allOf(withId(R.id.cancel),
 
                         isDisplayed()));
-        button2.check(matches(isDisplayed())); */
+        button2.check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(

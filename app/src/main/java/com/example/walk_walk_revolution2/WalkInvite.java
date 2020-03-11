@@ -149,7 +149,7 @@ public class WalkInvite extends AppCompatActivity {
             for(String teamEmail: team){
                 Map<String, Object> walkProposal = new HashMap<>();
                 walkProposal.put("proposer", email);
-                walkProposal.put("propose_walk", "proposed");
+                walkProposal.put("propose_schedule", "proposed");
                 walkProposal.put("walk_name", walkName);
                 walkProposal.put("startingPoint", startingPoint);
                 walkProposal.put("walk_date", walkDate);
