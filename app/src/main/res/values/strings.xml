@@ -29,4 +29,21 @@
     <string name="viewRoute">View Route</string>
     <string name="stopWalk">Start Walk</string>
     <string name="title_activity_home">Home</string>
+    <string name="acceptPropose">Accept</string>
+    <string name="declineProposeBadTime">Decline (bad time)</string>
+    <string name="declineProposeRoute">Decline (not a good route for me)</string>
+    <string name="proposedWalk">Proposed Walk</string>
+    <string name="walkName">Walk: </string>
+    <string name="nameWalk">Walk Name</string>
+    <string name="ownerName">Proposer: </string>
+    <string name="nameOwner">Proposer Name</string>
+    <string name="date">Date:</string>
+    <string name="textDate">Date</string>
+    <string name="time">Time:</string>
+    <string name="textTime">Time</string>
+    <string name="start_point_text">Starting Point</string>
+    <string name="start_point">Starting Point:</string>
+    <string name="scheduleWalk">Schedule Walk</string>
+    <string name="withdrawWalk">Withdraw Walk</string>
+    <string name="scheduledWalk">Scheduled Walk</string>
 </resources>

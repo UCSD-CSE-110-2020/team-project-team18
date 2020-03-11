@@ -280,13 +280,30 @@
 
     <Button
         android:id="@+id/invite_team_but"
-        android:layout_width="387dp"
-        android:layout_height="61dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Invite Team Member"
-        app:layout_constraintBottom_toTopOf="@+id/routes_but_home"
+        app:layout_constraintEnd_toStartOf="@+id/end_walk"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_walk" />
+
+    <Button
+        android:id="@+id/proposed_walk"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Proposed/Scheduled Walk"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/invite_team_but"
+        app:layout_constraintTop_toBottomOf="@+id/end_walk" />
+
 
 
 

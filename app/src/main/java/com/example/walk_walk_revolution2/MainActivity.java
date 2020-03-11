@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import org.w3c.dom.Text;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseBoundService firebaseBoundService;
     private boolean isBound;
     private int fakeHeight;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 launchHomeScreen();
             }
         });
+
     }
     public void launchHomeScreen(){
         int heightNum = getHeight();
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
 /**private String fitnessServiceKey = "GOOGLE_FIT";
     public static final String TAG = "MainActivity";
 
