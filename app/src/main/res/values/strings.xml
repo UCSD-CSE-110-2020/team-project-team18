@@ -37,10 +37,13 @@
     <string name="nameWalk">Walk Name</string>
     <string name="ownerName">Proposer: </string>
     <string name="nameOwner">Proposer Name</string>
-    <string name="date">Date: </string>
+    <string name="date">Date:</string>
     <string name="textDate">Date</string>
-    <string name="time">Time: </string>
+    <string name="time">Time:</string>
     <string name="textTime">Time</string>
-    <string name="attendName">Attendee Name</string>
-    <string name="attendStatus">Attendee Status</string>
+    <string name="start_point_text">Starting Point</string>
+    <string name="start_point">Starting Point:</string>
+    <string name="scheduleWalk">Schedule Walk</string>
+    <string name="withdrawWalk">Withdraw Walk</string>
+    <string name="scheduledWalk">Scheduled Walk</string>
 </resources>

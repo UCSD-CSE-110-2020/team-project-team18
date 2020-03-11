@@ -10,12 +10,28 @@
         android:id="@+id/proposedWalk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/proposedWalk"
         android:textSize="20sp"
-        android:gravity="center"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/scheduledWalk"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.04" />
+
+    <TextView
+        android:id="@+id/scheduledWalk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/scheduledWalk"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintLeft_toRightOf="@+id/proposedWalk"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.04" />
@@ -36,7 +52,11 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/walkName"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintTop_toBottomOf="@+id/proposedWalk"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/nameWalk"/>
 
         <TextView
             android:id="@+id/nameWalk"
@@ -45,7 +65,11 @@
             android:layout_weight="1"
             android:gravity="center"
             android:hint="@string/nameWalk"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintTop_toBottomOf="@+id/proposedWalk"
+            app:layout_constraintLeft_toRightOf="@+id/walkName"
+            app:layout_constraintRight_toLeftOf="@+id/ownerName"/>
 
         <TextView
             android:id="@+id/ownerName"
@@ -54,7 +78,11 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/ownerName"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintTop_toBottomOf="@+id/proposedWalk"
+            app:layout_constraintLeft_toRightOf="@+id/nameWalk"
+            app:layout_constraintRight_toLeftOf="@+id/nameOwner"/>
 
         <TextView
             android:id="@+id/nameOwner"
@@ -63,7 +91,47 @@
             android:layout_weight="1"
             android:gravity="center"
             android:hint="@string/nameOwner"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintTop_toBottomOf="@+id/proposedWalk"
+            app:layout_constraintLeft_toRightOf="@+id/ownerName"
+            app:layout_constraintRight_toLeftOf="@+id/start_point"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/header1Layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp"
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout">
+
+        <TextView
+            android:id="@+id/start_point"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/start_point"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintLeft_toLeftOf="@+id/parent"
+            app:layout_constraintRight_toLeftOf="@+id/start_point_text"
+            app:layout_constraintTop_toBottomOf="@+id/walkName" />
+
+        <TextView
+            android:id="@+id/start_point_text"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:hint="@string/start_point_text"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintLeft_toRightOf="@+id/start_point"
+            app:layout_constraintRight_toLeftOf="@+id/date"
+            app:layout_constraintTop_toBottomOf="@+id/walkName" />
 
         <TextView
             android:id="@+id/date"
@@ -72,7 +140,12 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/date"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintLeft_toRightOf="@+id/start_point_text"
+            app:layout_constraintRight_toLeftOf="@+id/textDate"
+            app:layout_constraintTop_toBottomOf="@+id/walkName" />
+
         <TextView
             android:id="@+id/textDate"
             android:layout_width="0sp"
@@ -80,7 +153,11 @@
             android:layout_weight="1"
             android:gravity="center"
             android:hint="@string/textDate"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintLeft_toRightOf="@+id/date"
+            app:layout_constraintRight_toLeftOf="@+id/time"
+            app:layout_constraintTop_toBottomOf="@+id/walkName" />
 
         <TextView
             android:id="@+id/time"
@@ -89,7 +166,11 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/time"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintLeft_toRightOf="@+id/textDate"
+            app:layout_constraintRight_toLeftOf="@+id/textTime"
+            app:layout_constraintTop_toBottomOf="@+id/walkName" />
 
         <TextView
             android:id="@+id/textTime"
@@ -98,16 +179,43 @@
             android:layout_weight="1"
             android:gravity="center"
             android:hint="@string/textTime"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintLeft_toRightOf="@+id/time"
+            app:layout_constraintRight_toRightOf="@+id/parent"
+            app:layout_constraintTop_toBottomOf="@+id/walkName" />
     </LinearLayout>
 
     <Button
+        android:id="@+id/scheduleWalk"
+        android:layout_width="120sp"
+        android:layout_height="60sp"
+        android:layout_marginBottom="92sp"
+        android:text="@string/scheduleWalk"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/withdrawWalk" />
+
+    <Button
+        android:id="@+id/withdrawWalk"
+        android:layout_width="120sp"
+        android:layout_height="60sp"
+        android:layout_marginBottom="92sp"
+        android:text="@string/withdrawWalk"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/scheduleWalk"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
         android:id="@+id/acceptPropose"
-        android:layout_width="110sp"
-        android:layout_height="70sp"
+        android:layout_width="90sp"
+        android:layout_height="60sp"
         android:layout_marginBottom="20sp"
         android:text="@string/acceptPropose"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/declineProposeBadTime" />
@@ -115,9 +223,10 @@
     <Button
         android:id="@+id/declineProposeBadTime"
         android:layout_width="120sp"
-        android:layout_height="70sp"
+        android:layout_height="60sp"
         android:layout_marginBottom="20sp"
         android:text="@string/declineProposeBadTime"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/acceptPropose"
         app:layout_constraintRight_toLeftOf="@id/declineProposeRoute" />
@@ -125,22 +234,23 @@
 
     <Button
         android:id="@+id/declineProposeRoute"
-        android:layout_width="140sp"
-        android:layout_height="70sp"
+        android:layout_width="180sp"
+        android:layout_height="60sp"
         android:layout_marginBottom="20sp"
         android:text="@string/declineProposeRoute"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/declineProposeBadTime"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0sp"
         android:layout_height="0sp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/acceptPropose"
+        app:layout_constraintBottom_toTopOf="@+id/scheduleWalk"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/header1Layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

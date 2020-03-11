@@ -20,7 +20,7 @@
         android:id="@+id/routes_but_home"
         android:layout_width="108dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="24dp"
         android:text="Routes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/home_but_home"
@@ -97,20 +97,6 @@
         app:layout_constraintVertical_bias="0.15" />
 
     <Button
-        android:id="@+id/start_walk"
-        android:layout_width="180dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="4dp"
-        android:text="Start Walk"
-        app:layout_constraintBottom_toTopOf="@+id/home_but_home"
-        app:layout_constraintEnd_toStartOf="@+id/end_walk"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
         android:id="@+id/end_walk"
         android:layout_width="180dp"
         android:layout_height="60dp"
@@ -118,11 +104,87 @@
         android:layout_marginLeft="20dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="120dp"
         android:text="End Walk"
         app:layout_constraintBottom_toTopOf="@+id/routes_but_home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/start_walk" />
+
+    <Button
+        android:id="@+id/start_walk"
+        android:layout_width="180dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="120dp"
+        android:text="Start Walk"
+        app:layout_constraintBottom_toTopOf="@+id/home_but_home"
+        app:layout_constraintEnd_toStartOf="@+id/end_walk"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/recentWalkTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginEnd="233dp"
+        android:layout_marginRight="233dp"
+        android:layout_marginBottom="28dp"
+        android:text="TextView"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/start_walk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="315dp"
+        android:layout_marginRight="315dp"
+        android:layout_marginBottom="4dp"
+        android:text="Total Steps"
+        app:layout_constraintBottom_toTopOf="@+id/textView11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/recentWalkSteps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginEnd="234dp"
+        android:layout_marginRight="234dp"
+        android:layout_marginBottom="4dp"
+        android:text="TextView"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/recentWalkDist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="331dp"
+        android:layout_marginRight="331dp"
+        android:layout_marginBottom="4dp"
+        android:text="Distance"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/recent_stats_text"
@@ -136,79 +198,8 @@
         android:text="Recent Walk Stats"
         app:layout_constraintBottom_toTopOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginEnd="331dp"
-        android:layout_marginRight="331dp"
-        android:layout_marginBottom="12dp"
-        android:text="Distance"
-        app:layout_constraintBottom_toTopOf="@+id/textView12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginEnd="355dp"
-        android:layout_marginRight="355dp"
-        android:layout_marginBottom="10dp"
-        android:text="Time"
-        app:layout_constraintBottom_toTopOf="@+id/start_walk"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginEnd="315dp"
-        android:layout_marginRight="315dp"
-        android:layout_marginBottom="12dp"
-        android:text="Total Steps"
-        app:layout_constraintBottom_toTopOf="@+id/textView11"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/recentWalkSteps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
-        android:layout_marginLeft="23dp"
-        android:layout_marginEnd="234dp"
-        android:layout_marginRight="234dp"
-        android:layout_marginBottom="12dp"
-        android:text="TextView"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/recentWalkDist"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView13" />
-
-    <TextView
-        android:id="@+id/recentWalkTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginLeft="64dp"
-        android:layout_marginEnd="233dp"
-        android:layout_marginRight="233dp"
-        android:layout_marginBottom="12dp"
-        android:text="TextView"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/start_walk"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView12" />
 
     <TextView
         android:id="@+id/recentWalkDist"
@@ -218,18 +209,33 @@
         android:layout_marginLeft="41dp"
         android:layout_marginEnd="232dp"
         android:layout_marginRight="232dp"
-        android:layout_marginBottom="7dp"
         android:text="TextView"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/recentWalkTime"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="355dp"
+        android:layout_marginRight="355dp"
+        android:layout_marginBottom="24dp"
+        android:text="Time"
+        app:layout_constraintBottom_toTopOf="@+id/start_walk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/nameDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="76dp"
         app:layout_constraintBottom_toTopOf="@+id/recent_stats_text"
         app:layout_constraintEnd_toEndOf="@+id/recent_stats_text"
         app:layout_constraintHorizontal_bias="0.521"
@@ -239,11 +245,11 @@
         android:id="@+id/startPointDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="304dp"
+        android:layout_marginBottom="456dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.685"
-        app:layout_constraintStart_toEndOf="@+id/nameDisplay" />
+        app:layout_constraintHorizontal_bias="0.751"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/walkStarted"
@@ -255,6 +261,33 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_title"
-        app:layout_constraintVertical_bias="0.947" />
+        app:layout_constraintVertical_bias="0.572" />
+
+    <Button
+        android:id="@+id/invite_team_but"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Invite Team Member"
+        app:layout_constraintEnd_toStartOf="@+id/end_walk"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_walk" />
+
+    <Button
+        android:id="@+id/proposed_walk"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Proposed/Scheduled Walk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/invite_team_but"
+        app:layout_constraintTop_toBottomOf="@+id/end_walk" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

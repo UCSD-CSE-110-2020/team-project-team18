@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RoutesScreen">
+    tools:context=".TeamRoutesScreen">
+
     <LinearLayout
         android:id="@+id/headerLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/routes_title">
+        app:layout_constraintTop_toBottomOf="@+id/team_routes_title">
 
         <TextView
             android:id="@+id/team_member_name"
@@ -78,73 +79,35 @@
             android:textStyle="bold"
             android:gravity="center"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/home_but_routes"
-        android:layout_width="140dp"
-        android:layout_height="56dp"
-        android:layout_marginBottom="20dp"
-        android:text="Home"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/routes_but_routes" />
-
-    <Button
-        android:id="@+id/routes_but_routes"
-        android:layout_width="140dp"
-        android:layout_height="56dp"
-        android:layout_marginBottom="20dp"
-        android:text="Routes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/home_but_routes"
-        app:layout_constraintRight_toLeftOf="@id/test_but_routes"/>
-
-    <Button
-        android:id="@+id/test_but_routes"
-        android:layout_width="140dp"
-        android:layout_height="56dp"
-        android:layout_marginBottom="20dp"
-        android:text="Testing"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/routes_but_routes"
-        app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
-        android:id="@+id/routes_title"
+        android:id="@+id/team_routes_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25dp"
-        android:text="Routes"
+        android:text="Team Routes"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRoutes"
+        android:id="@+id/team_rvRoutes"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/addNewWalk"
+        app:layout_constraintBottom_toTopOf="@+id/my_routes"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerLayout" />
 
     <Button
-        android:id="@+id/addNewWalk"
-        android:layout_width="132dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="80dp"
-        android:text="+"
-        app:layout_constraintBottom_toTopOf="@+id/routes_but_routes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/team_routes_but"
+        android:id="@+id/my_routes"
         android:layout_width="235dp"
         android:layout_height="53dp"
-        android:layout_marginTop="20dp"
-        android:text="Team Routes"
+        android:layout_marginBottom="52dp"
+        android:text="My Routes"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addNewWalk" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

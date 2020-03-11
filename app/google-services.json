@@ -1,34 +1,47 @@
 {
   "project_info": {
-    "project_number": "635345607021",
-    "firebase_url": "https://walkrevolution.firebaseio.com",
-    "project_id": "walkrevolution",
-    "storage_bucket": "walkrevolution.appspot.com"
+
+    "project_number": "276834747419",
+    "firebase_url": "https://replacementprojectteam18.firebaseio.com",
+    "project_id": "replacementprojectteam18",
+    "storage_bucket": "replacementprojectteam18.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:635345607021:android:92817e92ec5a4d0f39a264",
+
+        "mobilesdk_app_id": "1:276834747419:android:21c1cbddc9671357b664be",
         "android_client_info": {
-          "package_name": "com.example.walk_walk_revolution"
+          "package_name": "com.example.walk_walk_revolution2"
         }
       },
       "oauth_client": [
         {
-          "client_id": "635345607021-g22deav8bk5d3t8317hs9m8gv57tphjp.apps.googleusercontent.com",
+
+          "client_id": "276834747419-jpb49fdvnr90p065nthfqp9vnkn3ellf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.walk_walk_revolution2",
+            "certificate_hash": "6021fa89bc41aeae0da1c3cf73ec1bf72fff019e"
+          }
+        },
+        {
+          "client_id": "276834747419-dl94jrmi32qrhf9p55ao9vkl52824do0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDQBllT47hbzAgspG2pIT4eek9dzxIO2r4"
+
+          "current_key": "AIzaSyC3LePFj3ex6-hGo10UFOLjyba9dzAotyg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "635345607021-g22deav8bk5d3t8317hs9m8gv57tphjp.apps.googleusercontent.com",
+
+              "client_id": "276834747419-dl94jrmi32qrhf9p55ao9vkl52824do0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
