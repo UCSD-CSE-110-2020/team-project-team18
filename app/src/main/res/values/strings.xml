@@ -46,4 +46,8 @@
     <string name="scheduleWalk">Schedule Walk</string>
     <string name="withdrawWalk">Withdraw Walk</string>
     <string name="scheduledWalk">Scheduled Walk</string>
+    <string name="propose_walk">Propose Walk</string>
+    <string name="walk_date">Date:</string>
+    <string name="walk_time">Time:</string>
+    <string name="send_invite">Send Invite</string>
 </resources>

@@ -181,10 +181,6 @@ public class ProposedWalk extends AppCompatActivity {
                     proposedWalk.setVisibility(View.INVISIBLE);
                     scheduledWalk.setVisibility(View.VISIBLE);
                     scheduleWalk.setVisibility(View.INVISIBLE);
-                    withdrawnWalk.setVisibility(View.VISIBLE);
-                    acceptWalk.setVisibility(View.INVISIBLE);
-                    declineTime.setVisibility(View.INVISIBLE);
-                    declineRoute.setVisibility(View.INVISIBLE);
                 }
 
                 adapter.notifyDataSetChanged();

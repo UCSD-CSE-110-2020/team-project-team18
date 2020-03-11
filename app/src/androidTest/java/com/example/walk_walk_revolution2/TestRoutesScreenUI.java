@@ -112,11 +112,6 @@ public class TestRoutesScreenUI {
                         isDisplayed()));
         textView3.check(matches(withText("Starting Point")));
 
-        ViewInteraction textView4 = onView(
-                allOf(withId(R.id.stepCountHeader), withText("Step Count"),
-
-                        isDisplayed()));
-        textView4.check(matches(withText("Step Count")));
 
         ViewInteraction textView5 = onView(
                 allOf(withId(R.id.distanceHeader), withText("Distance"),
