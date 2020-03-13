@@ -68,42 +68,76 @@ public class FirebaseAdapter implements FirebaseService{
     }
     public void addUserToDatabaseIfFirstUse(final String userEmail, final String firstName, final String lastName) {
         DocumentReference docRef = db.collection("users").document(userEmail);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        //user has already been added to database
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("email", userEmail);
-                        user.put("firstName", firstName);
-                        user.put("lastName", lastName);
-                        user.put("onTeam", false);
-                        user.put("teammates", Arrays.asList());
-                        db.collection("users").document(userEmail)
-                                .set(user)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error writing document", e);
-                                    }
-                                });
-
+        docRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            //user has already been added to database
+                            Log.d(TAG, "DocumentSnapshot data: " + documentSnapshot.getData());
+                        } else {
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("email", userEmail);
+                            user.put("firstName", firstName);
+                            user.put("lastName", lastName);
+                            user.put("onTeam", false);
+                            user.put("teammates", Arrays.asList());
+                            db.collection("users").document(userEmail)
+                                    .set(user)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+                        }
                     }
-                } else {
-                  Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+                    });
+
+
+
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        //user has already been added to database
+//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//                    } else {
+//                        Map<String, Object> user = new HashMap<>();
+//                        user.put("email", userEmail);
+//                        user.put("firstName", firstName);
+//                        user.put("lastName", lastName);
+//                        user.put("onTeam", false);
+//                        user.put("teammates", Arrays.asList());
+//                        db.collection("users").document(userEmail)
+//                                .set(user)
+//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(Void aVoid) {
+//                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+//                                    }
+//                                })
+//                                .addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Log.w(TAG, "Error writing document", e);
+//                                    }
+//                                });
+//
+//                    }
+//                } else {
+//                  Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
 //        addUserToOwnTeam(userEmail);
         this.firstName = firstName;
         this.lastName = lastName;
