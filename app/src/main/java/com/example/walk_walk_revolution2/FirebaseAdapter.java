@@ -57,9 +57,9 @@ public class FirebaseAdapter implements FirebaseService{
             this.userEmail = userEmail;
             this.teammates = new ArrayList<>();
             this.teamRoutes = new ArrayList<>();
-            getOurFirstName(userEmail);
-            getOurLastName(userEmail);
-            getOnTeamStatus();
+            //getOurFirstName(userEmail);
+            //getOurLastName(userEmail);
+            //getOnTeamStatus();
         }
     }
     public DocumentSnapshot retrieveInvitation(){
@@ -76,6 +76,10 @@ public class FirebaseAdapter implements FirebaseService{
                     if (document.exists()) {
                         //user has already been added to database
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        getInvitation();
+                        getOnTeamStatus();
+                        getTeammates();
+
                     } else {
                         Map<String, Object> user = new HashMap<>();
                         user.put("email", userEmail);
@@ -107,6 +111,7 @@ public class FirebaseAdapter implements FirebaseService{
 //        addUserToOwnTeam(userEmail);
         this.firstName = firstName;
         this.lastName = lastName;
+        this.onTeam = false;
     }
 //
 //    public void addUserToOwnTeam(String userEmail){
@@ -181,6 +186,9 @@ public class FirebaseAdapter implements FirebaseService{
                        DocumentSnapshot snap = task.getResult();
                        teammates = new ArrayList<>();
                        teammates = (ArrayList<String>) snap.get("teammates");
+                       if(!retrieveTeammates().isEmpty()) {
+                           getTeamRouteList();
+                       }
                    }
                 }
             }

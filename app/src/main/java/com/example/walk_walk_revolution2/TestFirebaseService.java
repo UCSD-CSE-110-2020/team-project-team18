@@ -15,7 +15,7 @@ public class TestFirebaseService implements FirebaseService{
         private String userEmail;
         private String firstName;
         private String lastName;
-        private ArrayList<String> friends;
+        private ArrayList<String> teammates;
         private DocumentSnapshot documentSnapshot;
         public TestFirebaseService(Service service) {}
 
@@ -23,7 +23,7 @@ public class TestFirebaseService implements FirebaseService{
         @Override
         public void setup(String userEmail) {
            this.userEmail = userEmail;
-           friends = new ArrayList<>();
+           teammates = new ArrayList<>();
         }
 
         @Override
@@ -51,7 +51,7 @@ public class TestFirebaseService implements FirebaseService{
 
         @Override
         public ArrayList<String> retrieveTeammates(){
-            return null;
+            return teammates;
         }
         @Override
         public void sendInvite(String toEmail){}

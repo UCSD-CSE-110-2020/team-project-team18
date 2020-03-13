@@ -81,10 +81,11 @@ public class MainActivity extends AppCompatActivity {
     public void setFitnessServiceKey(String fitnessServiceKey){
         this.fitnessServiceKey = fitnessServiceKey;
         if(fitnessServiceKey == "TEST_SERVICE"){
+            SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
+            SharedPreferences.Editor editor = spfs.edit();
+            editor.putInt("userHeight", -1);
 
-            fakeHeight = -1;
-
-
+editor.apply();
         }
     }
     public void launchHeightAndEmailScreen() {
@@ -101,11 +102,19 @@ public class MainActivity extends AppCompatActivity {
     public void setFirebaseServiceKey(String firebaseServiceKey){
         this.firebaseServiceKey = firebaseServiceKey;
         if(firebaseServiceKey == "FIREBASE_TEST"){
-            fakeHeight = -1;
+            SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
+            SharedPreferences.Editor editor = spfs.edit();
+            editor.putInt("userHeight", -1);
+
+            editor.apply();
         }
     }
     public void setHeight(int height){
+        SharedPreferences spfs = getSharedPreferences("user_height", MODE_PRIVATE);
+        SharedPreferences.Editor editor = spfs.edit();
+        editor.putInt("userHeight", height);
         this.height = height;
+        editor.apply();
     }
 
 }

@@ -28,6 +28,7 @@ public class FirebaseBoundService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
             firebaseServiceKey = intent.getStringExtra(FIREBASE_SERVICE_KEY);
+
             firebaseService = FirebaseServiceFactory.create(firebaseServiceKey, this);
            // firebaseService.setup(intent.getStringExtra("email"));
           //  firebaseService.addUserToDatabaseIfFirstUse(intent.getStringExtra("email"), intent.getStringExtra("firstName"), intent.getStringExtra("lastName"));
@@ -41,12 +42,6 @@ public class FirebaseBoundService extends Service{
             firebaseService.addUserToDatabaseIfFirstUse(intent.getStringExtra("email"), intent.getStringExtra("firstName"), intent.getStringExtra("lastName"));
         }
 
-        firebaseService.getInvitation();
-        firebaseService.getOnTeamStatus();
-        firebaseService.getTeammates();
-        if(!firebaseService.retrieveTeammates().isEmpty()) {
-            firebaseService.getTeamRouteList();
-        }
 
         return iBinder;
     }
@@ -55,7 +50,8 @@ public class FirebaseBoundService extends Service{
         firebaseService.getInvitation();
         firebaseService.getOnTeamStatus();
         firebaseService.getTeammates();
-        if(!firebaseService.retrieveTeammates().isEmpty()) {
+
+        if(!firebaseService.retrieveTeammates().isEmpty() ) {
             firebaseService.getTeamRouteList();
         }
     }

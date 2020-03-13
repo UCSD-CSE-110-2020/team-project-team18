@@ -1,6 +1,7 @@
 package com.example.walk_walk_revolution2;
 
 import android.app.Activity;
+import android.app.Service;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
@@ -41,7 +42,7 @@ public class testWindowTest {
         });
         FirebaseServiceFactory.put(FIREBASE_TEST_SERVICE, new FirebaseServiceFactory.BluePrint() {
             @Override
-            public FirebaseService create(Activity home) {
+            public FirebaseService create(Service home) {
                 return new TestFirebaseService(home);
             }
         });

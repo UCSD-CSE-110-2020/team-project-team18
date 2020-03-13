@@ -73,6 +73,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        System.out.println(fitnessServiceKey);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
         firebaseServiceKey = getIntent().getStringExtra(FIREBASE_SERVICE_KEY);
         //firebaseService = FirebaseServiceFactory.create(firebaseServiceKey, this);
@@ -209,7 +210,7 @@ public class Home extends AppCompatActivity {
         public void onServiceConnected(ComponentName name, IBinder service){
             FirebaseBoundService.LocalService localService = (FirebaseBoundService.LocalService)service;
             firebaseBoundService = localService.getService();
-            firebaseBoundService.setup();
+            //firebaseBoundService.setup();
             isBound = true;
 
         }
@@ -243,6 +244,7 @@ public class Home extends AppCompatActivity {
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(Home.TEST_KEY, testSteps);
         intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
+
 
         if(currentWalk != null){
             saveCurrentWalk();

@@ -1,7 +1,11 @@
 package com.example.walk_walk_revolution2;
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.rule.ActivityTestRule;
@@ -17,6 +21,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.*;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,31 +44,32 @@ public class HeightTest {
         });
         FirebaseServiceFactory.put(FIREBASE_TEST_SERVICE, new FirebaseServiceFactory.BluePrint() {
             @Override
-            public FirebaseService create(Activity home) {
-                return new TestFirebaseService(home);
+            public FirebaseService create(Service service) {
+                return new TestFirebaseService(service);
             }
         });
 
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
         mActivityTestRule.getActivity().setFirebaseServiceKey(FIREBASE_TEST_SERVICE);
+        mActivityTestRule.getActivity().setHeight(0);
+        ViewInteraction button = onView(
+                allOf(withId(R.id.loginButton),
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.loginButton), withText("Login"),
+                isDisplayed()));
+        button.check(matches(isDisplayed()));
 
-                        isDisplayed()));
-
-        textView.check(matches(withText("Login")));
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.loginButton), withText("Login"),
 
                         isDisplayed()));
+        
         appCompatButton.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
+       ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.userHeight),
 
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("60"), closeSoftKeyboard());
+       appCompatEditText.perform(replaceText("60"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.userEmail),
@@ -84,6 +92,25 @@ public class HeightTest {
 
                         isDisplayed()));
         appCompatButton2.perform(click());
+
+    }
+    private static Matcher<View> childAtPosition(
+            final Matcher<View> parentMatcher, final int position) {
+
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Child at position " + position + " in parent ");
+                parentMatcher.describeTo(description);
+            }
+
+            @Override
+            public boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
+        };
 
     }
 }

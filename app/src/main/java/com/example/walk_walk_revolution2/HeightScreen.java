@@ -149,6 +149,7 @@ public class HeightScreen extends AppCompatActivity {
     public void launchHome(){
         if(heightDone && emailDone && firstNameDone && lastNameDone) {
             Intent intent = new Intent(this, Home.class);
+            //could put bound service here
             intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
             intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
             startActivity(intent);
