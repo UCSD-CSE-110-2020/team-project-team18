@@ -41,10 +41,9 @@ public class ProposedWalk extends AppCompatActivity {
     String SUBDOCUMENT_KEY = "proposal";
 
     final DocumentReference docRef = db.collection(COLLECTION_KEY)
-            .document(DOCUMENT_KEY)
-            .collection(SUBCOLLECTION_KEY)
-            .document(SUBDOCUMENT_KEY);
-
+                .document(DOCUMENT_KEY)
+                .collection(SUBCOLLECTION_KEY)
+                .document(SUBDOCUMENT_KEY);
     String email;
     TextView proposedWalk, scheduledWalk;
     TextView displayWalkName, displayOwnerName, displayDate, displayTime, displayStartPoint;
@@ -87,6 +86,7 @@ public class ProposedWalk extends AppCompatActivity {
 
         SharedPreferences sharedpreferences = getSharedPreferences("user_email", Context.MODE_PRIVATE);
         email = sharedpreferences.getString("userEmail", null);
+
 
         proposedWalk = (TextView) findViewById(R.id.proposedWalk);
         scheduledWalk = (TextView) findViewById(R.id.scheduledWalk);
@@ -218,6 +218,7 @@ public class ProposedWalk extends AppCompatActivity {
                     String[] values = String.valueOf(object).replace("[", "").replace("]", "").split(",");
                     list = new ArrayList<>();
                     for (String value : values) {
+                        Log.d(TAG, "attendees List: " + value);
                         list.add(value);
                     }
 
