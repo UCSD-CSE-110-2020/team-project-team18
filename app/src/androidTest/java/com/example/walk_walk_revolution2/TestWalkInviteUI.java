@@ -128,7 +128,7 @@ public class TestWalkInviteUI {
 
                         isDisplayed()));
         appCompatButton3.perform(click());
-/*
+
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.addNewWalk), withText("+"),
 
@@ -147,14 +147,12 @@ public class TestWalkInviteUI {
                         isDisplayed()));
         appCompatEditText9.perform(replaceText("UCSD"), closeSoftKeyboard());
 
-        pressBack();
-
         ViewInteraction appCompatButton5 = onView(
                 allOf(withId(R.id.save), withText("Save"),
 
                         isDisplayed()));
-        //appCompatButton5.perform(click());
-*/
+        appCompatButton5.perform(click());
+
         ViewInteraction appCompatButton6 = onView(
                 allOf(withId(R.id.viewDetailsButton), withText("View Route"),
 
@@ -168,16 +166,16 @@ public class TestWalkInviteUI {
         appCompatButton7.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.walk_name), withText("new walk"),
+                allOf(withId(R.id.walk_name), withText("Geisel"),
 
                         isDisplayed()));
-        textView.check(matches(withText("new walk")));
+        textView.check(matches(withText("Geisel")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.starting_point), withText("pepper canyon"),
+                allOf(withId(R.id.starting_point), withText("UCSD"),
 
                         isDisplayed()));
-        textView2.check(matches(withText("pepper canyon")));
+        textView2.check(matches(withText("UCSD")));
 
         ViewInteraction textView3 = onView(
                 allOf(withId(R.id.walk_date), withText("Date:"),
