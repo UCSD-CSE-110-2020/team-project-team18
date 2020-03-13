@@ -51,7 +51,7 @@ public class FirebaseBoundService extends Service{
         firebaseService.getOnTeamStatus();
         firebaseService.getTeammates();
 
-        if(!firebaseService.retrieveTeammates().isEmpty() ) {
+        if(firebaseService.retrieveTeammates() != null && !firebaseService.retrieveTeammates().isEmpty() ) {
             firebaseService.getTeamRouteList();
         }
     }

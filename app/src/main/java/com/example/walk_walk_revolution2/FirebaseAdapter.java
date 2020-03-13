@@ -57,6 +57,7 @@ public class FirebaseAdapter implements FirebaseService{
             this.userEmail = userEmail;
             this.teammates = new ArrayList<>();
             this.teamRoutes = new ArrayList<>();
+            Log.d(TAG, "building real db");
             //getOurFirstName(userEmail);
             //getOurLastName(userEmail);
             //getOnTeamStatus();
@@ -186,9 +187,7 @@ public class FirebaseAdapter implements FirebaseService{
                        DocumentSnapshot snap = task.getResult();
                        teammates = new ArrayList<>();
                        teammates = (ArrayList<String>) snap.get("teammates");
-                       if(!retrieveTeammates().isEmpty()) {
                            getTeamRouteList();
-                       }
                    }
                 }
             }
