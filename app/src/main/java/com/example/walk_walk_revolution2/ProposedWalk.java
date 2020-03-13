@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -123,6 +124,16 @@ public class ProposedWalk extends AppCompatActivity {
         displayDate = (TextView) findViewById(R.id.textDate);
         displayTime = (TextView) findViewById(R.id.textTime);
         displayStartPoint = (TextView) findViewById(R.id.start_point_text);
+
+        displayStartPoint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String start_point_str = ((TextView) findViewById(R.id.start_point_text)).getText().toString();
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("google.navigation:q="+start_point_str));
+                startActivity(intent);
+            }
+        });
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
