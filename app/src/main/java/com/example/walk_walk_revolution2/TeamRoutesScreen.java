@@ -99,6 +99,8 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
             FirebaseBoundService.LocalService localService = (FirebaseBoundService.LocalService)service;
             firebaseBoundService = localService.getService();
             firebaseBoundService.setup();
+            firebaseBoundService.firebaseService.getTeamRouteList();
+
             isBound = true;
             loadTeamRouteList();
 
@@ -121,6 +123,10 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
     public void loadTeamRouteList(){
         listItems = firebaseBoundService.firebaseService.retrieveTeamRouteList();
         firebaseBoundService.firebaseService.clearTeamRouteList();
+
+        for(RouteItem item: listItems){
+            item.setRouteScreen(this);
+        }
 
         System.out.println("TeamRoutesScreen " + listItems);
         // Create adapter passing in the sample user data
@@ -205,6 +211,31 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
         intent.putExtra(Home.STEPS_KEY, numSteps);
         intent.putExtra(TEST_KEY, testSteps);
         intent.putExtra("fileName", fileName);
+        startActivity(intent);
+    }
+
+
+    public void launchRouteDetails(String name, String startPoint, int loop, int flat, int street, int evenSurface, int difficulty, String notes) {
+        SharedPreferences pref = getSharedPreferences("temp_teamroute_detail", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putString("name", name);
+        editor.putString("startPoint", startPoint);
+        editor.putInt("loop", loop);
+        editor.putInt("flat", flat);
+        editor.putInt("street", street);
+        editor.putInt("surface", evenSurface);
+        editor.putInt("difficulty", difficulty);
+        editor.putString("notes", notes);
+        editor.apply();
+
+        Intent intent = new Intent(this, Route.class);
+        intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra(Home.FIREBASE_SERVICE_KEY, firebaseServiceKey);
+        intent.putExtra(Home.HEIGHT_KEY, fakeHeight);
+        intent.putExtra(Home.STEPS_KEY, numSteps);
+        intent.putExtra(TEST_KEY, testSteps);
+        intent.putExtra("fileName", "temp_teamroute_detail");
         startActivity(intent);
     }
 

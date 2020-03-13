@@ -347,6 +347,7 @@ fromEmail
     public void getTeamRouteList(){
         System.out.println(teammates);
         for(String memeber: teammates) {
+
             db.collection("users").document(memeber).collection("routes")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -355,7 +356,18 @@ fromEmail
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     System.out.println(document);
-                                    teamRoutes.add(document.toObject(RouteItem.class));
+
+                                    boolean shouldAdd = true;
+                                    for(RouteItem item: teamRoutes){
+                                        if(item.getName().equals(document.getString("name"))){
+                                            shouldAdd = false;
+                                            break;
+                                        }
+                                    }
+
+                                    if(shouldAdd)
+                                        teamRoutes.add(document.toObject(RouteItem.class));
+
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());

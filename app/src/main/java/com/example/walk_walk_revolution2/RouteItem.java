@@ -1,6 +1,8 @@
 package com.example.walk_walk_revolution2;
 
 
+import java.security.cert.CertPathValidatorException;
+
 public class RouteItem {
     private String name;
     private String startPoint;
@@ -15,6 +17,15 @@ public class RouteItem {
     private int street;
     private int surface;
     private int difficult;
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
     private String note;
 
     public String getEmail() {
@@ -60,7 +71,10 @@ public class RouteItem {
 
 
     public void launchRouteDetails(){
-        this.getRouteScreen().launchRouteDetails(this.fileName);
+        if(fileName == null || fileName.length() == 0)
+            this.routeScreen.launchRouteDetails(name, startPoint, loop, flat, street, surface, difficult, note);
+        else
+            this.routeScreen.launchRouteDetails(this.fileName);
     }
 
     public String getName() {

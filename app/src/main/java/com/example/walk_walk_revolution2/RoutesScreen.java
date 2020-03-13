@@ -5,10 +5,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import java.util.ArrayList;
@@ -29,6 +32,8 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
     private String fitnessServiceKey;
     private String firebaseServiceKey;
     private DistanceCalculator calculator = new DistanceCalculator();
+    private FirebaseBoundService firebaseBoundService;
+    private boolean isBound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +124,30 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
 
         currentWalk = getCurrentWalk();
 
+    }
+
+    private ServiceConnection serviceConnection = new ServiceConnection(){
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service){
+            FirebaseBoundService.LocalService localService = (FirebaseBoundService.LocalService)service;
+            firebaseBoundService = localService.getService();
+            firebaseBoundService.setup();
+
+            isBound = true;
+
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name){
+            isBound = false;
+        }
+    };
+    @Override
+    protected void onDestroy(){
+        if(isBound){
+            unbindService(serviceConnection);
+            isBound = false;
+        }
+        super.onDestroy();
     }
 
     public void launchHome(){
@@ -230,4 +259,7 @@ public class RoutesScreen extends AppCompatActivity implements RouteInterface {
         return fakeHeight;
 
     }
+
+    @Override
+    public void launchRouteDetails(String name, String startPoint, int loop, int flat, int street, int evenSurface, int difficulty, String notes){}
 }
