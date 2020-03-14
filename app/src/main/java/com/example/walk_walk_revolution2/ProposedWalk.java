@@ -26,12 +26,13 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ProposedWalk extends AppCompatActivity {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseFirestore db;
 
     //ProgressDialog progressDialog;
     List<String> list;
@@ -46,6 +47,8 @@ public class ProposedWalk extends AppCompatActivity {
     String SUBDOCUMENT_KEY  = "proposal";
 
     DocumentReference docRef;
+    DocumentReference proposeRef;
+
 
     String email;
     TextView proposedWalk, scheduledWalk;
@@ -95,6 +98,8 @@ public class ProposedWalk extends AppCompatActivity {
 
         SharedPreferences sharedpreferences = getSharedPreferences("user_email", Context.MODE_PRIVATE);
         email = sharedpreferences.getString("userEmail", null);
+
+        db = FirebaseFirestore.getInstance();
 
         docRef = db.collection(COLLECTION_KEY)
                 .document(email)
@@ -193,11 +198,9 @@ public class ProposedWalk extends AppCompatActivity {
                 if (propose_schedule.matches("scheduled")) {
                     proposedWalk.setVisibility(View.INVISIBLE);
                     scheduledWalk.setVisibility(View.VISIBLE);
-                    scheduleWalk.setVisibility(View.INVISIBLE);
                 } else{
                     proposedWalk.setVisibility(View.VISIBLE);
                     scheduledWalk.setVisibility(View.INVISIBLE);
-                    scheduleWalk.setVisibility(View.INVISIBLE);
                 }
 
                 if (email.toLowerCase().matches(proposer.toLowerCase())) {
@@ -205,11 +208,15 @@ public class ProposedWalk extends AppCompatActivity {
                     declineTime.setVisibility(View.INVISIBLE);
                     declineRoute.setVisibility(View.INVISIBLE);
                     withdrawnWalk.setVisibility(View.VISIBLE);
+                    scheduleWalk.setVisibility(View.VISIBLE);
+
                 } else {
                     withdrawnWalk.setVisibility(View.INVISIBLE);
                     acceptWalk.setVisibility(View.VISIBLE);
                     declineTime.setVisibility(View.VISIBLE);
                     declineRoute.setVisibility(View.VISIBLE);
+                    scheduleWalk.setVisibility(View.INVISIBLE);
+
                 }
 
 
@@ -237,7 +244,7 @@ public class ProposedWalk extends AppCompatActivity {
         // get data in cases View changes between snapshots
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot >() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot  document,
+            public void onEvent(@Nullable final DocumentSnapshot  document,
                                 @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
                     Log.w(TAG, "Listen failed.", e);
@@ -260,7 +267,25 @@ public class ProposedWalk extends AppCompatActivity {
                         list.add(value);
                     }
 
-                    firestoreCallBack.onCallback(propose_schedule, walkProposer, walkName, walkDate, walkTime, list, startPoint);
+
+                        proposeRef = db.collection(COLLECTION_KEY)
+                                .document(walkProposer)
+                                .collection(SUBCOLLECTION_KEY)
+                                .document(SUBDOCUMENT_KEY);
+
+                        proposeRef
+                                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                                        propose_schedule = documentSnapshot.getString("propose_schedule");
+                                        System.out.println(propose_schedule);
+
+                                        if(propose_schedule != null)
+                                            firestoreCallBack.onCallback(propose_schedule, walkProposer, walkName, walkDate, walkTime, list, startPoint);
+                                    }
+                                });
+
+
                 } else {
                     Log.d(TAG, "Current data: null");
                 }
@@ -425,9 +450,7 @@ public class ProposedWalk extends AppCompatActivity {
         };
 
 
-        WriteBatch batch = db.batch();
-
-        docRef.update("propose_schedule", "scheduled")
+        proposeRef.update("propose_schedule", "scheduled")
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -436,40 +459,39 @@ public class ProposedWalk extends AppCompatActivity {
             });
 
 
-        for(String member: list) {
-
-            DocumentReference ref = db.collection(COLLECTION_KEY)
-                    .document(member)
-                    .collection(SUBCOLLECTION_KEY)
-                    .document(SUBDOCUMENT_KEY);
-
-            batch.update(ref, "propose_schedule", "scheduled");
-
-//            System.out.println("LIST OF ATTENDANCE - Schedule;" + list);
-//            Map<String, Object> schedule = new HashMap<>();
-//            schedule.put("propose_schedule","scheduled");
+//        for(String member: list) {
+//            System.out.println();
+//            System.out.println(member);
+//            System.out.println();
 //
-//            ref.update(schedule)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        System.out.println("SUCCESS changed Schedule");
-//                    }
-//                });
-        }
+//            DocumentReference ref = db.collection(COLLECTION_KEY)
+//                    .document(member)
+//                    .collection(SUBCOLLECTION_KEY)
+//                    .document(SUBDOCUMENT_KEY);
+//
+//            ref.update("propose_schedule", "scheduled");
+//
+////            batch.update(ref, "propose_schedule", "scheduled");
+////            System.out.println("LIST OF ATTENDANCE - Schedule;" + list);
+////            Map<String, Object> schedule = new HashMap<>();
+////            schedule.put("propose_schedule","scheduled");
+////
+////            ref.update(schedule)
+////                .addOnSuccessListener(new OnSuccessListener<Void>() {
+////                    @Override
+////                    public void onSuccess(Void aVoid) {
+////                        System.out.println("SUCCESS changed Schedule");
+////                    }
+////                });
+//        }
 
-        batch.commit();
+//        batch.commit();
 
     }
 
     public void withdrawProposedWalk() {
 
-        docRef.delete();
-        for(String member: list) {
-            DocumentReference ref = db.collection("users").document(member).collection(SUBCOLLECTION_KEY).document(SUBDOCUMENT_KEY);
-
-            ref.delete();
-        }
+        proposeRef.delete();
 
         Intent intent = new Intent(this, RoutesScreen.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
