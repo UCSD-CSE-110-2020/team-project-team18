@@ -57,9 +57,9 @@ public class FirebaseAdapter implements FirebaseService{
             this.userEmail = userEmail;
             this.teammates = new ArrayList<>();
             this.teamRoutes = new ArrayList<>();
-            getOurFirstName(userEmail);
-            getOurLastName(userEmail);
-            getOnTeamStatus();
+            //getOurFirstName(userEmail);
+            //getOurLastName(userEmail);
+            //getOnTeamStatus();
         }
     }
     public DocumentSnapshot retrieveInvitation(){
@@ -68,79 +68,48 @@ public class FirebaseAdapter implements FirebaseService{
     }
     public void addUserToDatabaseIfFirstUse(final String userEmail, final String firstName, final String lastName) {
         DocumentReference docRef = db.collection("users").document(userEmail);
-        docRef.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            //user has already been added to database
-                            Log.d(TAG, "DocumentSnapshot data: " + documentSnapshot.getData());
-                        } else {
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("email", userEmail);
-                            user.put("firstName", firstName);
-                            user.put("lastName", lastName);
-                            user.put("onTeam", false);
-                            user.put("teammates", Arrays.asList());
-                            db.collection("users").document(userEmail)
-                                    .set(user)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "DocumentSnapshot successfully written!");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error writing document", e);
-                                        }
-                                    });
-                        }
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        //user has already been added to database
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        getInvitation();
+                        getOnTeamStatus();
+                        getTeammates();
+
+                    } else {
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("email", userEmail);
+                        user.put("firstName", firstName);
+                        user.put("lastName", lastName);
+                        user.put("onTeam", false);
+                        user.put("teammates", Arrays.asList());
+                        db.collection("users").document(userEmail)
+                                .set(user)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
                     }
-                    });
-
-
-
-//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        //user has already been added to database
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                    } else {
-//                        Map<String, Object> user = new HashMap<>();
-//                        user.put("email", userEmail);
-//                        user.put("firstName", firstName);
-//                        user.put("lastName", lastName);
-//                        user.put("onTeam", false);
-//                        user.put("teammates", Arrays.asList());
-//                        db.collection("users").document(userEmail)
-//                                .set(user)
-//                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                    @Override
-//                                    public void onSuccess(Void aVoid) {
-//                                        Log.d(TAG, "DocumentSnapshot successfully written!");
-//                                    }
-//                                })
-//                                .addOnFailureListener(new OnFailureListener() {
-//                                    @Override
-//                                    public void onFailure(@NonNull Exception e) {
-//                                        Log.w(TAG, "Error writing document", e);
-//                                    }
-//                                });
-//
-//                    }
-//                } else {
-//                  Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
-//        addUserToOwnTeam(userEmail);
+                }
+            }
+        });
         this.firstName = firstName;
         this.lastName = lastName;
+        this.onTeam = false;
     }
 //
 //    public void addUserToOwnTeam(String userEmail){
@@ -215,6 +184,9 @@ public class FirebaseAdapter implements FirebaseService{
                        DocumentSnapshot snap = task.getResult();
                        teammates = new ArrayList<>();
                        teammates = (ArrayList<String>) snap.get("teammates");
+                       if(!retrieveTeammates().isEmpty()) {
+                           getTeamRouteList();
+                       }
                    }
                 }
             }

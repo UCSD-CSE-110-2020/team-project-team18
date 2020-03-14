@@ -160,29 +160,6 @@ public class TeamScreen extends AppCompatActivity {
 
         ArrayList<String> teamNames = firebaseBoundService.firebaseService.retrieveTeammates();
 
-//        teamNames.add("Ariana Grande");
-//        teamNames.add("Ellen Degeneres");
-//        teamNames.add("Richard Milhous Nixon");
-//        teamNames.add("Sarah Silverman");
-//        teamNames.add("Michael Gary Scott");
-//        teamNames.add("David Graham");
-//        teamNames.add("Eliot Lastname");
-//        teamNames.add("Ross Boss");
-//        teamNames.add("Kanye West");
-//        teamNames.add("Kanye East");
-//        teamNames.add("Oscar");
-//        teamNames.add("Larold");
-//        teamNames.add("Kimothy");
-//        teamNames.add("Timberly");
-//        teamNames.add("Rob Boss");
-//        teamNames.add("Kyle Boss");
-//        teamNames.add("Bob Ross");
-//        teamNames.add("Easter Dude");
-//        teamNames.add("Carl");
-//        teamNames.add("Carrol");
-//        teamNames.add("Kimothy");
-//        teamNames.add("Nelson");
-
         return teamNames;
     }
 
@@ -204,7 +181,7 @@ public class TeamScreen extends AppCompatActivity {
     }
 
     //getter method to return the initials of the name that is passed in.
-    public String getTeamMemberInitials(String name)
+    public static String getTeamMemberInitials(String name)
     {
         String initials = "";
         name = name.trim();
