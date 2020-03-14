@@ -70,6 +70,9 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
 
         Intent intent = new Intent(this, FirebaseBoundService.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra("email", getEmail());
+        intent.putExtra("firstName", getFirstName());
+        intent.putExtra("lastName", getLastName());
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
 
@@ -122,11 +125,16 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
 
     public void loadTeamRouteList(){
         listItems = firebaseBoundService.firebaseService.retrieveTeamRouteList();
+        if(listItems ==  null){
+            Log.d(TAG, "somehow null");
+        }
         firebaseBoundService.firebaseService.clearTeamRouteList();
 
-        for(RouteItem item: listItems){
-            item.setRouteScreen(this);
-        }
+
+            for(RouteItem item: listItems){
+                item.setRouteScreen(this);
+            }
+
 
         System.out.println("TeamRoutesScreen " + listItems);
         // Create adapter passing in the sample user data
@@ -202,7 +210,19 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
         return fakeHeight;
 
     }
+    public String getEmail(){
 
+        SharedPreferences spfs = getSharedPreferences("user_email", MODE_PRIVATE);
+        return spfs.getString("userEmail", null);
+    }
+    public String getFirstName(){
+        SharedPreferences spfs = getSharedPreferences("first_Name", MODE_PRIVATE);
+        return spfs.getString("firstName", null);
+    }
+    public String getLastName(){
+        SharedPreferences spfs = getSharedPreferences("last_Name", MODE_PRIVATE);
+        return spfs.getString("lastName", null);
+    }
     public void launchRouteDetails(String fileName) {
         Intent intent = new Intent(this, Route.class);
         intent.putExtra(Home.FITNESS_SERVICE_KEY, fitnessServiceKey);

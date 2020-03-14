@@ -10,6 +10,8 @@ public class InitialsTest {
     @Test
     public void testInitials()
     {
+
+
         String name1 = "Ariana Grande";
         String name2 = "Richard P. Nixon";
         String name3 = "John";

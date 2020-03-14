@@ -1,6 +1,4 @@
 package com.example.walk_walk_revolution2;
-
-import android.app.Activity;
 import android.app.Service;
 
 import androidx.test.espresso.ViewInteraction;
@@ -8,14 +6,22 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.walk_walk_revolution2.FirebaseService;
+import com.example.walk_walk_revolution2.FirebaseServiceFactory;
+import com.example.walk_walk_revolution2.FitnessService;
+import com.example.walk_walk_revolution2.FitnessServiceFactory;
+import com.example.walk_walk_revolution2.Home;
+import com.example.walk_walk_revolution2.MainActivity;
+import com.example.walk_walk_revolution2.R;
+import com.example.walk_walk_revolution2.TestFirebaseService;
+import com.example.walk_walk_revolution2.TestFitnessService;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -24,15 +30,16 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class testWindowTest {
+public class inviteTeamMember {
     private static final String TEST_SERVICE = "TEST_SERVICE";
     private static final String FIREBASE_TEST_SERVICE = "FIREBASE_TEST";
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
+
     @Test
-    public void setTestValueTest(){
+    public void inviteTeamMember() {
 
         FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
             @Override
@@ -46,6 +53,7 @@ public class testWindowTest {
                 return new TestFirebaseService(home);
             }
         });
+
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
         mActivityTestRule.getActivity().setFirebaseServiceKey(FIREBASE_TEST_SERVICE);
         mActivityTestRule.getActivity().setHeight(60);
@@ -60,59 +68,17 @@ public class testWindowTest {
 
                         isDisplayed()));
         appCompatButton.perform(click());
-        ViewInteraction button2 = onView(
-                allOf(withId(R.id.test_but_home),
-
-                        isDisplayed()));
-        button2.check(matches(isDisplayed()));
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.test_but_home), withText("TESTING"),
-
-                        isDisplayed()));
-        appCompatButton2.perform(click());
-        ViewInteraction button3 = onView(
-                allOf(withId(R.id.step_but),
-
-                        isDisplayed()));
-        button3.check(matches(isDisplayed()));
-        ViewInteraction appCompatButton4 = onView(
-                allOf(withId(R.id.step_but), withText("ADD 500 STEPS"),
-
-                        isDisplayed()));
-        appCompatButton4.perform(click());
-        appCompatButton4 = onView(
-                allOf(withId(R.id.step_but), withText("ADD 500 STEPS"),
-
-                        isDisplayed()));
-        appCompatButton4.perform(click());
-        appCompatButton4 = onView(
-                allOf(withId(R.id.step_but), withText("ADD 500 STEPS"),
-
-                        isDisplayed()));
-        appCompatButton4.perform(click());
-        ViewInteraction textView5 = onView(
-                allOf(withId(R.id.curr_step), withText("1500"),
+        ViewInteraction textView1 = onView(
+                allOf(withId(R.id.team_but_home), withText("TEAM"),
 
                         isDisplayed()));
 
-        textView5.check(matches(withText("1500")));
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.time_input),
+        textView1.check(matches(withText("TEAM")));
+        ViewInteraction appCompatButton1 = onView(
+                allOf(withId(R.id.team_but_home), withText("TEAM"),
 
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("30000"), closeSoftKeyboard());
+        appCompatButton1.perform(click());
 
-       ViewInteraction appCompatButton6 = onView(
-                allOf(withId(R.id.submit_but), withText("SUBMIT"),
-
-                        isDisplayed()));
-        appCompatButton6.perform(click());
-        ViewInteraction textView6 = onView(
-                allOf(withId(R.id.curr_time), withText("30000 ms"),
-
-                        isDisplayed()));
-
-        textView6.check(matches(withText("30000 ms")));
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.walk_walk_revolution2;
 
 
 import android.app.Activity;
+import android.app.Service;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -50,14 +51,13 @@ public class TestWalkInviteUI {
         });
         FirebaseServiceFactory.put(FIREBASE_TEST_SERVICE, new FirebaseServiceFactory.BluePrint() {
             @Override
-            public FirebaseService create(Activity home) {
+            public FirebaseService create(Service home) {
                 return new TestFirebaseService(home);
             }
         });
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
         mActivityTestRule.getActivity().setFirebaseServiceKey(FIREBASE_TEST_SERVICE);
         mActivityTestRule.getActivity().setHeight(60);
-
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.loginButton), withText("Login"),
 
@@ -128,7 +128,7 @@ public class TestWalkInviteUI {
 
                         isDisplayed()));
         appCompatButton3.perform(click());
-/*
+
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.addNewWalk), withText("+"),
 
@@ -147,15 +147,18 @@ public class TestWalkInviteUI {
                         isDisplayed()));
         appCompatEditText9.perform(replaceText("UCSD"), closeSoftKeyboard());
 
-        pressBack();
-
         ViewInteraction appCompatButton5 = onView(
                 allOf(withId(R.id.save), withText("Save"),
 
                         isDisplayed()));
-        //appCompatButton5.perform(click());
-*/
+        appCompatButton5.perform(click());
+
+   /**     ViewInteraction appCompatButton6 = onView(
+=======
+        appCompatButton5.perform(click());
+
         ViewInteraction appCompatButton6 = onView(
+>>>>>>> 5aa82a5919afd5aa1049ba9300a33206d4f944fe
                 allOf(withId(R.id.viewDetailsButton), withText("View Route"),
 
                         isDisplayed()));
@@ -168,16 +171,16 @@ public class TestWalkInviteUI {
         appCompatButton7.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.walk_name), withText("new walk"),
+                allOf(withId(R.id.walk_name), withText("Geisel"),
 
                         isDisplayed()));
-        textView.check(matches(withText("new walk")));
+        textView.check(matches(withText("Geisel")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.starting_point), withText("pepper canyon"),
+                allOf(withId(R.id.starting_point), withText("UCSD"),
 
                         isDisplayed()));
-        textView2.check(matches(withText("pepper canyon")));
+        textView2.check(matches(withText("UCSD")));
 
         ViewInteraction textView3 = onView(
                 allOf(withId(R.id.walk_date), withText("Date:"),
@@ -201,7 +204,7 @@ public class TestWalkInviteUI {
                 allOf(withId(R.id.cancel),
 
                         isDisplayed()));
-        button2.check(matches(isDisplayed()));
+        button2.check(matches(isDisplayed()));/**
     }
 
     private static Matcher<View> childAtPosition(
@@ -220,6 +223,6 @@ public class TestWalkInviteUI {
                 return parent instanceof ViewGroup && parentMatcher.matches(parent)
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
-        };
+        };*/
     }
-}
+    }

@@ -2,6 +2,7 @@ package com.example.walk_walk_revolution2;
 
 
 import android.app.Activity;
+import android.app.Service;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -48,30 +49,22 @@ public class TestNewRouteUI {
         });
         FirebaseServiceFactory.put(FIREBASE_TEST_SERVICE, new FirebaseServiceFactory.BluePrint() {
             @Override
-            public FirebaseService create(Activity home) {
+            public FirebaseService create(Service home) {
                 return new TestFirebaseService(home);
             }
         });
 
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
-        mActivityTestRule.getActivity().setHeight(60);
+
         mActivityTestRule.getActivity().setFirebaseServiceKey(FIREBASE_TEST_SERVICE);
+        mActivityTestRule.getActivity().setHeight(60);
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.loginButton), withText("Login"),
 
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.userHeight),
 
-                        isDisplayed()));
-        //appCompatEditText.perform(click());
-
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.userHeight),
-
-                        isDisplayed()));
         //appCompatEditText2.perform(replaceText("5"), closeSoftKeyboard());
 
    //     ViewInteraction appCompatButton2 = onView(

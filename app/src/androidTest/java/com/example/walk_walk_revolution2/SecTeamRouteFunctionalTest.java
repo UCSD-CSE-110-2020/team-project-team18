@@ -1,7 +1,6 @@
 package com.example.walk_walk_revolution2;
 
 
-import android.app.Activity;
 import android.app.Service;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -31,14 +31,14 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TeamRoutesFunctionalTest {
+public class SecTeamRouteFunctionalTest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
     private static final String FIREBASE_TEST_SERVICE = "FIREBASE_TEST";
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void teamRoutesFunctionalTest() {
+    public void secTeamRouteFunctionalTest() {
         FitnessServiceFactory.put(TEST_SERVICE, new FitnessServiceFactory.BluePrint() {
             @Override
             public FitnessService create(Home home) {
@@ -60,25 +60,6 @@ public class TeamRoutesFunctionalTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-//        ViewInteraction appCompatEditText = onView(
-//                allOf(withId(R.id.userHeight),
-//
-//                        isDisplayed()));
-//        //appCompatEditText.perform(click());
-//
-//        ViewInteraction appCompatEditText2 = onView(
-//                allOf(withId(R.id.userHeight),
-//
-//                        isDisplayed()));
-//        //appCompatEditText2.perform(replaceText("5"), closeSoftKeyboard());
-//
-//        ViewInteraction appCompatButton2 = onView(
-//                allOf(withId(R.id.heightSubmitButton), withText("Submit Height"),
-//
-//                        isDisplayed()));
-//        //appCompatButton2.perform(click());
-//
-//
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.routes_but_home), withText("Routes"),
                         isDisplayed()));
@@ -99,10 +80,10 @@ public class TeamRoutesFunctionalTest {
                         isDisplayed()));
         appCompatButton5.perform(click());
 
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.routes_title), withText("Routes"),
+        ViewInteraction appCompatButton6 = onView(
+                allOf(withId(R.id.home_but_routes), withText("Home"),
                         isDisplayed()));
-        textView2.check(matches(withText("Routes")));
+        appCompatButton6.perform(click());
     }
 
 
