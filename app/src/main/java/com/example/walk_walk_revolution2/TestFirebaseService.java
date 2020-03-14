@@ -2,8 +2,10 @@ package com.example.walk_walk_revolution2;
 
 import android.app.Activity;
 import android.app.Service;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -13,7 +15,7 @@ import java.util.List;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class TestFirebaseService implements FirebaseService{
+public class TestFirebaseService extends AppCompatActivity implements FirebaseService {
         private static final String TAG = "[TestFireBaseService]: ";
         private String userEmail;
         private String firstName;
@@ -58,7 +60,11 @@ public class TestFirebaseService implements FirebaseService{
 
         @Override
         public ArrayList<String> retrieveTeammates(){
-            return teammates;
+
+                if(teammates == null){
+                        teammates = new ArrayList<>();
+                }
+                return teammates;
         }
         @Override
         public void sendInvite(String toEmail){}
@@ -93,6 +99,20 @@ public class TestFirebaseService implements FirebaseService{
         public void clearTeamRouteList(){}
 
 
+        public String getInviteEmail(){
 
+                SharedPreferences spfs = getSharedPreferences("fake_invite", MODE_PRIVATE);
+                return spfs.getString("userEmail", null);
+        }
+        public String getInviteFirst(){
+
+                SharedPreferences spfs = getSharedPreferences("fake_invite", MODE_PRIVATE);
+                return spfs.getString("firstName", null);
+        }
+        public String getInviteLast(){
+
+                SharedPreferences spfs = getSharedPreferences("fake_invite", MODE_PRIVATE);
+                return spfs.getString("lastName", null);
+        }
 
 }

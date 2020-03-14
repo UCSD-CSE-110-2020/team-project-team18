@@ -58,7 +58,6 @@ public class TestWalkInviteUI {
         mActivityTestRule.getActivity().setFitnessServiceKey(TEST_SERVICE);
         mActivityTestRule.getActivity().setFirebaseServiceKey(FIREBASE_TEST_SERVICE);
         mActivityTestRule.getActivity().setHeight(60);
-
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.loginButton), withText("Login"),
 

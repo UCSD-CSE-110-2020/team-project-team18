@@ -38,7 +38,7 @@ public class FirebaseAdapter implements FirebaseService{
     String FIRST_NAME_KEY = "FIRST_NAME";
     String LAST_NAME_KEY = "LAST_NAME";
     String userEmail;
-
+    ArrayList<String> fakeInvite;
     boolean onTeam;
     String firstName;
     String lastName;
