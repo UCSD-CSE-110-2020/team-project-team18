@@ -38,7 +38,7 @@ public class FirebaseAdapter implements FirebaseService{
     String FIRST_NAME_KEY = "FIRST_NAME";
     String LAST_NAME_KEY = "LAST_NAME";
     String userEmail;
-
+    ArrayList<String> fakeInvite;
     boolean onTeam;
     String firstName;
     String lastName;
@@ -57,6 +57,7 @@ public class FirebaseAdapter implements FirebaseService{
             this.userEmail = userEmail;
             this.teammates = new ArrayList<>();
             this.teamRoutes = new ArrayList<>();
+            Log.d(TAG, "building real db");
             //getOurFirstName(userEmail);
             //getOurLastName(userEmail);
             //getOnTeamStatus();
@@ -184,9 +185,7 @@ public class FirebaseAdapter implements FirebaseService{
                        DocumentSnapshot snap = task.getResult();
                        teammates = new ArrayList<>();
                        teammates = (ArrayList<String>) snap.get("teammates");
-                       if(!retrieveTeammates().isEmpty()) {
                            getTeamRouteList();
-                       }
                    }
                 }
             }

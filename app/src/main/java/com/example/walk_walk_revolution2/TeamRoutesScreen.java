@@ -125,11 +125,16 @@ public class TeamRoutesScreen extends AppCompatActivity implements RouteInterfac
 
     public void loadTeamRouteList(){
         listItems = firebaseBoundService.firebaseService.retrieveTeamRouteList();
+        if(listItems ==  null){
+            Log.d(TAG, "somehow null");
+        }
         firebaseBoundService.firebaseService.clearTeamRouteList();
 
-        for(RouteItem item: listItems){
-            item.setRouteScreen(this);
-        }
+
+            for(RouteItem item: listItems){
+                item.setRouteScreen(this);
+            }
+
 
         System.out.println("TeamRoutesScreen " + listItems);
         // Create adapter passing in the sample user data
